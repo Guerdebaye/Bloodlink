@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodLink Hôpitaux - Inscription Réussie</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hospital.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        .success-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3rem;
+            color: white;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .success-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hospital-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+            border-left: 5px solid #27ae60;
+        }
+
+        .hospital-info h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .qr-section {
+            background: white;
+            border: 2px dashed #27ae60;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .qr-title {
+            font-size: 1.3rem;
+            color: #27ae60;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        #qrcode {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .qr-instructions h4 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qr-instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .qr-instructions li {
+            padding: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .qr-instructions li::before {
+            content: '✓';
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .next-steps {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .next-steps h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .step-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: white;
+            color: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .step-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #27ae60;
+            border: 2px solid #27ae60;
+        }
+
+        .btn-secondary:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+
+        .countdown {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .countdown-timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 20px;
+            }
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .print-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background: #5a67d8;
+        }
+
+        @media print {
+            .print-btn,
+            .action-buttons {
+                display: none;
+            }
+
+            .success-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
+            
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">Inscription Réussie!</h1>
+            <p class="success-subtitle">
+                Votre hôpital a été enregistré avec succès sur la plateforme BloodLink.<br>
+                Bienvenue dans le réseau de gestion sanguine le plus avancé du Sénégal.
+            </p>
+
+            <div class="status-badge">
+                🔄 En attente de validation au centre de don
+            </div>
+
+            <div class="hospital-info">
+                <h3>🏥 Informations de l'Hôpital</h3>
+                <div class="info-row">
+                    <span class="info-label">Nom:</span>
+                    <span class="info-value" id="hospitalName">Hôpital Principal de Dakar</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">ID BloodLink:</span>
+                    <span class="info-value" id="hospitalId">BL-2024-HPD-001</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email administrateur:</span>
+                    <span class="info-value" id="adminEmail">admin@hopital.sn</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date d'inscription:</span>
+                    <span class="info-value" id="registrationDate">02/12/2024</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Statut:</span>
+                    <span class="info-value" style="color: #f39c12;">En attente de validation</span>
+                </div>
+            </div>
+
+            <div class="qr-section">
+                <h3 class="qr-title">📱 Votre Code QR d'Identification</h3>
+                <p style="color: #666; margin-bottom: 20px;">
+                    Présentez ce code QR au centre de don pour finaliser votre inscription
+                </p>
+                
+                <div class="qr-container">
+                    <div id="qrcode"></div>
+                </div>
+
+                <div class="qr-instructions">
+                    <h4>📋 Instructions pour le Centre de Don:</h4>
+                    <ul>
+                        <li>Présentez ce code QR au personnel du centre de don</li>
+                        <li>Le centre scannera votre code pour vérifier vos informations</li>
+                        <li>Votre hôpital sera validé et ajouté au réseau BloodLink</li>
+                        <li>Après validation, vous pourrez lancer des alertes et demandes de sang</li>
+                        <li>Conservez ce code QR pour référence future</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="next-steps">
+                <h3>🚀 Prochaines Étapes</h3>
+                <p>Une fois votre hôpital validé au centre de don, vous pourrez:</p>
+                
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Connecter votre compte et configurer votre profil</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Enregistrer votre stock sanguin initial</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Commencer à lancer des alertes d'urgence</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Faire des réservations auprès des centres</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="countdown">
+                <div>⏰ Temps restant pour validation:</div>
+                <div class="countdown-timer" id="countdown">24:00:00</div>
+                <div style="font-size: 0.9rem; margin-top: 5px;">
+                    Présentez-vous au centre de don dans les 24h pour accélérer le processus
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="downloadQR()">
+                    📥 Télécharger le Code QR
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='auth.html'">
+                    🔐 Retour à la Connexion
+                </button>
+                <button class="btn btn-secondary" onclick="shareRegistration()">
+                    📤 Partager les Informations
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Récupérer les données de l'inscription depuis le localStorage ou les paramètres URL
+        function getRegistrationData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const storedData = localStorage.getItem('hospitalRegistration');
+            
+            let data = {
+                hospitalName: urlParams.get('hospitalName') || 'Hôpital Principal de Dakar',
+                hospitalId: urlParams.get('hospitalId') || generateHospitalId(),
+                adminEmail: urlParams.get('adminEmail') || 'admin@hopital.sn',
+                registrationDate: new Date().toLocaleDateString('fr-FR')
+            };
+            
+            if (storedData) {
+                try {
+                    const parsed = JSON.parse(storedData);
+                    data = { ...data, ...parsed };
+                } catch (e) {
+                    console.error('Erreur lors de la lecture des données:', e);
+                }
+            }
+            
+            return data;
+        }
+
+        function generateHospitalId() {
+            const year = new Date().getFullYear();
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `BL-${year}-HPD-${random}`;
+        }
+
+        function initializePage() {
+            const data = getRegistrationData();
+            
+            // Mettre à jour les informations
+            document.getElementById('hospitalName').textContent = data.hospitalName;
+            document.getElementById('hospitalId').textContent = data.hospitalId;
+            document.getElementById('adminEmail').textContent = data.adminEmail;
+            document.getElementById('registrationDate').textContent = data.registrationDate;
+            
+            // Générer le code QR
+            generateQRCode(data);
+            
+            // Démarrer le compte à rebours
+            startCountdown();
+            
+            // Sauvegarder les données
+            localStorage.setItem('hospitalRegistration', JSON.stringify(data));
+        }
+
+        function generateQRCode(data) {
+            const qrData = JSON.stringify({
+                id: data.hospitalId,
+                name: data.hospitalName,
+                email: data.adminEmail,
+                date: data.registrationDate,
+                type: 'hospital_registration',
+                platform: 'BloodLink'
+            });
+            
+            new QRCode(document.getElementById("qrcode"), {
+                text: qrData,
+                width: 200,
+                height: 200,
+                colorDark: "#2c3e50",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function startCountdown() {
+            let timeLeft = 24 * 60 * 60; // 24 heures en secondes
+            
+            const timer = setInterval(() => {
+                timeLeft--;
+                
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('countdown').textContent = display;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('countdown').textContent = 'Expiré';
+                    document.querySelector('.countdown').style.background = '#e74c3c';
+                }
+            }, 1000);
+        }
+
+        function downloadQR() {
+            const qrCanvas = document.querySelector('#qrcode canvas');
+            const link = document.createElement('a');
+            link.download = `bloodlink-qr-${document.getElementById('hospitalId').textContent}.png`;
+            link.href = qrCanvas.toDataURL();
+            link.click();
+        }
+
+        function shareRegistration() {
+            const data = getRegistrationData();
+            const shareText = `🏥 BloodLink Hôpitaux\n\nNom: ${data.hospitalName}\nID: ${data.hospitalId}\nEmail: ${data.adminEmail}\nDate: ${data.registrationDate}\n\nPrésentez ce code QR au centre de don pour validation.`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Inscription BloodLink Hôpitaux',
+                    text: shareText
+                }).catch(err => console.log('Erreur partage:', err));
+            } else {
+                // Copier dans le presse-papiers
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Informations copiées dans le presse-papiers!');
+                });
+            }
+        }
+
+        // Nettoyer le localStorage après chargement
+        setTimeout(() => {
+            localStorage.removeItem('hospitalRegistration');
+        }, 5000);
+
+        // Initialiser la page au chargement
+        document.addEventListener('DOMContentLoaded', initializePage);
+
+        // Empêcher le retour en arrière pour éviter les soumissions multiples
+        window.addEventListener('popstate', function(event) {
+            if (event.state === null) {
+                window.location.href = 'auth.html';
+            }
+        });
+
+        // Ajouter un état à l'historique
+        history.pushState({ page: 'success' }, '', '');
+    </script>
+</body>
+</html>

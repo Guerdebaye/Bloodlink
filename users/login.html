@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | BloodLink</title>
+    <meta name="description" content="Connectez-vous à BloodLink Pro pour accéder à votre tableau de bord">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+            min-height: 600px;
+            display: flex;
+        }
+        
+        .auth-left {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 3rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .auth-right {
+            flex: 1.2;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-logo i {
+            font-size: 2.5rem;
+            color: #fff;
+        }
+        
+        .auth-logo span {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .auth-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .auth-stats {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-content h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .stat-content p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+        }
+        
+        .btn-auth {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .auth-divider {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e9ecef;
+        }
+        
+        .auth-divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            color: #6c757d;
+        }
+        
+        .demo-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .demo-info h6 {
+            color: #e74c3c;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .demo-credentials {
+            background: #e9ecef;
+            padding: 0.75rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .auth-card {
+                flex-direction: column;
+                max-width: 400px;
+            }
+            
+            .auth-left {
+                padding: 2rem;
+                min-height: 200px;
+            }
+            
+            .auth-right {
+                padding: 2rem;
+            }
+            
+            .auth-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card" data-aos="fade-up" data-aos-duration="800">
+            <!-- Section gauche -->
+            <div class="auth-left">
+                <div class="auth-logo">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>BloodLink</span>
+                </div>
+                
+                <h1 class="auth-title">Sauvez des vies</h1>
+                <p class="auth-subtitle">Rejoignez notre communauté de donneurs et d'hôpitaux connectés</p>
+                
+                <div class="auth-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>15,247</h4>
+                            <p>Donneurs actifs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>156</h4>
+                            <p>Hôpitaux partenaires</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>45,741</h4>
+                            <p>Vies sauvées</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section droite -->
+            <div class="auth-right">
+                <div class="text-center mb-4">
+                    <h2 class="mb-3">Connexion</h2>
+                    <p class="text-muted">Accédez à votre tableau de bord</p>
+                </div>
+                
+                <!-- Informations de démonstration -->
+                <div class="demo-info">
+                    <h6><i class="fas fa-info-circle me-2"></i>Compte de démonstration disponible</h6>
+                    <div class="demo-credentials">
+                        Email: email@demo.com<br>
+                        Mot de passe: demo123
+                    </div>
+                </div>
+                
+                <!-- Alertes -->
+                <div id="authAlerts"></div>
+                
+                <!-- Formulaire de connexion -->
+                <form id="loginForm" onsubmit="Auth.handleLogin(event)">
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                        <label for="email"><i class=" me-2"></i>Email</label>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                            </button>
+                        </div>
+                        <label for="password"><i class="me-2"></i></label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Se souvenir de moi
+                            </label>
+                        </div>
+                        <a href="#" class="text-decoration-none">Mot de passe oublié?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-auth">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Se connecter
+                    </button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>OU</span>
+                </div>
+                
+                <div class="text-center">
+                    <p class="mb-3">Pas encore de compte?</p>
+                    <button class="btn btn-outline-danger btn-lg w-100" onclick="window.location.href='register.html'">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Créer un compte
+                    </button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="index.html" class="text-decoration-none text-muted">
+                        <i class="fas fa-arrow-left me-2"></i>Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Initialiser AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Fonction pour afficher/masquer le mot de passe
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Fonction pour afficher le formulaire d'inscription
+        function showRegisterForm() {
+            const modal = new bootstrap.Modal(document.getElementById('registerModal'));
+            modal.show();
+        }
+        
+        // Créer l'utilisateur de démonstration au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDemoUser();
+        });
+        
+        function initializeDemoUser() {
+            const users = Auth.getAllUsers();
+            const demoUser = users.find(user => user.email === 'email@demo.com');
+            
+            if (!demoUser) {
+                const demoUserData = {
+                    id: 1,
+                    name: 'Utilisateur Démo',
+                    email: 'email@demo.com',
+                    role: 'donor',
+                    bloodType: 'O+',
+                    password: 'demo123'
+                };
+                
+                users.push(demoUserData);
+                Auth.saveAllUsers(users);
+                
+                // Afficher un message de confirmation
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success alert-custom alert-dismissible fade show';
+                alertDiv.innerHTML = `
+                    <i class="fas fa-check-circle me-2"></i>
+                    Utilisateur de démonstration créé avec succès!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                document.getElementById('authAlerts').appendChild(alertDiv);
+                
+                // Auto-dismiss après 5 secondes
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Surcharge de la fonction showToast pour utiliser les alertes Bootstrap
+        const originalShowToast = Auth.showToast;
+        Auth.showToast = function(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'error' ? 'danger' : 'success'} alert-custom alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'} me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const alertsContainer = document.getElementById('authAlerts');
+            alertsContainer.innerHTML = '';
+            alertsContainer.appendChild(alertDiv);
+            
+            // Auto-dismiss après 5 secondes
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        };
+    </script>
+</body>
+</html>

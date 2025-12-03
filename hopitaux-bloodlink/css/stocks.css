@@ -1,0 +1,921 @@
+/* Page Stocks - Styles Spécifiques */
+
+/* Alertes Critiques */
+.critical-alerts-section {
+    margin-bottom: 3rem;
+}
+
+.alerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.alert-card-stock {
+    background: linear-gradient(135deg, rgba(229, 57, 53, 0.1) 0%, transparent 100%);
+    border: 1px solid rgba(229, 57, 53, 0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    animation: pulse 2s infinite;
+    transition: all 0.3s ease;
+}
+
+.alert-card-stock:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(229, 57, 53, 0.2);
+}
+
+.alert-header-stock {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.alert-icon-stock {
+    font-size: 2rem;
+}
+
+.alert-content-stock h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: #E53935;
+}
+
+.alert-content-stock p {
+    margin: 0;
+    opacity: 0.8;
+}
+
+.alert-actions-stock {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Tableau de Bord Stocks */
+.stock-dashboard {
+    margin-bottom: 3rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.dashboard-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Vue Grille */
+.stock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.stock-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stock-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+
+.stock-card.critical::before {
+    background: #E53935;
+    animation: pulse 2s infinite;
+}
+
+.stock-card.low::before {
+    background: #FF6D00;
+}
+
+.stock-card.normal::before {
+    background: #00C853;
+}
+
+.stock-card.optimal::before {
+    background: #2196F3;
+}
+
+.stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.blood-type-large {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stock-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.stock-status.critical {
+    background: #E53935;
+    color: white;
+}
+
+.stock-status.low {
+    background: #FF6D00;
+    color: white;
+}
+
+.stock-status.normal {
+    background: #00C853;
+    color: white;
+}
+
+.stock-status.optimal {
+    background: #2196F3;
+    color: white;
+}
+
+.stock-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.current-stock {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stock-card.critical .current-stock {
+    color: #E53935;
+}
+
+.stock-card.low .current-stock {
+    color: #FF6D00;
+}
+
+.stock-card.normal .current-stock {
+    color: #00C853;
+}
+
+.stock-card.optimal .current-stock {
+    color: #2196F3;
+}
+
+.stock-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.stock-limits {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.stock-progress {
+    margin-bottom: 2rem;
+}
+
+.progress-bar-stock {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill-stock {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.stock-card.critical .progress-fill-stock {
+    background: #E53935;
+}
+
+.stock-card.low .progress-fill-stock {
+    background: #FF6D00;
+}
+
+.stock-card.normal .progress-fill-stock {
+    background: #00C853;
+}
+
+.stock-card.optimal .progress-fill-stock {
+    background: #2196F3;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.stock-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+/* Vue Tableau */
+.stock-table-view {
+    margin-top: 2rem;
+}
+
+.table-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.stock-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stock-table th {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.stock-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stock-table tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.level-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.level-critical {
+    background: rgba(229, 57, 53, 0.2);
+    color: #E53935;
+}
+
+.level-low {
+    background: rgba(255, 109, 0, 0.2);
+    color: #FF6D00;
+}
+
+.level-normal {
+    background: rgba(0, 200, 83, 0.2);
+    color: #00C853;
+}
+
+.trend-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.trend-up {
+    color: #E53935;
+}
+
+.trend-down {
+    color: #00C853;
+}
+
+.trend-stable {
+    color: #FFAB00;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Analytics Stocks */
+.stock-analytics-section {
+    margin-bottom: 3rem;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.analytics-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.analytics-card.large {
+    grid-column: span 2;
+}
+
+.analytics-card h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.chart-container {
+    height: 300px;
+    position: relative;
+}
+
+/* Rotation des Stocks */
+.rotation-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.rotation-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rotation-label {
+    font-weight: 600;
+    min-width: 30px;
+}
+
+.rotation-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.rotation-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #E53935 0%, #FF6D00 100%);
+    border-radius: 3px;
+}
+
+.rotation-value {
+    font-weight: 600;
+    min-width: 40px;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+/* Indicateurs KPI */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.kpi-item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.kpi-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.kpi-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #E53935 0%, #FF6D00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-label {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Mouvements de Stock */
+.stock-movements-section {
+    margin-bottom: 3rem;
+}
+
+.movement-filters {
+    display: flex;
+    gap: 1rem;
+}
+
+.movements-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.movements-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.movement-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.movement-item:last-child {
+    border-bottom: none;
+}
+
+.movement-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.movement-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.movement-icon.in {
+    color: #00C853;
+}
+
+.movement-icon.out {
+    color: #E53935;
+}
+
+.movement-content {
+    flex: 1;
+}
+
+.movement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.movement-title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.movement-time {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.movement-details {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.movement-quantity {
+    font-weight: 600;
+}
+
+.movement-quantity.in {
+    color: #00C853;
+}
+
+.movement-quantity.out {
+    color: #E53935;
+}
+
+/* Gestion Avancée */
+.advanced-management-section {
+    margin-bottom: 3rem;
+}
+
+.management-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.management-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.management-card h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Paramètres de Seuils */
+.threshold-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.threshold-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.threshold-label {
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.threshold-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    width: 80px;
+    text-align: center;
+}
+
+.threshold-unit {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    min-width: 50px;
+}
+
+/* Actions Rapides */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    border-color: rgba(229, 57, 53, 0.3);
+}
+
+.action-icon {
+    font-size: 1.5rem;
+}
+
+.action-btn span:last-child {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Performance Stats */
+.performance-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.performance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.performance-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.performance-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.performance-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #E53935 0%, #FF6D00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Modal Mise à Jour Stock */
+.movement-type-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.movement-option input {
+    display: none;
+}
+
+.movement-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.movement-option input:checked + .movement-visual {
+    border-color: currentColor;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.movement-visual.in {
+    color: #00C853;
+}
+
+.movement-visual.out {
+    color: #E53935;
+}
+
+.movement-icon-modal {
+    font-size: 1.5rem;
+}
+
+.movement-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Modal Gestion par Lot */
+.batch-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.batch-tab {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.batch-tab:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.batch-tab.active {
+    color: #E53935;
+    border-bottom-color: #E53935;
+    background: rgba(229, 57, 53, 0.1);
+}
+
+.batch-tab-content {
+    display: none;
+}
+
+.batch-tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Inventaire */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.inventory-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.blood-type-inventory {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.stock-status-small {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.stock-status-small.critical {
+    background: #E53935;
+    color: white;
+}
+
+.inventory-stock {
+    margin-bottom: 1rem;
+}
+
+.current-stock-inventory {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.inventory-card.critical .current-stock-inventory {
+    color: #E53935;
+}
+
+.stock-label-inventory {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.inventory-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Transfert et Ajustement */
+.transfer-form, .adjustment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.adjustment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .analytics-card.large {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .dashboard-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .stock-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .management-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .movement-filters {
+        flex-direction: column;
+    }
+    
+    .movement-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .movement-details {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .batch-tabs {
+        flex-direction: column;
+    }
+    
+    .inventory-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .stat-badge {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .inventory-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stock-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}

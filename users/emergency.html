@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgence | BloodLink Pro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/emergency.css" rel="stylesheet">
+</head>
+<body class="emergency-body">
+    <div class="emergency-container">
+        <!-- Emergency Header -->
+        <div class="emergency-header">
+            <div class="container">
+                <a href="dashboard.html" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-arrow-left me-2"></i>Retour
+                </a>
+                <div class="emergency-title">
+                    <h1><i class="fas fa-bolt me-3"></i>URGENCE CRITIQUE</h1>
+                    <p>Votre aide immédiate est requise</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Alert -->
+        <div class="container mt-4">
+            <div class="emergency-alert-card">
+                <div class="alert-header">
+                    <div class="alert-severity">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        NIVEAU MAXIMUM
+                    </div>
+                    <div class="alert-timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="emergencyTimer">02:15</span>
+                    </div>
+                </div>
+                
+                <div class="alert-content">
+                    <div class="hospital-info">
+                        <h2>Hôpital Necker - Enfants Malades</h2>
+                        <div class="blood-requirement">
+                            <span class="blood-type emergency">O-</span>
+                            <span class="quantity">3 unités requises</span>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-details">
+                        <div class="detail-item">
+                            <i class="fas fa-user-injured"></i>
+                            <div>
+                                <strong>Patient : Enfant 5 ans</strong>
+                                <p>Intervention chirurgicale cardiaque urgente</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Distance : 0.8 km</strong>
+                                <p>149 Rue de Sèvres, 75015 Paris</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Contact urgent</strong>
+                                <p>Dr. Martin - 01 44 49 49 49</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-actions">
+                    <button class="btn btn-emergency-confirm" onclick="confirmEmergencyDonation()">
+                        <i class="fas fa-heartbeat me-2"></i>
+                        JE CONFIRME MON DON IMMÉDIAT
+                    </button>
+                    <button class="btn btn-outline-light" onclick="shareEmergency()">
+                        <i class="fas fa-share me-2"></i>
+                        Partager l'urgence
+                    </button>
+                </div>
+            </div>
+
+            <!-- Emergency Steps -->
+            <div class="emergency-steps">
+                <h3>Procédure d'Urgence</h3>
+                <div class="steps-container">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Confirmation Immédiate</h5>
+                            <p>Confirmez votre disponibilité pour un don immédiat</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Préparation</h5>
+                            <p>Préparez votre pièce d'identité et dirigez-vous vers l'hôpital</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Accueil Prioritaire</h5>
+                            <p>Présentez-vous à l'accueil transfusion avec le code d'urgence</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Don Accéléré</h5>
+                            <p>Procédure de don prioritaire avec équipe dédiée</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Map -->
+            <div class="emergency-map-container">
+                <h3>Itinéraire vers l'Hôpital</h3>
+                <div id="emergencyMap"></div>
+                <div class="map-actions">
+                    <button class="btn btn-primary" onclick="openNavigation()">
+                        <i class="fas fa-directions me-2"></i>
+                        Ouvrir la Navigation
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="callHospital()">
+                        <i class="fas fa-phone me-2"></i>
+                        Appeler l'Hôpital
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Modal -->
+    <div class="modal fade" id="emergencyConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content emergency-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation de Don d'Urgence</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="confirmation-content">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4>Êtes-vous certain de pouvoir donner immédiatement ?</h4>
+                        <p class="text-muted">
+                            En confirmant, vous vous engagez à vous rendre à l'hôpital dans les plus brefs délais.
+                            Une vie dépend de votre rapidité.
+                        </p>
+                        
+                        <div class="requirements-check">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="healthCheck">
+                                <label class="form-check-label" for="healthCheck">
+                                    Je suis en bonne santé et pèse plus de 50kg
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="availabilityCheck">
+                                <label class="form-check-label" for="availabilityCheck">
+                                    Je suis disponible immédiatement pour me rendre à l'hôpital
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="transportCheck">
+                                <label class="form-check-label" for="transportCheck">
+                                    J'ai un moyen de transport pour me rendre à l'hôpital
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" onclick="finalConfirm()" id="finalConfirmBtn" disabled>
+                        <i class="fas fa-check me-2"></i>
+                        Confirmer le Don d'Urgence
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/emergency.js"></script>
+</body>
+</html>

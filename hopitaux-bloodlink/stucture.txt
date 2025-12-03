@@ -1,0 +1,22 @@
+hopitaux-bloodlink/
+├── index.html (Dashboard principal)
+├── urgences.html (Gestion des urgences)
+├── stocks.html (Gestion des stocks)
+├── reservations.html (Réservations)
+├── demandes.html (Suivi des demandes)
+├── profil.html (Profil hôpital)
+├── css/
+│   ├── style.css
+│   ├── hospital.css
+│   ├── components.css
+│   └── responsive.css
+├── js/
+│   ├── app.js
+│   ├── hospital-core.js
+│   ├── emergency-system.js
+│   ├── stock-manager.js
+│   ├── reservation-system.js
+│   └── simulations.js
+└── assets/
+    ├── icons/
+    └── images/

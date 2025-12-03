@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodLink Hôpitaux - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hospital.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="hospital-platform">
+    <!-- Header Hospitalier -->
+    <header class="hospital-header">
+        <div class="header-container">
+            <div class="hospital-brand">
+                <div class="brand-logo">🏥</div>
+                <div class="brand-info">
+                    <h1>BloodLink Hôpitaux</h1>
+                    <span class="hospital-name" id="currentHospital">Hôpital Principal de Dakar</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="quick-actions">
+                    <button class="btn btn-emergency" onclick="declareQuickEmergency()">
+                        🚨 Urgence Sanguine
+                    </button>
+                    <button class="btn btn-primary" onclick="openStockManagement()">
+                        🩸 Gérer le Stock
+                    </button>
+                </div>
+                
+                <div class="user-menu">
+                    <div class="notification-bell" id="notificationBell">
+                        <span class="notification-count">3</span>
+                        🔔
+                    </div>
+                    <div class="hospital-profile">
+                        <span class="profile-name" id="profileName">Dr. Ndiaye</span>
+                        <span class="profile-role" id="profileRole">Responsable Hématologie</span>
+                        <button class="btn btn-sm btn-outline" onclick="logout()" style="margin-left: 10px;">
+                            🚪 Déconnexion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Principale -->
+    <nav class="hospital-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Tableau de Bord
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="urgences.html" class="nav-link">
+                        <span class="nav-icon">🚨</span>
+                        Urgences
+                        <span class="nav-badge" id="urgentBadge">2</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html" class="nav-link">
+                        <span class="nav-icon">🩸</span>
+                        Stocks Sanguins
+                        <span class="nav-badge critical">CRITIQUE</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reservations.html" class="nav-link">
+                        <span class="nav-icon">📦</span>
+                        Réservations
+                        <span class="nav-badge" id="reservationBadge">5</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="demandes.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Demandes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profil.html" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        Profil Hôpital
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-footer">
+                <div class="hospital-status">
+                    <span class="status-indicator online"></span>
+                    Connecté au réseau BloodLink
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <main class="hospital-main">
+        <div class="main-container">
+            <!-- Section Alertes Critiques -->
+            <section class="critical-alerts-section">
+                <div class="section-header">
+                    <h2>Alertes Critiques</h2>
+                    <button class="btn btn-outline" onclick="viewAllAlerts()">
+                        Voir toutes les alertes
+                    </button>
+                </div>
+                
+                <div class="alerts-grid">
+                    <div class="alert-card critical">
+                        <div class="alert-header">
+                            <div class="alert-icon">⚠️</div>
+                            <div class="alert-info">
+                                <h3>Stock O- Critique</h3>
+                                <p>Seulement 2 unités disponibles</p>
+                            </div>
+                            <span class="alert-time">15 min</span>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="btn btn-emergency" onclick="declareEmergency('O-')">
+                                Déclarer urgence
+                            </button>
+                            <button class="btn btn-secondary" onclick="reserveBlood('O-')">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-card warning">
+                        <div class="alert-header">
+                            <div class="alert-icon">🩸</div>
+                            <div class="alert-info">
+                                <h3>Demande Chirurgie Cardiaque</h3>
+                                <p>4 unités O+ requises pour demain</p>
+                            </div>
+                            <span class="alert-time">2h</span>
+                        </div>
+                        <div class="alert-actions">
+                            <button class="btn btn-primary" onclick="viewDemandDetails()">
+                                Voir détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Principal -->
+            <section class="dashboard-overview">
+                <div class="stats-grid">
+                    <!-- Carte Stock Global -->
+                    <div class="stat-card large">
+                        <div class="card-header">
+                            <h3>Stock Sanguin Global</h3>
+                            <div class="card-actions">
+                                <button class="btn-icon" onclick="refreshStocks()">🔄</button>
+                            </div>
+                        </div>
+                        <div class="stock-overview">
+                            <div class="stock-total">
+                                <span class="total-value" id="totalStock">147</span>
+                                <span class="total-label">unités disponibles</span>
+                            </div>
+                            <div class="stock-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65%"></div>
+                                </div>
+                                <span>65% de la capacité</span>
+                            </div>
+                        </div>
+                        <div class="stock-breakdown">
+                            <div class="blood-type-stock" data-type="O-">
+                                <span class="blood-type">O-</span>
+                                <span class="stock-value critical">2</span>
+                                <div class="stock-indicator critical"></div>
+                            </div>
+                            <div class="blood-type-stock" data-type="O+">
+                                <span class="blood-type">O+</span>
+                                <span class="stock-value low">15</span>
+                                <div class="stock-indicator low"></div>
+                            </div>
+                            <div class="blood-type-stock" data-type="A-">
+                                <span class="blood-type">A-</span>
+                                <span class="stock-value normal">28</span>
+                                <div class="stock-indicator normal"></div>
+                            </div>
+                            <div class="blood-type-stock" data-type="A+">
+                                <span class="blood-type">A+</span>
+                                <span class="stock-value normal">35</span>
+                                <div class="stock-indicator normal"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carte Urgences Actives -->
+                    <div class="stat-card">
+                        <div class="card-header">
+                            <h3>Urgences Actives</h3>
+                            <span class="stat-trend negative">+2</span>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-main">
+                                <span class="stat-value" id="activeEmergencies">3</span>
+                                <span class="stat-label">urgences en cours</span>
+                            </div>
+                            <div class="stat-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">En attente de réponse</span>
+                                    <span class="detail-value">12 donneurs</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Temps moyen de réponse</span>
+                                    <span class="detail-value">18 min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline full-width" onclick="openEmergenciesPage()">
+                            Gérer les urgences
+                        </button>
+                    </div>
+
+                    <!-- Carte Réservations -->
+                    <div class="stat-card">
+                        <div class="card-header">
+                            <h3>Réservations</h3>
+                            <span class="stat-trend positive">+5</span>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-main">
+                                <span class="stat-value" id="pendingReservations">8</span>
+                                <span class="stat-label">en attente</span>
+                            </div>
+                            <div class="stat-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Livraisons aujourd'hui</span>
+                                    <span class="detail-value">3</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">En retard</span>
+                                    <span class="detail-value critical">1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline full-width" onclick="openReservationsPage()">
+                            Voir les réservations
+                        </button>
+                    </div>
+
+                    <!-- Carte Performance -->
+                    <div class="stat-card">
+                        <div class="card-header">
+                            <h3>Performance</h3>
+                            <span class="stat-trend positive">+12%</span>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-main">
+                                <span class="stat-value" id="responseRate">94%</span>
+                                <span class="stat-label">taux de réponse</span>
+                            </div>
+                            <div class="stat-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Vies sauvées ce mois</span>
+                                    <span class="detail-value">47</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Satisfaction donneurs</span>
+                                    <span class="detail-value">4.8/5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Activité Récente -->
+            <section class="recent-activity-section">
+                <div class="section-header">
+                    <h2>Activité Récente</h2>
+                    <div class="view-options">
+                        <select id="activityFilter" onchange="filterActivity()">
+                            <option value="all">Toutes les activités</option>
+                            <option value="emergency">Urgences</option>
+                            <option value="stock">Stocks</option>
+                            <option value="reservation">Réservations</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="activity-timeline">
+                    <div class="activity-item emergency">
+                        <div class="activity-icon">🚨</div>
+                        <div class="activity-content">
+                            <div class="activity-header">
+                                <h4>Urgence O- déclarée</h4>
+                                <span class="activity-time">Il y a 15 min</span>
+                            </div>
+                            <p>Urgence critique pour 5 unités O-. 12 donneurs notifiés.</p>
+                            <div class="activity-meta">
+                                <span class="meta-item">📞 8 réponses</span>
+                                <span class="meta-item">📍 Urgence Chirurgie</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item stock">
+                        <div class="activity-icon">🩸</div>
+                        <div class="activity-content">
+                            <div class="activity-header">
+                                <h4>Stock A+ mis à jour</h4>
+                                <span class="activity-time">Il y a 45 min</span>
+                            </div>
+                            <p>Réception de 10 unités A+ du Centre Régional</p>
+                            <div class="activity-meta">
+                                <span class="meta-item">📦 Livraison #L-2847</span>
+                                <span class="meta-item">✅ Stock maintenant: 35 unités</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-item reservation">
+                        <div class="activity-icon">📋</div>
+                        <div class="activity-content">
+                            <div class="activity-header">
+                                <h4>Nouvelle réservation confirmée</h4>
+                                <span class="activity-time">Il y a 2h</span>
+                            </div>
+                            <p>Réservation de 4 unités B+ pour chirurgie programmée</p>
+                            <div class="activity-meta">
+                                <span class="meta-item">👤 Dr. Aminita</span>
+                                <span class="meta-item">📅 Pour le 15/03/2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Actions Rapides -->
+            <section class="quick-actions-section">
+                <h2>Actions Rapides</h2>
+                <div class="actions-grid">
+                    <button class="action-card" onclick="declareQuickEmergency()">
+                        <div class="action-icon">🚨</div>
+                        <div class="action-content">
+                            <h3>Déclarer Urgence</h3>
+                            <p>Alertez les donneurs compatibles</p>
+                        </div>
+                    </button>
+
+                    <button class="action-card" onclick="openStockManagement()">
+                        <div class="action-icon">📊</div>
+                        <div class="action-content">
+                            <h3>Gérer le Stock</h3>
+                            <p>Vérifier et mettre à jour les niveaux</p>
+                        </div>
+                    </button>
+
+                    <button class="action-card" onclick="makeReservation()">
+                        <div class="action-icon">📦</div>
+                        <div class="action-content">
+                            <h3>Nouvelle Réservation</h3>
+                            <p>Commander auprès des centres</p>
+                        </div>
+                    </button>
+
+                    <button class="action-card" onclick="generateReport()">
+                        <div class="action-icon">📈</div>
+                        <div class="action-content">
+                            <h3>Rapport d'Activité</h3>
+                            <p>Générer un rapport personnalisé</p>
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Panneau Urgence Rapide -->
+    <div class="emergency-panel" id="emergencyPanel">
+        <div class="panel-header">
+            <h3>🚨 Déclarer une Urgence Sanguine</h3>
+            <button class="panel-close" onclick="closeEmergencyPanel()">×</button>
+        </div>
+        <div class="panel-content">
+            <form id="emergencyForm" onsubmit="submitEmergency(event)">
+                <div class="form-group">
+                    <label>Groupe Sanguin Requis *</label>
+                    <select id="emergencyBloodType" required>
+                        <option value="">Sélectionnez un groupe</option>
+                        <option value="O-">O- (Donneur universel)</option>
+                        <option value="O+">O+</option>
+                        <option value="A-">A-</option>
+                        <option value="A+">A+</option>
+                        <option value="B-">B-</option>
+                        <option value="B+">B+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="AB+">AB+ (Receveur universel)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantité Requise *</label>
+                    <div class="quantity-selector">
+                        <button type="button" onclick="decreaseQuantity()">-</button>
+                        <input type="number" id="emergencyQuantity" value="2" min="1" max="20" readonly>
+                        <button type="button" onclick="increaseQuantity()">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Niveau d'Urgence *</label>
+                    <div class="urgency-levels">
+                        <label class="urgency-option">
+                            <input type="radio" name="urgency" value="high" checked>
+                            <span class="urgency-label high">Élevé</span>
+                        </label>
+                        <label class="urgency-option">
+                            <input type="radio" name="urgency" value="critical">
+                            <span class="urgency-label critical">Critique</span>
+                        </label>
+                        <label class="urgency-option">
+                            <input type="radio" name="urgency" value="urgent">
+                            <span class="urgency-label urgent">Urgent</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Motif (optionnel)</label>
+                    <textarea id="emergencyReason" placeholder="Accident, chirurgie urgente, etc."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEmergencyPanel()">
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-emergency">
+                        🚨 Déclarer l'Urgence
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Système de Notifications -->
+    <div class="notification-center" id="notificationCenter">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="btn btn-sm" onclick="markAllAsRead()">Tout marquer comme lu</button>
+        </div>
+        <div class="notification-list" id="notificationList">
+            <!-- Notifications générées dynamiquement -->
+        </div>
+    </div>
+
+    <script src="js/auth-guard.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/hospital-core.js"></script>
+    <script src="js/simulations.js"></script>
+    <script>
+// Initialisation de tous les systèmes
+document.addEventListener('DOMContentLoaded', function() {
+    // L'application principale est déjà initialisée via hospitalApp
+    
+    // Démarrage automatique des simulations après 3 secondes
+    setTimeout(() => {
+        hospitalSimulations.startComprehensiveSimulation();
+    }, 3000);
+    
+    // Affichage du message de bienvenue
+    setTimeout(() => {
+        hospitalApp.showNotification(
+            '🏥 Bienvenue sur BloodLink Hôpitaux! Les simulations sont actives.',
+            'success'
+        );
+    }, 1000);
+});
+
+// Gestion des erreurs globales
+window.addEventListener('error', function(e) {
+    console.error('Erreur BloodLink:', e.error);
+    hospitalApp.showNotification('Une erreur est survenue. Voir la console.', 'warning');
+});
+
+// Export global pour le débogage
+window.hospitalApp = hospitalApp;
+window.emergencySystem = emergencySystem;
+window.stockManager = stockManager;
+window.reservationSystem = reservationSystem;
+window.hospitalSimulations = hospitalSimulations;
+</script>
+</body>
+</html>

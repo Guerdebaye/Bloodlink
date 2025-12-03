@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodLink Pro | Plateforme Intelligente de Don de Sang</title>
+    <meta name="description" content="Plateforme géolocalisée de don de sang connectant donneurs et hôpitaux en temps réel">
+    
+    <!-- Préload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="css/style.css" as="style">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/icons/heart-pulse.svg">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="bloodlink-logo">
+                <i class="fas fa-heart-pulse"></i>
+                <span>BloodLink</span>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Chargement de la plateforme...</p>
+        </div>
+    </div>
+
+    <!-- Navigation Premium -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-glass">
+        <div class="container">
+            <a class="navbar-brand" href="#hero">
+                <div class="brand-logo">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>BloodLink<span class="brand-pro">Pro</span></span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#hero">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Fonctionnalités</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#map-section">Carte Live</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#stats">Impact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#demo">Application</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="navbar-actions">
+                    <div id="navbarAuthButtons">
+                        <button class="btn btn-outline-light btn-sm me-2" onclick="window.location.href='login.html'">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span class="d-none d-md-inline">Connexion</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="window.location.href='register.html'">
+                            <i class="fas fa-user-plus"></i>
+                            <span class="d-none d-md-inline">S'inscrire</span>
+                        </button>
+                    </div>
+                    <div class="user-dropdown dropdown" id="navbarUserMenu" style="display: none;">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-info ms-2 d-none d-md-block">
+                                <div class="user-name" id="navbarUserName">Mon compte</div>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Tableau de bord</a></li>
+                            <li><a class="dropdown-item" href="dashboard.html#profile"><i class="fas fa-user me-2"></i>Mon profil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="Auth.logout()"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Premium -->
+    <section id="hero" class="hero-section">
+        <div class="hero-background">
+            <div class="hero-particles" id="particles-js"></div>
+            <div class="hero-gradient"></div>
+        </div>
+        
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <span class="badge bg-primary">🚀 Plateforme Live</span>
+                            <span class="badge bg-success">🩸 2,500+ Vies Sauvées</span>
+                        </div>
+                        
+                        <h1 class="hero-title">
+                            <span class="gradient-text">Sauvez des vies</span>
+                            <br>avec une précision
+                            <span class="text-primary">digitale</span>
+                        </h1>
+                        
+                        <p class="hero-description">
+                            BloodLink Pro révolutionne le don de sang grâce à l'IA et la géolocalisation en temps réel. 
+                            Rejoignez notre réseau de <strong>héros modernes</strong> et impactez directement votre communauté.
+                        </p>
+                        
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-lg me-3" onclick="window.location.href='login.html'">
+                                <i class="fas fa-rocket me-2"></i>
+                                Commencer Maintenant
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('demo')">
+                                <i class="fas fa-play-circle me-2"></i>
+                                Voir la Démo
+                            </button>
+                        </div>
+                        
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" id="liveDonors">2,847</div>
+                                <div class="stat-label">Donneurs Actifs</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="liveHospitals">156</div>
+                                <div class="stat-label">Hôpitaux Connectés</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="liveAlerts">12</div>
+                                <div class="stat-label">Alertes Actives</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="hero-visual">
+                        <div class="floating-cards">
+                            <div class="card alert-card urgent" data-aos="fade-up" data-aos-delay="200">
+                                <div class="card-header">
+                                    <div class="alert-badge">
+                                        <i class="fas fa-bolt"></i>
+                                        URGENCE CRITIQUE
+                                    </div>
+                                    <div class="alert-timer">2 min</div>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Hôpital Européen Paris</h6>
+                                    <div class="blood-type">O-</div>
+                                    <p>Accident majeur - Besoin urgent de 4 unités</p>
+                                    <div class="alert-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i> 1.2 km</span>
+                                        <span><i class="fas fa-clock"></i> Il y a 2 min</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-danger btn-sm" onclick="handleQuickDonate(1)">
+                                        Donner Maintenant
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="card alert-card" data-aos="fade-up" data-aos-delay="400">
+                                <div class="card-header">
+                                    <div class="alert-badge normal">
+                                        <i class="fas fa-bell"></i>
+                                        BESOIN RÉGULIER
+                                    </div>
+                                    <div class="alert-timer">15 min</div>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Clinique Saint-Michel</h6>
+                                    <div class="blood-type a-plus">A+</div>
+                                    <p>Stock à renouveler - 2 unités nécessaires</p>
+                                    <div class="alert-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i> 3.7 km</span>
+                                        <span><i class="fas fa-clock"></i> Il y a 15 min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-scroll-indicator">
+            <div class="scroll-arrow" onclick="scrollToSection('features')">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section Ultra-Pro -->
+    <section id="features" class="section features-section">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <h2 class="section-title">Technologie de Pointe au Service de la Vie</h2>
+                <p class="section-subtitle">Une plateforme complète intégrant les dernières innovations</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Feature 1 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h5>IA Prédictive</h5>
+                        <p>Algorithmes intelligents anticipant les besoins en sang par région</p>
+                        <div class="feature-badge">AI Powered</div>
+                    </div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-satellite-dish"></i>
+                        </div>
+                        <h5>Géolocalisation Live</h5>
+                        <p>Positionnement précis des donneurs et besoins en temps réel</p>
+                        <div class="feature-badge">GPS Live</div>
+                    </div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h5>Notifications Intelligentes</h5>
+                        <p>Alertes contextuelles basées sur votre profil et localisation</p>
+                        <div class="feature-badge">Smart Alerts</div>
+                    </div>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-network"></i>
+                        </div>
+                        <h5>Analytics Temps Réel</h5>
+                        <p>Tableaux de bord avancés avec métriques en direct</p>
+                        <div class="feature-badge">Live Data</div>
+                    </div>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h5>App Multi-Platforme</h5>
+                        <p>Application Flutter optimisée iOS & Android avec PWA</p>
+                        <div class="feature-badge">Cross-Platform</div>
+                    </div>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5>Sécurité Maximale</h5>
+                        <p>Chiffrement end-to-end et conformité RGPD santé</p>
+                        <div class="feature-badge">HIPAA Compliant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Map Section -->
+    <section id="map-section" class="section map-section">
+        <div class="container-fluid">
+            <div class="section-header text-center" data-aos="fade-up">
+                <h2 class="section-title">Carte des Besoins en Temps Réel</h2>
+                <p class="section-subtitle">Visualisation live des alertes et donneurs actifs</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="map-container">
+                        <div class="map-header">
+                            <div class="map-controls">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary btn-sm active" data-layer="alerts">
+                                        <i class="fas fa-bell"></i> Alertes
+                                    </button>
+                                    <button class="btn btn-outline-success btn-sm" data-layer="donors">
+                                        <i class="fas fa-users"></i> Donneurs
+                                    </button>
+                                    <button class="btn btn-outline-info btn-sm" data-layer="hospitals">
+                                        <i class="fas fa-hospital"></i> Hôpitaux
+                                    </button>
+                                </div>
+                                
+                                <div class="map-filters">
+                                    <select class="form-select form-select-sm" id="bloodFilter">
+                                        <option value="">Tous les types</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                    
+                                    <select class="form-select form-select-sm" id="urgenceFilter">
+                                        <option value="">Toutes urgences</option>
+                                        <option value="urgent">Urgentes seulement</option>
+                                        <option value="normal">Normales</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="map-stats">
+                                <span class="stat"><i class="fas fa-bell text-warning"></i> <span id="activeAlertsCount">12</span> alertes</span>
+                                <span class="stat"><i class="fas fa-users text-success"></i> <span id="activeDonorsCount">47</span> donneurs proches</span>
+                            </div>
+                        </div>
+                        
+                        <div id="liveMap"></div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="alerts-sidebar">
+                        <div class="sidebar-header">
+                            <h5>Alertes Actives</h5>
+                            <div class="last-update">
+                                <i class="fas fa-sync-alt"></i>
+                                <span id="lastUpdate">Maintenant</span>
+                            </div>
+                        </div>
+                        
+                        <div class="alerts-list" id="alertsList">
+                            <!-- Alertes chargées dynamiquement -->
+                        </div>
+                        
+                        <div class="sidebar-footer">
+                            <button class="btn btn-primary w-100" onclick="Notifications.requestPermission()">
+                                <i class="fas fa-bell"></i>
+                                Activer les Notifications
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="stats" class="section stats-section bg-dark text-white">
+        <div class="container">
+            <div class="section-header text-center" data-aos="fade-up">
+                <h2 class="section-title">Impact Réel en Chiffres</h2>
+                <p class="section-subtitle">Des données qui témoignent de notre efficacité</p>
+            </div>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalDonations">15,247</div>
+                            <div class="stat-label">Dons Effectués</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="livesSaved">45,741</div>
+                            <div class="stat-label">Vies Sauvées</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="avgResponse">18</div>
+                            <div class="stat-label">Min. Moyen de Réponse</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-6" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number">98.7%</div>
+                            <div class="stat-label">Taux de Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="chart-card">
+                        <h5>Répartition par Groupe Sanguin</h5>
+                        <canvas id="bloodDistributionChart" height="250"></canvas>
+                    </div>
+                </div>
+                
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="chart-card">
+                        <h5>Évolution Mensuelle des Dons</h5>
+                        <canvas id="monthlyTrendChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="section demo-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="demo-content">
+                        <h2>Application Mobile Élue "Meilleure Innovation Santé 2024"</h2>
+                        <p class="lead">Une expérience utilisateur primée, conçue pour sauver des vies efficacement.</p>
+                        
+                        <div class="demo-features">
+                            <div class="demo-feature">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <div>
+                                    <strong>Interface Zero-Click</strong>
+                                    <p>Acceptation de dons en un geste grâce à l'IA prédictive</p>
+                                </div>
+                            </div>
+                            
+                            <div class="demo-feature">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <div>
+                                    <strong>Mode Urgence</strong>
+                                    <p>Priorité absolue pour les situations critiques</p>
+                                </div>
+                            </div>
+                            
+                            <div class="demo-feature">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <div>
+                                    <strong>Gamification Avancée</strong>
+                                    <p>Badges, niveaux et récompenses pour l'engagement</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="demo-actions">
+                            <button class="btn btn-dark me-3">
+                                <i class="fab fa-apple"></i>
+                                App Store
+                            </button>
+                            <button class="btn btn-success">
+                                <i class="fab fa-google-play"></i>
+                                Play Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="phone-mockup">
+                        <div class="phone-frame">
+                            <div class="phone-screen">
+                                <div class="app-interface">
+                                    <!-- Interface app simulée -->
+                                    <div class="app-header">
+                                        <div class="app-status">
+                                            <span>BloodLink Pro</span>
+                                            <div class="live-indicator">
+                                                <div class="pulse"></div>
+                                                LIVE
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="app-content">
+                                        <div class="emergency-alert">
+                                            <div class="emergency-header">
+                                                <i class="fas fa-bolt"></i>
+                                                URGENCE MAXIMALE
+                                            </div>
+                                            <div class="emergency-content">
+                                                <h6>Hôpital Necker - Enfants Malades</h6>
+                                                <div class="blood-requirement">
+                                                    <span class="blood-type emergency">O-</span>
+                                                    <span class="quantity">3 unités</span>
+                                                </div>
+                                                <p>Enfant 5 ans - Intervention chirurgicale urgente</p>
+                                                <div class="distance">À 0.8 km de vous</div>
+                                            </div>
+                                            <button class="btn-emergency" onclick="handleEmergencyDonate()">
+                                                <i class="fas fa-heartbeat"></i>
+                                                JE DONNE MAINTENANT
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="quick-stats">
+                                            <div class="stat">
+                                                <div class="number">12</div>
+                                                <div class="label">Vies sauvées</div>
+                                            </div>
+                                            <div class="stat">
+                                                <div class="number">156</div>
+                                                <div class="label">Points</div>
+                                            </div>
+                                            <div class="stat">
+                                                <div class="number">🥇</div>
+                                                <div class="label">Niveau Or</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Premium -->
+    <footer class="footer bg-dark text-white">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <div class="brand-logo">
+                            <i class="fas fa-heart-pulse"></i>
+                            <span>BloodLink<span class="brand-pro">Pro</span></span>
+                        </div>
+                        <p class="footer-description">
+                            Plateforme intelligente de don de sang géolocalisé. 
+                            Technologie au service de la vie.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2">
+                    <h6>Navigation</h6>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Accueil</a></li>
+                        <li><a href="#features">Fonctionnalités</a></li>
+                        <li><a href="#map-section">Carte Live</a></li>
+                        <li><a href="#stats">Impact</a></li>
+                        <li><a href="#demo">Application</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3">
+                    <h6>Ressources</h6>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showDocumentation()">Documentation API</a></li>
+                        <li><a href="#" onclick="showPressKit()">Kit Presse</a></li>
+                        <li><a href="#" onclick="showCaseStudies()">Études de Cas</a></li>
+                        <li><a href="#" onclick="showWhitePaper()">Livre Blanc</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3">
+                    <h6>Contact</h6>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@bloodlink-pro.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+33 1 84 88 88 88</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Paris, France</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0">&copy; 2024 BloodLink Pro. Tous droits réservés.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <div class="footer-legals">
+                            <a href="#">Confidentialité</a>
+                            <a href="#">Conditions</a>
+                            <a href="#">Cookies</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals Premium -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Connexion à BloodLink Pro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" onsubmit="Auth.handleLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">Email Professionnel</label>
+                            <input type="email" class="form-control" name="email" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" name="password" placeholder="Votre mot de passe" required>
+                        </div>
+                        <div class="form-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                            </div>
+                            <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-4">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Se connecter
+                        </button>
+                    </form>
+                    
+                    <div class="modal-divider">
+                        <span>ou continuer avec</span>
+                    </div>
+                    
+                    <div class="social-auth">
+                        <button class="btn btn-outline-dark w-100 mb-2">
+                            <i class="fab fa-google me-2"></i>
+                            Google
+                        </button>
+                        <button class="btn btn-outline-primary w-100">
+                            <i class="fab fa-microsoft me-2"></i>
+                            Microsoft
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content glass-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rejoindre BloodLink Pro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm" onsubmit="Auth.handleRegister(event)">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Nom complet</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Votre nom" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" placeholder="votre@email.com" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Type de compte</label>
+                                    <select class="form-select" name="accountType" required onchange="Auth.handleAccountTypeChange(this)">
+                                        <option value="">Choisir...</option>
+                                        <option value="donor">Donneur</option>
+                                        <option value="hospital">Hôpital</option>
+                                        <option value="admin">Administrateur</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" id="bloodTypeField">
+                                    <label class="form-label">Groupe sanguin</label>
+                                    <select class="form-select" name="bloodType">
+                                        <option value="">Sélectionner</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Mot de passe</label>
+                                    <input type="password" class="form-control" name="password" placeholder="Créez un mot de passe" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Confirmation</label>
+                                    <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmez le mot de passe" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="termsAccept" name="termsAccept" required>
+                            <label class="form-check-label" for="termsAccept">
+                                J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-4">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Créer mon compte
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="quick-actions">
+        <button class="quick-action-btn" onclick="Notifications.testNotification()" title="Test Notification">
+            <i class="fas fa-bell"></i>
+        </button>
+        <button class="quick-action-btn" onclick="scrollToTop()" title="Retour en haut">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+        <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <!-- Nos scripts avec gestion d'erreur -->
+    <script>
+        // Gestionnaire d'erreurs global
+        window.addEventListener('error', function(e) {
+            console.error('Erreur globale:', e.error);
+            // Masquer l'écran de chargement en cas d'erreur
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.style.display = 'none';
+            }
+        });
+
+        // Initialisation simplifiée
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM chargé - initialisation...');
+            
+            // Masquer l'écran de chargement après un délai maximum
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                if (loadingScreen) {
+                    loadingScreen.style.display = 'none';
+                    console.log('Écran de chargement masqué (timeout)');
+                }
+            }, 3000); // Maximum 3 secondes
+
+            // Initialiser AOS si disponible
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    once: true,
+                    offset: 50
+                });
+            }
+
+            // Initialiser les composants de base
+            initializeBasicComponents();
+        });
+
+        function initializeBasicComponents() {
+            console.log('Initialisation des composants de base...');
+            
+            // Navigation smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Initialiser la carte de base
+            initializeBasicMap();
+
+            // Charger les données mock
+            loadMockData();
+
+            // Mettre à jour les compteurs
+            updateCounters();
+
+            // Gestion des modales
+            initializeModals();
+        }
+
+        function initializeBasicMap() {
+            const mapElement = document.getElementById('liveMap');
+            if (mapElement && typeof L !== 'undefined') {
+                try {
+                    const map = L.map('liveMap').setView([48.8566, 2.3522], 12);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                    
+                    // Ajouter quelques marqueurs de test
+                    const hospitals = [
+                        { name: "Hôpital Saint-Louis", lat: 48.8738, lng: 2.3700 },
+                        { name: "Hôpital Européen", lat: 48.8362, lng: 2.2759 },
+                        { name: "Hôpital Necker", lat: 48.8462, lng: 2.3159 }
+                    ];
+
+                    hospitals.forEach(hospital => {
+                        L.marker([hospital.lat, hospital.lng])
+                            .addTo(map)
+                            .bindPopup(`<strong>${hospital.name}</strong>`);
+                    });
+
+                    console.log('Carte initialisée avec succès');
+                } catch (error) {
+                    console.error('Erreur initialisation carte:', error);
+                }
+            } else {
+                console.log('Carte non initialisée (élément ou Leaflet manquant)');
+            }
+        }
+
+        function loadMockData() {
+            console.log('Chargement des données mock...');
+            
+            // Données simulées pour les alertes
+            const alertes = [
+                {
+                    id: 1,
+                    hopital: "Hôpital Saint-Louis",
+                    typeSang: "O-",
+                    quantite: 2,
+                    urgence: true,
+                    distance: "2.3 km",
+                    timestamp: "Il y a 15 min"
+                },
+                {
+                    id: 2,
+                    hopital: "Clinique du Val d'Or", 
+                    typeSang: "A+",
+                    quantite: 3,
+                    urgence: false,
+                    distance: "5.1 km",
+                    timestamp: "Il y a 2h"
+                }
+            ];
+
+            // Mettre à jour la liste des alertes
+            updateAlertsList(alertes);
+        }
+
+        function updateAlertsList(alertes) {
+            const container = document.getElementById('alertsList');
+            if (container) {
+                container.innerHTML = alertes.map(alerte => `
+                    <div class="alerte-item ${alerte.urgence ? 'urgent' : ''}">
+                        <div class="alerte-header">
+                            <div>
+                                <span class="badge bg-${alerte.urgence ? 'danger' : 'warning'}">
+                                    ${alerte.typeSang}
+                                </span>
+                                <span class="badge bg-secondary ms-1">${alerte.quantite} unité(s)</span>
+                            </div>
+                            <small class="text-muted">${alerte.timestamp}</small>
+                        </div>
+                        <h6 class="mb-1">${alerte.hopital}</h6>
+                        <p class="mb-1 text-muted">À ${alerte.distance} de vous</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-${alerte.urgence ? 'danger' : 'muted'}">
+                                <i class="fas fa-${alerte.urgence ? 'exclamation-triangle' : 'info-circle'} me-1"></i>
+                                ${alerte.urgence ? 'URGENT' : 'Besoin régulier'}
+                            </small>
+                            <button class="btn btn-sm btn-outline-danger" onclick="handleQuickDonate(${alerte.id})">
+                                Donner
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function updateCounters() {
+            // Animation simple des compteurs
+            const counters = [
+                { id: 'liveDonors', target: 2847 },
+                { id: 'liveHospitals', target: 156 }, 
+                { id: 'liveAlerts', target: 12 },
+                { id: 'totalDonations', target: 15247 },
+                { id: 'livesSaved', target: 45741 }
+            ];
+
+            counters.forEach(counter => {
+                const element = document.getElementById(counter.id);
+                if (element) {
+                    animateCounter(element, counter.target);
+                }
+            });
+        }
+
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 20);
+        }
+
+        function initializeModals() {
+            // Gestion basique des modales
+            window.openLoginModal = function() {
+                console.log('Ouverture modale login');
+                // Implémentation basique
+                alert('Fonctionnalité de connexion - En développement');
+            };
+
+            window.openRegisterModal = function() {
+                console.log('Ouverture modale inscription');
+                alert('Fonctionnalité d\'inscription - En développement');
+            };
+        }
+
+        // Fonctions globales
+        window.handleQuickDonate = function(alertId) {
+            alert(`Don confirmé pour l'alerte ${alertId} ! Merci pour votre générosité.`);
+        };
+
+        window.scrollToSection = function(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        window.refreshMap = function() {
+            alert('Carte actualisée !');
+        };
+
+        console.log('Scripts de base chargés');
+        // Correction rapide du bouton retour en haut
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Correctif bouton retour en haut...');
+    
+    // Trouver le bouton
+    const scrollButton = document.querySelector('.quick-action-btn');
+    if (!scrollButton) {
+        console.error('Bouton non trouvé');
+        return;
+    }
+    
+    // Vérifier l'attribut onclick
+    console.log('Bouton trouvé:', scrollButton);
+    console.log('onclick actuel:', scrollButton.getAttribute('onclick'));
+    
+    // Corriger l'attribut onclick
+    scrollButton.setAttribute('onclick', 'window.scrollToTop()');
+    
+    // Ajouter la fonction globale
+    window.scrollToTop = function() {
+        console.log('Scroll to top appelé');
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+    
+    // Gérer l'affichage du bouton
+    function toggleScrollButton() {
+        if (window.scrollY > 300) {
+            scrollButton.style.opacity = '1';
+            scrollButton.style.visibility = 'visible';
+            scrollButton.style.transform = 'translateY(0)';
+        } else {
+            scrollButton.style.opacity = '0';
+            scrollButton.style.visibility = 'hidden';
+            scrollButton.style.transform = 'translateY(20px)';
+        }
+    }
+    
+    window.addEventListener('scroll', toggleScrollButton);
+    toggleScrollButton(); // État initial
+    
+    console.log('Correctif appliqué');
+});
+
+// Fallback ultra-simple
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+    </script>
+</body>
+</html>
