@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Stocks - BloodLink Hôpitaux</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hospital.css">
+    <link rel="stylesheet" href="css/stocks.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="hospital-platform">
+    <!-- Header Hospitalier -->
+    <header class="hospital-header">
+        <div class="header-container">
+            <div class="hospital-brand">
+                <div class="brand-logo">🏥</div>
+                <div class="brand-info">
+                    <h1>BloodLink Stocks</h1>
+                    <span class="hospital-name" id="currentHospital">Hôpital Central Paris</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="quick-actions">
+                    <button class="btn btn-emergency" onclick="stocksPage.quickStockUpdate()">
+                        📝 Mise à jour Rapide
+                    </button>
+                    <button class="btn btn-primary" onclick="stocksPage.generateStockReport()">
+                        📊 Rapport Stocks
+                    </button>
+                </div>
+                
+                <div class="user-menu">
+                    <div class="notification-bell" id="notificationBell">
+                        <span class="notification-count">2</span>
+                        🔔
+                    </div>
+                    <div class="hospital-profile">
+                        <span class="profile-name">Dr. Martin</span>
+                        <span class="profile-role">Responsable Hématologie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Principale -->
+    <nav class="hospital-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Tableau de Bord
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="urgences.html" class="nav-link">
+                        <span class="nav-icon">🚨</span>
+                        Urgences
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="stocks.html" class="nav-link">
+                        <span class="nav-icon">🩸</span>
+                        Stocks Sanguins
+                        <span class="nav-badge critical">CRITIQUE</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reservations.html" class="nav-link">
+                        <span class="nav-icon">📦</span>
+                        Réservations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="demandes.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Demandes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profil.html" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        Profil Hôpital
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-footer">
+                <div class="hospital-status">
+                    <span class="status-indicator online"></span>
+                    Connecté au réseau BloodLink
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal Stocks -->
+    <main class="hospital-main">
+        <div class="main-container">
+            <!-- En-tête Stocks -->
+            <section class="page-header">
+                <div class="header-content">
+                    <h1>Gestion des Stocks Sanguins</h1>
+                    <p>Surveillance et optimisation des réserves sanguines de l'hôpital</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <span class="stat-number" id="totalStock">147</span>
+                        <span class="stat-label">Unités Total</span>
+                    </div>
+                    <div class="stat-badge critical">
+                        <span class="stat-number" id="criticalStocks">2</span>
+                        <span class="stat-label">Stocks Critiques</span>
+                    </div>
+                    <div class="stat-badge warning">
+                        <span class="stat-number" id="lowStocks">3</span>
+                        <span class="stat-label">Stocks Faibles</span>
+                    </div>
+                    <div class="stat-badge success">
+                        <span class="stat-number" id="stockCapacity">65%</span>
+                        <span class="stat-label">Capacité</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alertes Critiques -->
+            <section class="critical-alerts-section">
+                <div class="section-header">
+                    <h2>🚨 Alertes Stocks Critiques</h2>
+                    <button class="btn btn-outline" onclick="stocksPage.autoReorderCritical()">
+                        🔄 Réapprovisionnement Auto
+                    </button>
+                </div>
+                
+                <div class="alerts-grid" id="criticalAlertsGrid">
+                    <!-- Alertes générées dynamiquement -->
+                </div>
+            </section>
+
+            <!-- Tableau de Bord Visuel des Stocks -->
+            <section class="stock-dashboard">
+                <div class="dashboard-header">
+                    <h2>Tableau de Bord des Stocks</h2>
+                    <div class="dashboard-controls">
+                        <button class="btn btn-outline" onclick="stocksPage.toggleViewMode()">
+                            🔄 Changer Vue
+                        </button>
+                        <button class="btn btn-primary" onclick="stocksPage.exportStockData()">
+                            📁 Exporter Données
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Vue Grille -->
+                <div class="stock-grid-view" id="stockGridView">
+                    <div class="stock-grid">
+                        <!-- Cartes de groupe sanguin générées dynamiquement -->
+                    </div>
+                </div>
+
+                <!-- Vue Tableau (cachée par défaut) -->
+                <div class="stock-table-view" id="stockTableView" style="display: none;">
+                    <div class="table-container">
+                        <table class="stock-table">
+                            <thead>
+                                <tr>
+                                    <th>Groupe Sanguin</th>
+                                    <th>Stock Actuel</th>
+                                    <th>Seuil Minimum</th>
+                                    <th>Seuil Maximum</th>
+                                    <th>Niveau</th>
+                                    <th>Tendance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockTableBody">
+                                <!-- Données générées dynamiquement -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics et Prévisions -->
+            <section class="stock-analytics-section">
+                <div class="section-header">
+                    <h2>📈 Analytics & Prévisions</h2>
+                    <div class="analytics-period">
+                        <select id="analyticsPeriod" onchange="stocksPage.updateAnalytics()">
+                            <option value="7">7 derniers jours</option>
+                            <option value="30" selected>30 derniers jours</option>
+                            <option value="90">3 derniers mois</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <!-- Graphique de Consommation -->
+                    <div class="analytics-card large">
+                        <h3>Consommation par Groupe Sanguin</h3>
+                        <div class="chart-container">
+                            <canvas id="consumptionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Prévisions de Besoins -->
+                    <div class="analytics-card">
+                        <h3>🔄 Rotation des Stocks</h3>
+                        <div class="rotation-stats">
+                            <div class="rotation-item">
+                                <span class="rotation-label">O-</span>
+                                <div class="rotation-bar">
+                                    <div class="rotation-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="rotation-value">2.3j</span>
+                            </div>
+                            <div class="rotation-item">
+                                <span class="rotation-label">O+</span>
+                                <div class="rotation-bar">
+                                    <div class="rotation-fill" style="width: 72%"></div>
+                                </div>
+                                <span class="rotation-value">3.1j</span>
+                            </div>
+                            <div class="rotation-item">
+                                <span class="rotation-label">A+</span>
+                                <div class="rotation-bar">
+                                    <div class="rotation-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="rotation-value">5.8j</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Indicateurs de Performance -->
+                    <div class="analytics-card">
+                        <h3>📊 Indicateurs Clés</h3>
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <span class="kpi-value">94%</span>
+                                <span class="kpi-label">Disponibilité</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-value">2.1j</span>
+                                <span class="kpi-label">Stock Moyen</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-value">0</span>
+                                <span class="kpi-label">Ruptures</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-value">87%</span>
+                                <span class="kpi-label">Efficacité</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mouvements de Stock -->
+            <section class="stock-movements-section">
+                <div class="section-header">
+                    <h2>📋 Mouvements Récentes</h2>
+                    <div class="movement-filters">
+                        <select id="movementTypeFilter" onchange="stocksPage.filterMovements()">
+                            <option value="all">Tous les mouvements</option>
+                            <option value="in">Entrées seulement</option>
+                            <option value="out">Sorties seulement</option>
+                        </select>
+                        <select id="movementPeriodFilter" onchange="stocksPage.filterMovements()">
+                            <option value="24">24 heures</option>
+                            <option value="168" selected>7 jours</option>
+                            <option value="720">30 jours</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="movements-container">
+                    <div class="movements-list" id="movementsList">
+                        <!-- Mouvements générés dynamiquement -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gestion Avancée -->
+            <section class="advanced-management-section">
+                <div class="section-header">
+                    <h2>⚙️ Gestion Avancée</h2>
+                    <button class="btn btn-primary" onclick="stocksPage.openBatchManagement()">
+                        🎯 Gestion par Lot
+                    </button>
+                </div>
+
+                <div class="management-grid">
+                    <!-- Paramètres de Stock -->
+                    <div class="management-card">
+                        <h3>📏 Paramètres des Seuils</h3>
+                        <div class="threshold-settings">
+                            <div class="threshold-item">
+                                <span class="threshold-label">Seuil Critique</span>
+                                <input type="number" class="threshold-input" value="5" min="1" max="20">
+                                <span class="threshold-unit">unités</span>
+                            </div>
+                            <div class="threshold-item">
+                                <span class="threshold-label">Seuil d'Alerte</span>
+                                <input type="number" class="threshold-input" value="10" min="5" max="30">
+                                <span class="threshold-unit">unités</span>
+                            </div>
+                            <div class="threshold-item">
+                                <span class="threshold-label">Stock Maximum</span>
+                                <input type="number" class="threshold-input" value="50" min="20" max="100">
+                                <span class="threshold-unit">unités</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline full-width" onclick="stocksPage.saveThresholds()">
+                            💾 Sauvegarder
+                        </button>
+                    </div>
+
+                    <!-- Actions Rapides -->
+                    <div class="management-card">
+                        <h3>⚡ Actions Rapides</h3>
+                        <div class="quick-actions-grid">
+                            <button class="action-btn" onclick="stocksPage.quickInventory()">
+                                <span class="action-icon">📋</span>
+                                <span>Inventaire Rapide</span>
+                            </button>
+                            <button class="action-btn" onclick="stocksPage.autoReorder()">
+                                <span class="action-icon">🔄</span>
+                                <span>Réappro Auto</span>
+                            </button>
+                            <button class="action-btn" onclick="stocksPage.stockOptimization()">
+                                <span class="action-icon">🎯</span>
+                                <span>Optimisation</span>
+                            </button>
+                            <button class="action-btn" onclick="stocksPage.qualityControl()">
+                                <span class="action-icon">✅</span>
+                                <span>Contrôle Qualité</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistiques Avancées -->
+                    <div class="management-card">
+                        <h3>📈 Performance Stocks</h3>
+                        <div class="performance-stats">
+                            <div class="performance-item">
+                                <span class="performance-label">Taux de Rotation</span>
+                                <span class="performance-value">3.2x</span>
+                            </div>
+                            <div class="performance-item">
+                                <span class="performance-label">Coût de Stockage</span>
+                                <span class="performance-value">€1,247</span>
+                            </div>
+                            <div class="performance-item">
+                                <span class="performance-label">Délai Moyen</span>
+                                <span class="performance-value">2.8j</span>
+                            </div>
+                            <div class="performance-item">
+                                <span class="performance-label">Satisfaction</span>
+                                <span class="performance-value">96%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal Mise à Jour Stock -->
+    <div class="modal-overlay" id="stockUpdateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 Mise à Jour du Stock</h3>
+                <button class="modal-close" onclick="stocksPage.closeStockUpdateModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="stockUpdateForm" onsubmit="stocksPage.handleStockUpdate(event)">
+                    <div class="form-group">
+                        <label>Groupe Sanguin *</label>
+                        <select id="updateBloodType" required>
+                            <option value="">Sélectionnez un groupe</option>
+                            <option value="O-">O-</option>
+                            <option value="O+">O+</option>
+                            <option value="A-">A-</option>
+                            <option value="A+">A+</option>
+                            <option value="B-">B-</option>
+                            <option value="B+">B+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="AB+">AB+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type de Mouvement *</label>
+                        <div class="movement-type-selector">
+                            <label class="movement-option">
+                                <input type="radio" name="movementType" value="in" checked>
+                                <span class="movement-visual in">
+                                    <span class="movement-icon">⬆️</span>
+                                    <span class="movement-label">Entrée</span>
+                                </span>
+                            </label>
+                            <label class="movement-option">
+                                <input type="radio" name="movementType" value="out">
+                                <span class="movement-visual out">
+                                    <span class="movement-icon">⬇️</span>
+                                    <span class="movement-label">Sortie</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantité *</label>
+                        <input type="number" id="updateQuantity" min="1" max="100" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Raison du Mouvement</label>
+                        <select id="updateReason">
+                            <option value="don">Don de sang</option>
+                            <option value="delivery">Livraison fournisseur</option>
+                            <option value="transfer">Transfert interne</option>
+                            <option value="usage">Utilisation médicale</option>
+                            <option value="waste">Péremption/Déchet</option>
+                            <option value="other">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service/Unité</label>
+                        <input type="text" id="updateService" placeholder="Ex: Chirurgie, Urgences...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes Complémentaires</label>
+                        <textarea id="updateNotes" placeholder="Informations supplémentaires..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="stocksPage.closeStockUpdateModal()">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            💾 Enregistrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Gestion par Lot -->
+    <div class="modal-overlay" id="batchManagementModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>🎯 Gestion des Stocks par Lot</h3>
+                <button class="modal-close" onclick="stocksPage.closeBatchModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="batch-tabs">
+                    <button class="batch-tab active" onclick="stocksPage.switchBatchTab('inventory')">
+                        📋 Inventaire
+                    </button>
+                    <button class="batch-tab" onclick="stocksPage.switchBatchTab('transfer')">
+                        🔄 Transfert
+                    </button>
+                    <button class="batch-tab" onclick="stocksPage.switchBatchTab('adjustment')">
+                        ⚖️ Ajustement
+                    </button>
+                </div>
+
+                <div class="batch-content">
+                    <!-- Onglet Inventaire -->
+                    <div class="batch-tab-content active" id="inventoryTab">
+                        <div class="inventory-grid">
+                            <div class="inventory-card" data-type="O-">
+                                <div class="inventory-header">
+                                    <span class="blood-type">O-</span>
+                                    <span class="stock-status critical">CRITIQUE</span>
+                                </div>
+                                <div class="inventory-stock">
+                                    <span class="current-stock">2</span>
+                                    <span class="stock-label">unités</span>
+                                </div>
+                                <input type="number" class="inventory-input" value="2" min="0" max="100">
+                                <button class="btn btn-outline full-width" onclick="stocksPage.updateInventory('O-')">
+                                    Mettre à jour
+                                </button>
+                            </div>
+                            <!-- Répéter pour chaque groupe sanguin -->
+                        </div>
+                    </div>
+
+                    <!-- Onglet Transfert -->
+                    <div class="batch-tab-content" id="transferTab">
+                        <div class="transfer-form">
+                            <div class="form-columns">
+                                <div class="form-column">
+                                    <div class="form-group">
+                                        <label>Groupe Sanguin Source</label>
+                                        <select id="transferSource">
+                                            <option value="O-">O-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="A+">A+</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quantité à Transférer</label>
+                                        <input type="number" id="transferQuantity" min="1" max="50" value="5">
+                                    </div>
+                                </div>
+                                <div class="form-column">
+                                    <div class="form-group">
+                                        <label>Groupe Sanguin Destination</label>
+                                        <select id="transferDestination">
+                                            <option value="O-">O-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="A+">A+</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Raison du Transfert</label>
+                                        <select id="transferReason">
+                                            <option value="balance">Équilibrage des stocks</option>
+                                            <option value="emergency">Besoins urgents</option>
+                                            <option value="quality">Contrôle qualité</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary full-width" onclick="stocksPage.executeTransfer()">
+                                🔄 Exécuter le Transfert
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Onglet Ajustement -->
+                    <div class="batch-tab-content" id="adjustmentTab">
+                        <div class="adjustment-form">
+                            <div class="form-group">
+                                <label>Type d'Ajustement</label>
+                                <select id="adjustmentType">
+                                    <option value="correction">Correction d'erreur</option>
+                                    <option value="quality">Ajustement qualité</option>
+                                    <option value="system">Ajustement système</option>
+                                </select>
+                            </div>
+                            <div class="adjustment-grid">
+                                <!-- Grille similaire à l'onglet inventaire mais avec +/- -->
+                            </div>
+                            <button class="btn btn-primary full-width" onclick="stocksPage.applyAdjustments()">
+                                ⚖️ Appliquer les Ajustements
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/hospital-core.js"></script>
+    <script src="js/stock-manager.js"></script>
+    <script src="js/stocks-page.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

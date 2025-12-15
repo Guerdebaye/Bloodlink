@@ -1,0 +1,3114 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertes | BloodLink Pro</title>
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-blue-dark: #0d47a1;
+            --primary-blue-light: #4285f4;
+            --medical-blue: #1976d2;
+            --hospital-blue: #1565c0;
+            --accent-teal: #00bcd4;
+            --accent-green: #4caf50;
+            --accent-orange: #ff9800;
+            --accent-red: #f44336;
+            --accent-purple: #9c27b0;
+            --neutral-white: #ffffff;
+            --neutral-gray-50: #f8f9fa;
+            --neutral-gray-100: #f5f7fa;
+            --neutral-gray-200: #e9ecef;
+            --neutral-gray-300: #dee2e6;
+            --neutral-gray-600: #6c757d;
+            --neutral-gray-800: #343a40;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--hospital-blue) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-green) 100%);
+            --gradient-emergency: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+            --gradient-success: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            --shadow-sm: 0 2px 8px rgba(25, 118, 210, 0.08);
+            --shadow-md: 0 4px 16px rgba(25, 118, 210, 0.12);
+            --shadow-lg: 0 8px 32px rgba(25, 118, 210, 0.16);
+            --shadow-xl: 0 12px 48px rgba(25, 118, 210, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: var(--neutral-gray-800);
+            overflow-x: hidden;
+        }
+        
+        /* ====== HEADER DONNEUR ====== */
+        .donor-header {
+            background: var(--neutral-white);
+            border-bottom: 1px solid var(--neutral-gray-200);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0;
+            height: 70px;
+        }
+        
+        .header-container {
+            max-width: 100%;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Logo Donneur */
+        .donor-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center no-repeat;
+            opacity: 0.9;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        /* Navigation Donneur */
+        .donor-nav {
+            display: flex;
+            gap: 2px;
+            margin-left: 32px;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--neutral-gray-600);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary-blue);
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-blue);
+            background: rgba(25, 118, 210, 0.1);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: var(--primary-blue);
+            border-radius: 1px;
+        }
+        
+        /* Zone Actions Droite */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Notifications Dropdown */
+        .notification-wrapper {
+            position: relative;
+        }
+        
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-200);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-btn:hover {
+            background: var(--neutral-gray-50);
+            color: var(--primary-blue);
+            border-color: var(--primary-blue-light);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--neutral-white);
+        }
+        
+        /* Dropdown des Alertes */
+        .alerts-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 420px;
+            background: var(--neutral-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--neutral-gray-200);
+            z-index: 1001;
+            margin-top: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .alerts-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .alerts-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .alerts-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin: 0;
+        }
+        
+        .alerts-count {
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .alerts-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .alert-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .alert-item:hover {
+            background: rgba(25, 118, 210, 0.03);
+        }
+        
+        .alert-item.unread {
+            background: rgba(25, 118, 210, 0.05);
+            border-left: 4px solid var(--accent-red);
+        }
+        
+        .alert-item.unread::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+        }
+        
+        .alert-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            font-size: 0.95rem;
+        }
+        
+        .alert-time {
+            font-size: 0.8rem;
+            color: var(--neutral-gray-600);
+        }
+        
+        .alert-content {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        
+        .alert-type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        .alert-type.urgent {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--accent-red);
+        }
+        
+        .alert-type.warning {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        .alert-type.info {
+            background: rgba(25, 118, 210, 0.1);
+            color: var(--medical-blue);
+        }
+        
+        .alert-type.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--accent-green);
+        }
+        
+        .alert-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .alert-action-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid var(--neutral-gray-300);
+            background: var(--neutral-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .alert-action-btn:hover {
+            background: var(--neutral-gray-100);
+            border-color: var(--neutral-gray-400);
+        }
+        
+        .alert-action-btn.primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .alert-action-btn.primary:hover {
+            background: var(--primary-blue-dark);
+        }
+        
+        .alerts-footer {
+            padding: 16px 20px;
+            text-align: center;
+            border-top: 1px solid var(--neutral-gray-200);
+        }
+        
+        .view-all-btn {
+            color: var(--primary-blue);
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.3s ease;
+        }
+        
+        .view-all-btn:hover {
+            color: var(--primary-blue-dark);
+            text-decoration: underline;
+        }
+        
+        /* Overlay */
+        .alerts-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .alerts-overlay.active {
+            display: block;
+        }
+        
+        /* Profil Donneur */
+        .donor-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .donor-profile:hover {
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        .donor-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--primary-blue-light);
+            padding: 2px;
+            background: var(--neutral-white);
+        }
+        
+        .donor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .donor-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .donor-name {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            font-size: 0.95rem;
+        }
+        
+        .donor-status {
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            font-weight: 500;
+        }
+        
+        /* ====== SIDEBAR DONNEUR ====== */
+        .donor-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--neutral-gray-200);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 999;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .sidebar-section {
+            padding: 0 20px;
+            margin-bottom: 28px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            color: var(--neutral-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--neutral-gray-600);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(25, 118, 210, 0.05);
+            color: var(--primary-blue);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-link.active {
+            background: rgba(25, 118, 210, 0.1);
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+        
+        .sidebar-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 60%;
+            background: var(--primary-blue);
+            border-radius: 0 3px 3px 0;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--accent-teal);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* Badge Urgence */
+        .emergency-badge {
+            background: var(--gradient-emergency);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* Section Récompenses */
+        .rewards-section {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px;
+        }
+        
+        .reward-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ffb300 0%, #ff9800 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        
+        .reward-text {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-800);
+            font-weight: 500;
+        }
+        
+        .reward-subtext {
+            font-size: 0.75rem;
+            color: var(--neutral-gray-600);
+            margin-top: 4px;
+        }
+        
+        /* Overlay Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        /* Bouton Menu Mobile */
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-200);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-600);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+        }
+        
+        .mobile-menu-btn:hover {
+            background: var(--neutral-gray-50);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        
+        /* ====== CONTENU PRINCIPAL ALERTES ====== */
+        .alerts-main {
+            margin-left: 280px;
+            margin-top: 70px;
+            padding: 32px;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* En-tête de Section */
+        .section-header {
+            margin-bottom: 32px;
+        }
+        
+        .section-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-blue-dark);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            color: var(--neutral-gray-600);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+        
+        /* Filtres des Alertes */
+        .alerts-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-300);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-btn:hover {
+            background: var(--neutral-gray-100);
+            border-color: var(--neutral-gray-400);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .filter-btn.active .filter-badge {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .filter-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--neutral-gray-200);
+        }
+        
+        /* Barre de recherche */
+        .search-bar {
+            position: relative;
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 1px solid var(--neutral-gray-300);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: var(--neutral-white);
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-gray-600);
+        }
+        
+        /* Actions Globales */
+        .alerts-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .action-btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-300);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-800);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-btn:hover {
+            background: var(--neutral-gray-100);
+        }
+        
+        .action-btn.primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .action-btn.primary:hover {
+            background: var(--primary-blue-dark);
+        }
+        
+        .action-btn.danger {
+            background: var(--accent-red);
+            color: white;
+            border-color: var(--accent-red);
+        }
+        
+        .action-btn.danger:hover {
+            background: #d32f2f;
+        }
+        
+        /* Grille des Alertes */
+        .alerts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        /* Carte d'Alerte Détaillée */
+        .alert-card {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .alert-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .alert-card.urgent {
+            border-left: 6px solid var(--accent-red);
+            animation: pulseBorder 2s infinite;
+        }
+        
+        .alert-card.warning {
+            border-left: 6px solid var(--accent-orange);
+        }
+        
+        .alert-card.info {
+            border-left: 6px solid var(--primary-blue);
+        }
+        
+        .alert-card.success {
+            border-left: 6px solid var(--accent-green);
+        }
+        
+        @keyframes pulseBorder {
+            0% { border-left-color: #ff5252; }
+            50% { border-left-color: #ff8a80; }
+            100% { border-left-color: #ff5252; }
+        }
+        
+        .alert-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .alert-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin-bottom: 4px;
+        }
+        
+        .alert-card-time {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+        }
+        
+        .alert-card-priority {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .priority-high {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--accent-red);
+        }
+        
+        .priority-medium {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        .priority-low {
+            background: rgba(25, 118, 210, 0.1);
+            color: var(--medical-blue);
+        }
+        
+        .alert-card-content {
+            margin-bottom: 20px;
+        }
+        
+        .alert-card-content p {
+            color: var(--neutral-gray-600);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .alert-card-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--neutral-gray-600);
+            margin-bottom: 4px;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            color: var(--neutral-gray-800);
+        }
+        
+        /* Type sanguin dans les détails */
+        .blood-type-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .blood-type-o-plus {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        }
+        
+        .blood-type-a-plus {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        }
+        
+        .blood-type-b-plus {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        }
+        
+        .blood-type-ab-plus {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+        }
+        
+        .alert-card-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .alert-card-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .alert-card-btn.primary {
+            background: var(--gradient-emergency);
+            color: white;
+        }
+        
+        .alert-card-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 82, 82, 0.3);
+        }
+        
+        .alert-card-btn.secondary {
+            background: var(--neutral-white);
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+        
+        .alert-card-btn.secondary:hover {
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        /* Section Aucune Alerte */
+        .no-alerts {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--neutral-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+        }
+        
+        .no-alerts-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--neutral-gray-600);
+        }
+        
+        /* Tableau des Alertes (vue alternative) */
+        .alerts-table {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin: 0;
+        }
+        
+        .table-content {
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            margin: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .table th {
+            background: var(--neutral-gray-50);
+            padding: 16px 24px;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            text-align: left;
+        }
+        
+        .table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            vertical-align: middle;
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table tr:hover {
+            background: rgba(25, 118, 210, 0.02);
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-active {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--accent-green);
+        }
+        
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        .status-resolved {
+            background: rgba(158, 158, 158, 0.1);
+            color: #616161;
+        }
+        
+        /* Statistiques des Alertes */
+        .alerts-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.urgent {
+            background: var(--gradient-emergency);
+        }
+        
+        .stat-icon.warning {
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+        }
+        
+        .stat-icon.success {
+            background: var(--gradient-success);
+        }
+        
+        .stat-icon.info {
+            background: var(--gradient-primary);
+        }
+        
+        .stat-title {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            font-size: 0.95rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-gray-800);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .trend-up {
+            color: var(--accent-green);
+        }
+        
+        .trend-down {
+            color: var(--accent-red);
+        }
+        
+        /* Paramètres des Alertes */
+        .settings-card {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            margin-bottom: 32px;
+        }
+        
+        .settings-section {
+            margin-bottom: 24px;
+        }
+        
+        .settings-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin-bottom: 16px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--neutral-gray-200);
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-info h5 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--neutral-gray-800);
+            margin-bottom: 4px;
+        }
+        
+        .setting-info p {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--neutral-gray-300);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent-green);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Footer */
+        .donor-footer {
+            background: var(--neutral-white);
+            border-top: 1px solid var(--neutral-gray-200);
+            padding: 24px 32px;
+            margin-top: 32px;
+            margin-left: -32px;
+            margin-right: -32px;
+            margin-bottom: -32px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-link {
+            color: var(--neutral-gray-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-blue);
+        }
+        
+        .footer-copyright {
+            color: var(--neutral-gray-600);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .donor-sidebar {
+                width: 240px;
+            }
+            
+            .alerts-main {
+                margin-left: 240px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .donor-sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .donor-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .alerts-main {
+                margin-left: 0;
+            }
+            
+            .header-container {
+                padding: 0 16px;
+            }
+            
+            .donor-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .alerts-dropdown {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                width: 100%;
+                border-radius: 0;
+                margin-top: 0;
+                max-height: calc(100vh - 70px);
+            }
+            
+            .alerts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .alerts-main {
+                padding: 24px 16px;
+            }
+            
+            .alerts-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+            }
+            
+            .alert-card-actions {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .alerts-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .alert-card-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--neutral-gray-100);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue-light);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Donneur -->
+    <header class="donor-header">
+        <div class="header-container">
+            <!-- Logo et Navigation Mobile -->
+            <div style="display: flex; align-items: center;">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <a href="index.html" class="donor-logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <h1>BloodLink</h1>
+                        <span>Espace Donneur</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Navigation Principale -->
+            <nav class="donor-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Tableau de bord
+                </a>
+                <a href="alerts.html" class="nav-item active">
+                    <i class="fas fa-bell"></i>
+                    Alertes
+                </a>
+                <a href="historique.html" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    Historique
+                </a>
+                <a href="recompenses.html" class="nav-item">
+                    <i class="fas fa-trophy"></i>
+                    Récompenses
+                </a>
+                <a href="centres.html" class="nav-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Centres
+                </a>
+            </nav>
+            
+            <!-- Actions Droite -->
+            <div class="header-actions">
+                <!-- Notifications Dropdown -->
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    
+                    <!-- Dropdown des Alertes -->
+                    <div class="alerts-dropdown" id="alertsDropdown">
+                        <div class="alerts-header">
+                            <h3>Notifications</h3>
+                            <span class="alerts-count">5 nouvelles</span>
+                        </div>
+                        
+                        <div class="alerts-body">
+                            <!-- Alerte 1 - Urgente -->
+                            <div class="alert-item unread" data-id="1">
+                                <div class="alert-item-header">
+                                    <div class="alert-title">🚨 URGENCE CRITIQUE - O+</div>
+                                    <div class="alert-time">Il y a 15 min</div>
+                                </div>
+                                <div class="alert-content">
+                                    Hôpital Saint-Louis a besoin de 2 unités de sang O+ pour une intervention chirurgicale urgente.
+                                </div>
+                                <span class="alert-type urgent">Urgent</span>
+                                <div class="alert-actions">
+                                    <button class="alert-action-btn primary" onclick="respondToAlert(1)">
+                                        Répondre
+                                    </button>
+                                    <button class="alert-action-btn" onclick="viewAlertDetails(1)">
+                                        Détails
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Alerte 2 - Rappel -->
+                            <div class="alert-item unread" data-id="2">
+                                <div class="alert-item-header">
+                                    <div class="alert-title">📅 Rappel de rendez-vous</div>
+                                    <div class="alert-time">Il y a 2h</div>
+                                </div>
+                                <div class="alert-content">
+                                    Votre don est prévu demain à 10h à la Clinique Val d'Or. N'oubliez pas de vous hydrater.
+                                </div>
+                                <span class="alert-type info">Rappel</span>
+                                <div class="alert-actions">
+                                    <button class="alert-action-btn primary" onclick="viewAppointment(2)">
+                                        Voir
+                                    </button>
+                                    <button class="alert-action-btn" onclick="rescheduleAppointment(2)">
+                                        Reporter
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Alerte 3 - Niveau atteint -->
+                            <div class="alert-item" data-id="3">
+                                <div class="alert-item-header">
+                                    <div class="alert-title">🏆 Niveau Donneur Or atteint !</div>
+                                    <div class="alert-time">Hier</div>
+                                </div>
+                                <div class="alert-content">
+                                    Félicitations ! Vous avez atteint le niveau Gold avec 12 dons. Découvrez vos nouvelles récompenses.
+                                </div>
+                                <span class="alert-type success">Récompense</span>
+                                <div class="alert-actions">
+                                    <button class="alert-action-btn" onclick="viewRewards(3)">
+                                        Voir
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Alerte 4 - Stock faible -->
+                            <div class="alert-item" data-id="4">
+                                <div class="alert-item-header">
+                                    <div class="alert-title">⚠️ Stock faible - A+</div>
+                                    <div class="alert-time">23 Fév 2024</div>
+                                </div>
+                                <div class="alert-content">
+                                    Le centre de votre région signale un stock faible de sang A+. Pensez à programmer un don.
+                                </div>
+                                <span class="alert-type warning">Alerte</span>
+                                <div class="alert-actions">
+                                    <button class="alert-action-btn" onclick="viewCenterStock(4)">
+                                        Détails
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alerts-footer">
+                            <a href="alerts.html" class="view-all-btn">
+                                Voir toutes les alertes
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Overlay pour fermer le dropdown -->
+                    <div class="alerts-overlay" id="alertsOverlay"></div>
+                </div>
+                
+                <!-- Profil Donneur -->
+                <a href="profile.html" class="donor-profile">
+                    <div class="donor-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Jean Dupont">
+                    </div>
+                    <div class="donor-info">
+                        <div class="donor-name">Abibe Diop</div>
+                        <div class="donor-status">Donneur O+ • 12 dons</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Overlay Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar Donneur -->
+    <aside class="donor-sidebar" id="donorSidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Mon espace</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    Vue d'ensemble
+                </a>
+                <a href="profile.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-user"></i></div>
+                    Mon profil
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    Statistiques
+                </a>
+                <a href="recompenses.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-trophy"></i></div>
+                    Mes récompenses
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Mes dons</div>
+            <nav class="sidebar-nav">
+                <a href="espace-donneur.html#donate" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-heartbeat"></i></div>
+                    Donner maintenant
+                </a>
+                <a href="historique.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-history"></i></div>
+                    Historique des dons
+                </a>
+                <a href="rendez-vous.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                    Mes rendez-vous
+                    <span class="nav-badge">2</span>
+                </a>
+                <a href="eligibilite.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-check-circle"></i></div>
+                    Éligibilité
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Urgences</div>
+            <nav class="sidebar-nav">
+                <a href="alertes.html" class="sidebar-link active">
+                    <div class="nav-icon"><i class="fas fa-bullhorn"></i></div>
+                    Alertes en cours
+                    <span class="nav-badge emergency-badge">3</span>
+                </a>
+                <a href="alertes.html#nearby" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    Près de chez moi
+                </a>
+                <a href="alertes.html#emergency" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-ambulance"></i></div>
+                    Urgences critiques
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Centres</div>
+            <nav class="sidebar-nav">
+                <a href="centres.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-hospital"></i></div>
+                    Centres de don
+                </a>
+                <a href="centres.html#favorites" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-star"></i></div>
+                    Favoris
+                </a>
+                <a href="centres.html#map" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-map"></i></div>
+                    Carte interactive
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Communauté</div>
+            <nav class="sidebar-nav">
+                <a href="communauté.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-users"></i></div>
+                    Réseau
+                </a>
+                <a href="messages.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-comments"></i></div>
+                    Messages
+                </a>
+                <a href="defis.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-flag"></i></div>
+                    Défis
+                </a>
+            </nav>
+        </div>
+        
+        <!-- Section Récompenses Sidebar -->
+        <div class="rewards-section">
+            <div class="reward-icon">
+                <i class="fas fa-medal"></i>
+            </div>
+            <div class="reward-text">Niveau Or</div>
+            <div class="reward-subtext">Top 15% des donneurs</div>
+            <div class="stat-progress">
+                <div class="progress-fill" style="width: 75%"></div>
+            </div>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Paramètres</div>
+            <nav class="sidebar-nav">
+                <a href="parametres.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-cogs"></i></div>
+                    Paramètres
+                </a>
+                <a href="aide.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-question-circle"></i></div>
+                    Aide & Support
+                </a>
+                <a href="index.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+                    Déconnexion
+                </a>
+            </nav>
+        </div>
+    </aside>
+    
+    <!-- Contenu Principal Alertes -->
+    <main class="alerts-main">
+        <!-- En-tête -->
+        <div class="section-header">
+            <h1>Alertes et Notifications</h1>
+            <p class="section-subtitle">Restez informé des urgences, de vos rendez-vous et des besoins en sang autour de vous. Répondez rapidement pour sauver des vies.</p>
+        </div>
+        
+        <!-- Statistiques des Alertes -->
+        <div class="alerts-stats">
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon urgent">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Alertes urgentes</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +1 cette semaine
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon warning">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Répondues</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +25% ce mois
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon success">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Vies impactées</div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +3 cette semaine
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon info">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Temps moyen réponse</div>
+                        <div class="stat-value">42 min</div>
+                        <div class="stat-trend trend-down">
+                            <i class="fas fa-arrow-down"></i>
+                            -15% cette semaine
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filtres des Alertes -->
+        <div class="alerts-filters">
+            <button class="filter-btn active" data-filter="all">
+                Toutes
+                <span class="filter-badge">12</span>
+            </button>
+            <button class="filter-btn" data-filter="urgent">
+                <i class="fas fa-exclamation-triangle"></i>
+                Urgentes
+                <span class="filter-badge">3</span>
+            </button>
+            <button class="filter-btn" data-filter="medical">
+                <i class="fas fa-heartbeat"></i>
+                Médicales
+                <span class="filter-badge">5</span>
+            </button>
+            <button class="filter-btn" data-filter="reminder">
+                <i class="fas fa-calendar-alt"></i>
+                Rappels
+                <span class="filter-badge">2</span>
+            </button>
+            <button class="filter-btn" data-filter="system">
+                <i class="fas fa-cog"></i>
+                Système
+                <span class="filter-badge">2</span>
+            </button>
+            
+            <!-- Barre de recherche -->
+            <div class="search-bar">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Rechercher une alerte..." id="searchAlerts">
+            </div>
+        </div>
+        
+        <!-- Actions Globales -->
+        <div class="alerts-actions">
+            <button class="action-btn" onclick="markAllAsRead()">
+                <i class="fas fa-check-double"></i>
+                Tout marquer comme lu
+            </button>
+            <button class="action-btn" onclick="clearAllAlerts()">
+                <i class="fas fa-trash"></i>
+                Tout effacer
+            </button>
+            <button class="action-btn primary" onclick="enableEmergencyAlerts()">
+                <i class="fas fa-bell"></i>
+                Activer les alertes urgentes
+            </button>
+        </div>
+        
+        <!-- Grille des Alertes -->
+        <div class="alerts-grid" id="alertsGrid">
+            <!-- Alerte 1 - Urgente -->
+            <div class="alert-card urgent" data-type="urgent" data-priority="high">
+                <div class="alert-card-header">
+                    <div>
+                        <div class="alert-card-title">🚨 URGENCE CRITIQUE</div>
+                        <div class="alert-card-time">Il y a 15 minutes • Hôpital Saint-Louis</div>
+                    </div>
+                    <span class="alert-card-priority priority-high">URGENT</span>
+                </div>
+                
+                <div class="alert-card-content">
+                    <p>Intervention chirurgicale urgente nécessitant 2 unités de sang O+. Le patient est en salle d'opération, besoin immédiat.</p>
+                    
+                    <div class="alert-card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Type sanguin</span>
+                            <span class="detail-value">
+                                <span class="blood-type-badge blood-type-o-plus">O+</span>
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Distance</span>
+                            <span class="detail-value">2.3 km (15 min)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Quantité</span>
+                            <span class="detail-value">2 unités</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Délai</span>
+                            <span class="detail-value">Immédiat</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-actions">
+                    <button class="alert-card-btn primary" onclick="respondToEmergency()">
+                        <i class="fas fa-heartbeat"></i>
+                        Je donne maintenant
+                    </button>
+                    <button class="alert-card-btn secondary" onclick="viewEmergencyDetails()">
+                        <i class="fas fa-info-circle"></i>
+                        Détails
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alerte 2 - Médicale -->
+            <div class="alert-card info" data-type="medical" data-priority="medium">
+                <div class="alert-card-header">
+                    <div>
+                        <div class="alert-card-title">🩸 Stock critique - A+</div>
+                        <div class="alert-card-time">Aujourd'hui • Centre Ville</div>
+                    </div>
+                    <span class="alert-card-priority priority-medium">CRITIQUE</span>
+                </div>
+                
+                <div class="alert-card-content">
+                    <p>Le centre de don Centre Ville signale un stock critique de sang A+. Niveau à 15% seulement.</p>
+                    
+                    <div class="alert-card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Type sanguin</span>
+                            <span class="detail-value">
+                                <span class="blood-type-badge blood-type-a-plus">A+</span>
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Centre</span>
+                            <span class="detail-value">Centre Ville</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Niveau stock</span>
+                            <span class="detail-value">15%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Besoin</span>
+                            <span class="detail-value">4 unités</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-actions">
+                    <button class="alert-card-btn primary" onclick="scheduleDonation('centre-ville')">
+                        <i class="fas fa-calendar-check"></i>
+                        Programmer un don
+                    </button>
+                    <button class="alert-card-btn secondary" onclick="shareStockAlert()">
+                        <i class="fas fa-share"></i>
+                        Partager
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alerte 3 - Rappel -->
+            <div class="alert-card success" data-type="reminder" data-priority="low">
+                <div class="alert-card-header">
+                    <div>
+                        <div class="alert-card-title">📅 Rendez-vous confirmé</div>
+                        <div class="alert-card-time">Demain 10:00 • Clinique Val d'Or</div>
+                    </div>
+                    <span class="alert-card-priority priority-low">RAPPEL</span>
+                </div>
+                
+                <div class="alert-card-content">
+                    <p>Votre don de plasma est prévu demain à 10h à la Clinique Val d'Or. Préparez-vous en buvant beaucoup d'eau.</p>
+                    
+                    <div class="alert-card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Date</span>
+                            <span class="detail-value">20 Mars 2024</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Heure</span>
+                            <span class="detail-value">10:00 - 11:00</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Type de don</span>
+                            <span class="detail-value">Plasma</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Centre</span>
+                            <span class="detail-value">Clinique Val d'Or</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-actions">
+                    <button class="alert-card-btn primary" onclick="viewAppointmentDetails()">
+                        <i class="fas fa-calendar-alt"></i>
+                        Voir rendez-vous
+                    </button>
+                    <button class="alert-card-btn secondary" onclick="rescheduleAppointment()">
+                        <i class="fas fa-clock"></i>
+                        Reporter
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alerte 4 - Système -->
+            <div class="alert-card" data-type="system" data-priority="low">
+                <div class="alert-card-header">
+                    <div>
+                        <div class="alert-card-title">🏆 Niveau Gold atteint !</div>
+                        <div class="alert-card-time">Hier • BloodLink Pro</div>
+                    </div>
+                    <span class="alert-card-priority priority-low">RÉCOMPENSE</span>
+                </div>
+                
+                <div class="alert-card-content">
+                    <p>Félicitations ! Vous avez atteint le niveau Donneur Gold avec 12 dons. Vous débloquez de nouvelles récompenses.</p>
+                    
+                    <div class="alert-card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Niveau</span>
+                            <span class="detail-value">Gold</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Dons</span>
+                            <span class="detail-value">12</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Vies sauvées</span>
+                            <span class="detail-value">36</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Prochain niveau</span>
+                            <span class="detail-value">Platine (20 dons)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-actions">
+                    <button class="alert-card-btn primary" onclick="viewRewards()">
+                        <i class="fas fa-trophy"></i>
+                        Voir récompenses
+                    </button>
+                    <button class="alert-card-btn secondary" onclick="shareAchievement()">
+                        <i class="fas fa-share"></i>
+                        Partager
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alerte 5 - Médicale -->
+            <div class="alert-card warning" data-type="medical" data-priority="medium">
+                <div class="alert-card-header">
+                    <div>
+                        <div class="alert-card-title">⚠️ Pic de besoins - B+</div>
+                        <div class="alert-card-time">22 Fév 2024 • Région Île-de-France</div>
+                    </div>
+                    <span class="alert-card-priority priority-medium">IMPORTANT</span>
+                </div>
+                
+                <div class="alert-card-content">
+                    <p>Pic de besoins en sang B+ détecté dans votre région suite à plusieurs accidents de la route.</p>
+                    
+                    <div class="alert-card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Type sanguin</span>
+                            <span class="detail-value">
+                                <span class="blood-type-badge blood-type-b-plus">B+</span>
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Région</span>
+                            <span class="detail-value">Île-de-France</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Centres concernés</span>
+                            <span class="detail-value">8</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Besoins estimés</span>
+                            <span class="detail-value">12+ unités</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-actions">
+                    <button class="alert-card-btn primary" onclick="findCentersWithNeed()">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Centres proches
+                    </button>
+                    <button class="alert-card-btn secondary" onclick="viewRegionalStats()">
+                        <i class="fas fa-chart-bar"></i>
+                        Statistiques
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alerte 6 - Rappel -->
+            <div class="alert-card success" data-type="reminder" data-priority="low">
+                <div class="alert-card-header">
+                    <div>
+                        <div class="alert-card-title">🔄 Éligibilité vérifiée</div>
+                        <div class="alert-card-time">20 Fév 2024 • BloodLink Pro</div>
+                    </div>
+                    <span class="alert-card-priority priority-low">SYSTÈME</span>
+                </div>
+                
+                <div class="alert-card-content">
+                    <p>Votre éligibilité au don a été vérifiée. Vous pouvez donner à partir du 15 Mars 2024.</p>
+                    
+                    <div class="alert-card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Prochain don possible</span>
+                            <span class="detail-value">15 Mars 2024</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Dernier don</span>
+                            <span class="detail-value">15 Fév 2024</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Type</span>
+                            <span class="detail-value">Sang complet</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Statut</span>
+                            <span class="detail-value">Éligible ✓</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-card-actions">
+                    <button class="alert-card-btn primary" onclick="scheduleNextDonation()">
+                        <i class="fas fa-calendar-plus"></i>
+                        Programmer
+                    </button>
+                    <button class="alert-card-btn secondary" onclick="checkEligibility()">
+                        <i class="fas fa-check-circle"></i>
+                        Vérifier
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tableau des Alertes Archivées -->
+        <div class="alerts-table fade-in">
+            <div class="table-header">
+                <h3>📜 Historique des alertes</h3>
+                <button class="btn btn-outline-primary btn-sm" onclick="exportAlertsHistory()">
+                    <i class="fas fa-download"></i>
+                    Exporter
+                </button>
+            </div>
+            <div class="table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Titre</th>
+                            <th>Centre</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15 Fév 2024</td>
+                            <td><span class="alert-type urgent">Urgent</span></td>
+                            <td>Urgence O+ - Intervention</td>
+                            <td>Hôpital Saint-Louis</td>
+                            <td><span class="status-badge status-resolved">Répondu</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewAlertHistory(1)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10 Fév 2024</td>
+                            <td><span class="alert-type warning">Alerte</span></td>
+                            <td>Stock faible A+</td>
+                            <td>Centre Ville</td>
+                            <td><span class="status-badge status-resolved">Résolu</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewAlertHistory(2)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5 Fév 2024</td>
+                            <td><span class="alert-type info">Rappel</span></td>
+                            <td>Rappel rendez-vous</td>
+                            <td>Clinique Val d'Or</td>
+                            <td><span class="status-badge status-active">Terminé</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewAlertHistory(3)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1 Fév 2024</td>
+                            <td><span class="alert-type success">Système</span></td>
+                            <td>Niveau Argent atteint</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-resolved">Traité</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewAlertHistory(4)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Paramètres des Notifications -->
+        <div class="settings-card fade-in">
+            <div class="settings-section">
+                <h4><i class="fas fa-bell"></i> Paramètres des notifications</h4>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Alertes urgentes</h5>
+                        <p>Notifications pour les urgences critiques près de chez vous</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Rappels de rendez-vous</h5>
+                        <p>Rappels 24h et 1h avant vos dons programmés</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Notifications de stock</h5>
+                        <p>Alertes quand les stocks sont faibles dans votre région</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Récompenses et niveaux</h5>
+                        <p>Notifications quand vous atteignez des objectifs</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Notifications push</h5>
+                        <p>Recevoir des notifications même quand l'app n'est pas ouverte</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Notifications par email</h5>
+                        <p>Recevoir des copies des alertes par email</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h4><i class="fas fa-map-marker-alt"></i> Zone de surveillance</h4>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Rayon d'alerte</h5>
+                        <p>Distance maximale pour recevoir les alertes</p>
+                    </div>
+                    <select class="form-select" style="width: 150px;">
+                        <option value="5">5 km</option>
+                        <option value="10" selected>10 km</option>
+                        <option value="20">20 km</option>
+                        <option value="50">50 km</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Types sanguins surveillés</h5>
+                        <p>Recevoir des alertes pour ces types sanguins</p>
+                    </div>
+                    <div>
+                        <span class="badge bg-primary me-1">O+</span>
+                        <span class="badge bg-primary me-1">A+</span>
+                        <span class="badge bg-secondary me-1">B+</span>
+                        <span class="badge bg-secondary me-1">AB+</span>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h5>Centres favoris</h5>
+                        <p>Recevoir des alertes spécifiques de ces centres</p>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm" onclick="manageFavoriteCenters()">
+                        Gérer
+                    </button>
+                </div>
+            </div>
+            
+            <div class="d-grid mt-4">
+                <button class="btn btn-primary" onclick="saveNotificationSettings()">
+                    <i class="fas fa-save"></i>
+                    Enregistrer les paramètres
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="donor-footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Confidentialité</a>
+                    <a href="#terms" class="footer-link">Conditions</a>
+                    <a href="#faq" class="footer-link">FAQ</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+                <div class="footer-copyright">
+                    © 2024 BloodLink Pro. Système d'alertes v2.1.0
+                </div>
+            </div>
+        </footer>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion du dropdown des alertes
+            const notificationBtn = document.getElementById('notificationBtn');
+            const alertsDropdown = document.getElementById('alertsDropdown');
+            const alertsOverlay = document.getElementById('alertsOverlay');
+            
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alertsDropdown.classList.toggle('active');
+                alertsOverlay.classList.toggle('active');
+            });
+            
+            alertsOverlay.addEventListener('click', function() {
+                alertsDropdown.classList.remove('active');
+                alertsOverlay.classList.remove('active');
+            });
+            
+            // Fermer le dropdown en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!notificationBtn.contains(e.target) && !alertsDropdown.contains(e.target)) {
+                    alertsDropdown.classList.remove('active');
+                    alertsOverlay.classList.remove('active');
+                }
+            });
+            
+            // Gestion du menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const donorSidebar = document.getElementById('donorSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                donorSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+            
+            sidebarOverlay.addEventListener('click', function() {
+                donorSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+            
+            // Gestion des filtres
+            initFilters();
+            
+            // Gestion de la recherche
+            initSearch();
+            
+            // Marquer les alertes comme lues
+            markDropdownAlertsAsRead();
+            
+            // Animation des cartes
+            animateCards();
+        });
+        
+        // Initialiser les filtres
+        function initFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const alertCards = document.querySelectorAll('.alert-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Retirer la classe active de tous les boutons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Ajouter la classe active au bouton cliqué
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    
+                    // Filtrer les cartes
+                    alertCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.type === filter) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 10);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Initialiser la recherche
+        function initSearch() {
+            const searchInput = document.getElementById('searchAlerts');
+            const alertCards = document.querySelectorAll('.alert-card');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                alertCards.forEach(card => {
+                    const title = card.querySelector('.alert-card-title').textContent.toLowerCase();
+                    const content = card.querySelector('.alert-card-content').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        }
+        
+        // Marquer les alertes du dropdown comme lues
+        function markDropdownAlertsAsRead() {
+            const unreadAlerts = document.querySelectorAll('.alert-item.unread');
+            
+            // Simuler un délai pour marquer comme lu
+            unreadAlerts.forEach(alert => {
+                alert.addEventListener('click', function() {
+                    this.classList.remove('unread');
+                    updateUnreadCount();
+                });
+            });
+        }
+        
+        // Mettre à jour le compteur d'alertes non lues
+        function updateUnreadCount() {
+            const unreadCount = document.querySelectorAll('.alert-item.unread').length;
+            const badges = document.querySelectorAll('.notification-badge, .alerts-count');
+            
+            badges.forEach(badge => {
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+        }
+        
+        // Marquer toutes les alertes comme lues
+        function markAllAsRead() {
+            const unreadAlerts = document.querySelectorAll('.alert-item.unread');
+            
+            unreadAlerts.forEach(alert => {
+                alert.classList.remove('unread');
+            });
+            
+            updateUnreadCount();
+            
+            // Afficher une notification
+            showToast('Toutes les alertes ont été marquées comme lues', 'success');
+        }
+        
+        // Effacer toutes les alertes
+        function clearAllAlerts() {
+            if (confirm('Voulez-vous vraiment effacer toutes les alertes ? Cette action est irréversible.')) {
+                const alertItems = document.querySelectorAll('.alert-item');
+                
+                alertItems.forEach(alert => {
+                    alert.style.transform = 'translateX(-100%)';
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 300);
+                });
+                
+                updateUnreadCount();
+                showToast('Toutes les alertes ont été effacées', 'success');
+            }
+        }
+        
+        // Activer les alertes urgentes
+        function enableEmergencyAlerts() {
+            const toggle = document.querySelector('.toggle-switch input[type="checkbox"]');
+            toggle.checked = true;
+            
+            showToast('Alertes urgentes activées', 'success');
+            
+            // Simuler une nouvelle alerte urgente
+            setTimeout(() => {
+                showNewEmergencyAlert();
+            }, 1000);
+        }
+        
+        // Afficher une nouvelle alerte urgente (simulation)
+        function showNewEmergencyAlert() {
+            // Mettre à jour le compteur
+            const badges = document.querySelectorAll('.notification-badge, .alerts-count');
+            badges.forEach(badge => {
+                const currentCount = parseInt(badge.textContent) || 0;
+                badge.textContent = currentCount + 1;
+                badge.style.display = 'flex';
+            });
+            
+            // Ajouter une nouvelle alerte dans le dropdown
+            const alertsBody = document.querySelector('.alerts-body');
+            const newAlert = document.createElement('div');
+            newAlert.className = 'alert-item unread';
+            newAlert.innerHTML = `
+                <div class="alert-item-header">
+                    <div class="alert-title">🚨 NOUVELLE URGENCE - AB+</div>
+                    <div class="alert-time">À l'instant</div>
+                </div>
+                <div class="alert-content">
+                    Nouvelle urgence détectée à l'Hôpital Nord. Besoin immédiat de sang AB+.
+                </div>
+                <span class="alert-type urgent">Urgent</span>
+                <div class="alert-actions">
+                    <button class="alert-action-btn primary" onclick="respondToAlert('new')">
+                        Répondre
+                    </button>
+                    <button class="alert-action-btn" onclick="viewAlertDetails('new')">
+                        Détails
+                    </button>
+                </div>
+            `;
+            
+            alertsBody.insertBefore(newAlert, alertsBody.firstChild);
+            
+            // Animation d'entrée
+            setTimeout(() => {
+                newAlert.style.transform = 'translateY(0)';
+                newAlert.style.opacity = '1';
+            }, 10);
+            
+            // Notification sonore (simulée)
+            playNotificationSound();
+            
+            // Notification push (simulée)
+            if (Notification.permission === 'granted') {
+                new Notification('Nouvelle urgence - BloodLink', {
+                    body: 'Besoin immédiat de sang AB+ à l\'Hôpital Nord',
+                    icon: 'https://cdn-icons-png.flaticon.com/512/3106/3106794.png'
+                });
+            }
+        }
+        
+        // Jouer un son de notification
+        function playNotificationSound() {
+            // Créer un contexte audio
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
+        // Répondre à une alerte
+        function respondToAlert(alertId) {
+            showModal('Répondre à l\'alerte', `
+                <div class="text-center mb-4">
+                    <div style="width: 80px; height: 80px; background: var(--gradient-emergency); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: white;">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h4>Vous êtes sur le point de répondre à une urgence</h4>
+                    <p class="text-muted">Votre don peut sauver une vie immédiatement</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Instructions :</h6>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">Rendez-vous au centre indiqué</li>
+                        <li class="list-group-item">Présentez-vous à l'accueil don</li>
+                        <li class="list-group-item">Mentionnez le code d'urgence</li>
+                        <li class="list-group-item">Un membre du personnel vous attendra</li>
+                    </ol>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Code d'urgence :</strong> BL-${alertId}-2024
+                </div>
+                
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-danger btn-lg" onclick="confirmEmergencyResponse(${alertId})">
+                        <i class="fas fa-check-circle"></i>
+                        Je confirme ma réponse
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="scheduleEmergencyResponse(${alertId})">
+                        <i class="fas fa-calendar-alt"></i>
+                        Planifier dans l'heure
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Confirmer la réponse à une urgence
+        function confirmEmergencyResponse(alertId) {
+            // Marquer l'alerte comme traitée
+            const alertElement = document.querySelector(`.alert-item[data-id="${alertId}"]`);
+            if (alertElement) {
+                alertElement.classList.remove('unread');
+                alertElement.innerHTML += `
+                    <div class="alert alert-success mt-2 mb-0" style="padding: 8px; font-size: 0.85rem;">
+                        <i class="fas fa-check"></i> Vous avez répondu à cette alerte
+                    </div>
+                `;
+            }
+            
+            updateUnreadCount();
+            
+            showToast('Merci ! Votre réponse a été enregistrée. Une vie va être sauvée grâce à vous.', 'success');
+            
+            // Fermer le modal
+            document.querySelector('.custom-modal')?.remove();
+        }
+        
+        // Voir les détails d'une alerte
+        function viewAlertDetails(alertId) {
+            showModal('Détails de l\'alerte', `
+                <div class="mb-4">
+                    <h4>Urgence critique - Sang O+</h4>
+                    <p class="text-muted">Hôpital Saint-Louis • Code: BL-${alertId}-2024</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Situation :</h6>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>NIVEAU CRITIQUE</strong>
+                        <p class="mb-0 mt-1">Le patient est en salle d'opération. Besoin immédiat de 2 unités de sang O+.</p>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Informations détaillées :</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Patient</h6>
+                                    <p class="card-text">Intervention chirurgicale urgente<br>Chambre 204 - Bloc opératoire 3</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Contact</h6>
+                                    <p class="card-text">Dr. Martin Dupont<br>01 23 45 67 89 ext. 234</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Instructions pour les donneurs :</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item">Se présenter à l'accueil des dons</li>
+                        <li class="list-group-item">Fournir le code d'urgence</li>
+                        <li class="list-group-item">Avoir une pièce d'identité</li>
+                        <li class="list-group-item">Ne pas venir à jeun</li>
+                    </ul>
+                </div>
+                
+                <div class="d-grid">
+                    <button class="btn btn-danger" onclick="respondToAlert(${alertId})">
+                        <i class="fas fa-heartbeat"></i>
+                        Répondre à cette urgence
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Planifier un don
+        function scheduleDonation(center) {
+            showModal('Programmer un don', `
+                <div class="mb-4">
+                    <h4>Programmer votre don</h4>
+                    <p class="text-muted">Choisissez la date et l'horaire qui vous conviennent</p>
+                </div>
+                
+                <form id="donationForm">
+                    <div class="mb-3">
+                        <label class="form-label">Centre</label>
+                        <select class="form-select" required>
+                            <option value="${center}" selected>Centre Ville</option>
+                            <option value="saint-louis">Hôpital Saint-Louis</option>
+                            <option value="val-dor">Clinique Val d'Or</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Type de don</label>
+                        <select class="form-select" required>
+                            <option value="blood" selected>Sang complet</option>
+                            <option value="plasma">Plasma</option>
+                            <option value="platelets">Plaquettes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Date souhaitée</label>
+                        <input type="date" class="form-control" min="${new Date().toISOString().split('T')[0]}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Créneau horaire</label>
+                        <select class="form-select" required>
+                            <option value="">Sélectionner...</option>
+                            <option value="morning">Matin (8h-12h)</option>
+                            <option value="afternoon">Après-midi (13h-17h)</option>
+                            <option value="evening">Soir (17h-20h)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="urgentNeed" checked>
+                            <label class="form-check-label" for="urgentNeed">
+                                Ce don répond à un besoin urgent
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <small>Vous recevrez un rappel 24h avant votre rendez-vous.</small>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-calendar-check"></i>
+                            Confirmer le rendez-vous
+                        </button>
+                    </div>
+                </form>
+            `);
+            
+            document.getElementById('donationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showToast('Rendez-vous programmé avec succès', 'success');
+                document.querySelector('.custom-modal')?.remove();
+            });
+        }
+        
+        // Partager une alerte de stock
+        function shareStockAlert() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Stock critique de sang A+ - BloodLink',
+                    text: 'Le centre de don Centre Ville signale un stock critique de sang A+. Aidez-nous à reconstituer les stocks !',
+                    url: window.location.href
+                });
+            } else {
+                showModal('Partager l\'alerte', `
+                    <div class="text-center mb-4">
+                        <i class="fas fa-share-alt fa-3x text-primary mb-3"></i>
+                        <h4>Partager cette alerte</h4>
+                        <p class="text-muted">Aidez à diffuser l'information autour de vous</p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Message :</label>
+                        <textarea class="form-control" rows="3">🚨 ALERTE STOCK CRITIQUE 🚨
+
+Le centre de don Centre Ville signale un stock critique de sang A+ (15% seulement).
+
+Votre don peut sauver des vies !
+
+👉 bloodlink-pro.com/urgence</textarea>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-muted">Partagez sur :</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <button class="btn btn-success btn-circle" onclick="shareOnWhatsApp()">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button class="btn btn-primary btn-circle" onclick="shareOnFacebook()">
+                                <i class="fab fa-facebook"></i>
+                            </button>
+                            <button class="btn btn-info btn-circle" onclick="shareOnTwitter()">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                            <button class="btn btn-danger btn-circle" onclick="shareByEmail()">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+                `);
+            }
+        }
+        
+        // Sauvegarder les paramètres de notifications
+        function saveNotificationSettings() {
+            showToast('Paramètres sauvegardés avec succès', 'success');
+            
+            // Simuler un délai de sauvegarde
+            setTimeout(() => {
+                // Recharger les préférences
+                location.reload();
+            }, 1500);
+        }
+        
+        // Exporter l'historique des alertes
+        function exportAlertsHistory() {
+            showModal('Exporter l\'historique', `
+                <div class="text-center mb-4">
+                    <i class="fas fa-file-export fa-3x text-primary mb-3"></i>
+                    <h4>Exporter l'historique</h4>
+                    <p class="text-muted">Téléchargez votre historique d'alertes</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Format d'export :</h6>
+                    <div class="list-group">
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="exportFormat" value="csv" checked>
+                            <strong>CSV</strong>
+                            <small class="text-muted d-block">Format tableur (Excel, Google Sheets)</small>
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="exportFormat" value="pdf">
+                            <strong>PDF</strong>
+                            <small class="text-muted d-block">Document imprimable</small>
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="exportFormat" value="json">
+                            <strong>JSON</strong>
+                            <small class="text-muted d-block">Format technique</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Période :</h6>
+                    <select class="form-select">
+                        <option value="all">Tout l'historique</option>
+                        <option value="month">30 derniers jours</option>
+                        <option value="week">7 derniers jours</option>
+                        <option value="today">Aujourd'hui</option>
+                    </select>
+                </div>
+                
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg" onclick="startExport()">
+                        <i class="fas fa-download"></i>
+                        Générer l'export
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Démarrer l'export
+        function startExport() {
+            showToast('Génération de l\'export en cours...', 'info');
+            
+            // Simulation de génération
+            setTimeout(() => {
+                showToast('Export téléchargé avec succès', 'success');
+                document.querySelector('.custom-modal')?.remove();
+                
+                // Simuler un téléchargement
+                const link = document.createElement('a');
+                link.href = 'data:text/csv;charset=utf-8,Date;Type;Titre;Centre;Statut\n15%20Fév%202024;Urgent;Urgence%20O+;Hôpital%20Saint-Louis;Répondu';
+                link.download = 'historique-alertes-bloodlink.csv';
+                link.click();
+            }, 2000);
+        }
+        
+        // Afficher un toast
+        function showToast(message, type) {
+            // Créer le toast
+            const toast = document.createElement('div');
+            toast.className = `toast position-fixed top-0 end-0 mt-3 me-3`;
+            toast.style.zIndex = '10000';
+            
+            const bgColor = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
+            
+            toast.innerHTML = `
+                <div class="toast-header ${bgColor} text-white">
+                    <strong class="me-auto">BloodLink</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Initialiser le toast Bootstrap
+            const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+            bsToast.show();
+            
+            // Supprimer le toast après fermeture
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+        
+        // Afficher un modal
+        function showModal(title, content) {
+            // Supprimer l'ancien modal s'il existe
+            const existingModal = document.querySelector('.custom-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Créer le modal
+            const modal = document.createElement('div');
+            modal.className = 'custom-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1002;
+                animation: fadeIn 0.3s ease;
+                padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 16px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl);">
+                    <div style="padding: 24px; border-bottom: 1px solid var(--neutral-gray-200);">
+                        <h3 style="margin: 0; color: var(--neutral-gray-800);">${title}</h3>
+                    </div>
+                    <div style="padding: 24px;">
+                        ${content}
+                    </div>
+                    <div style="padding: 16px 24px; border-top: 1px solid var(--neutral-gray-200); text-align: right;">
+                        <button onclick="this.closest('.custom-modal').remove()" style="background: none; border: none; color: var(--neutral-gray-600); cursor: pointer; padding: 8px 16px; border-radius: 8px;">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        // Animation des cartes
+        function animateCards() {
+            const cards = document.querySelectorAll('.fade-in');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+        
+        // Fonctions de partage (simulées)
+        function shareOnWhatsApp() {
+            showToast('Ouverture de WhatsApp...', 'info');
+        }
+        
+        function shareOnFacebook() {
+            showToast('Ouverture de Facebook...', 'info');
+        }
+        
+        function shareOnTwitter() {
+            showToast('Ouverture de Twitter...', 'info');
+        }
+        
+        function shareByEmail() {
+            showToast('Ouverture du client email...', 'info');
+        }
+        
+        // Fonctions supplémentaires pour les autres boutons
+        function viewAppointmentDetails() {
+            showModal('Détails du rendez-vous', `
+                <div class="mb-4">
+                    <h4>Rendez-vous programmé</h4>
+                    <p class="text-muted">Clinique Val d'Or • Don de plasma</p>
+                </div>
+                
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>CONFIRMÉ</strong>
+                    <p class="mb-0 mt-1">Votre rendez-vous est confirmé et réservé.</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Informations :</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Date :</span>
+                            <strong>20 Mars 2024</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Heure :</span>
+                            <strong>10:00 - 11:00</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Centre :</span>
+                            <strong>Clinique Val d'Or</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Type de don :</span>
+                            <strong>Plasma</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Code rendez-vous :</span>
+                            <strong>BL-RDV-4567</strong>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Préparation :</strong>
+                    <ul class="mb-0 mt-1">
+                        <li>Bien vous hydrater la veille et le jour même</li>
+                        <li>Manger léger avant le don</li>
+                        <li>Apporter une pièce d'identité</li>
+                        <li>Prévoir 1h30 sur place</li>
+                    </ul>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" onclick="addToCalendar()">
+                        <i class="fas fa-calendar-plus"></i>
+                        Ajouter à mon calendrier
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="cancelAppointment()">
+                        <i class="fas fa-times"></i>
+                        Annuler le rendez-vous
+                    </button>
+                </div>
+            `);
+        }
+        
+        function rescheduleAppointment() {
+            showToast('Fonctionnalité de report en développement', 'info');
+        }
+        
+        function viewRewards() {
+            showToast('Ouverture des récompenses...', 'info');
+        }
+        
+        function findCentersWithNeed() {
+            showToast('Recherche des centres...', 'info');
+        }
+        
+        function scheduleNextDonation() {
+            showToast('Programmation du prochain don...', 'info');
+        }
+    </script>
+</body>
+</html>

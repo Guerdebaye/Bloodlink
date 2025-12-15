@@ -1,0 +1,3318 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centres de Don | BloodLink Pro</title>
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-blue-dark: #0d47a1;
+            --primary-blue-light: #4285f4;
+            --medical-blue: #1976d2;
+            --hospital-blue: #1565c0;
+            --accent-teal: #00bcd4;
+            --accent-green: #4caf50;
+            --accent-orange: #ff9800;
+            --accent-red: #f44336;
+            --accent-purple: #9c27b0;
+            --neutral-white: #ffffff;
+            --neutral-gray-50: #f8f9fa;
+            --neutral-gray-100: #f5f7fa;
+            --neutral-gray-200: #e9ecef;
+            --neutral-gray-300: #dee2e6;
+            --neutral-gray-600: #6c757d;
+            --neutral-gray-800: #343a40;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--hospital-blue) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-green) 100%);
+            --gradient-emergency: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+            --gradient-success: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            --shadow-sm: 0 2px 8px rgba(25, 118, 210, 0.08);
+            --shadow-md: 0 4px 16px rgba(25, 118, 210, 0.12);
+            --shadow-lg: 0 8px 32px rgba(25, 118, 210, 0.16);
+            --shadow-xl: 0 12px 48px rgba(25, 118, 210, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: var(--neutral-gray-800);
+            overflow-x: hidden;
+        }
+        
+        /* ====== HEADER DONNEUR ====== */
+        .donor-header {
+            background: var(--neutral-white);
+            border-bottom: 1px solid var(--neutral-gray-200);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0;
+            height: 70px;
+        }
+        
+        .header-container {
+            max-width: 100%;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Logo Donneur */
+        .donor-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center no-repeat;
+            opacity: 0.9;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        /* Navigation Donneur */
+        .donor-nav {
+            display: flex;
+            gap: 2px;
+            margin-left: 32px;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--neutral-gray-600);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary-blue);
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-blue);
+            background: rgba(25, 118, 210, 0.1);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: var(--primary-blue);
+            border-radius: 1px;
+        }
+        
+        /* Zone Actions Droite */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Profil Donneur */
+        .donor-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .donor-profile:hover {
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        .donor-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--primary-blue-light);
+            padding: 2px;
+            background: var(--neutral-white);
+        }
+        
+        .donor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .donor-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .donor-name {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            font-size: 0.95rem;
+        }
+        
+        .donor-status {
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            font-weight: 500;
+        }
+        
+        /* ====== SIDEBAR DONNEUR ====== */
+        .donor-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--neutral-gray-200);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 999;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .sidebar-section {
+            padding: 0 20px;
+            margin-bottom: 28px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            color: var(--neutral-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--neutral-gray-600);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(25, 118, 210, 0.05);
+            color: var(--primary-blue);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-link.active {
+            background: rgba(25, 118, 210, 0.1);
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+        
+        .sidebar-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 60%;
+            background: var(--primary-blue);
+            border-radius: 0 3px 3px 0;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        /* Badge Urgence */
+        .emergency-badge {
+            background: var(--gradient-emergency);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* Overlay Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        /* Bouton Menu Mobile */
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-200);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-600);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+        }
+        
+        .mobile-menu-btn:hover {
+            background: var(--neutral-gray-50);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        
+        /* ====== CONTENU PRINCIPAL CENTRES ====== */
+        .centers-main {
+            margin-left: 280px;
+            margin-top: 70px;
+            padding: 32px;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* En-tête de Section */
+        .section-header {
+            margin-bottom: 32px;
+        }
+        
+        .section-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-blue-dark);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        
+        .section-subtitle {
+            color: var(--neutral-gray-600);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+        
+        /* Cartes Statistiques */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.primary {
+            background: var(--gradient-primary);
+        }
+        
+        .stat-icon.green {
+            background: var(--gradient-success);
+        }
+        
+        .stat-icon.orange {
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+        }
+        
+        .stat-icon.purple {
+            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+        }
+        
+        .stat-title {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            font-size: 0.95rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-gray-800);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        /* Filtres des Centres */
+        .centers-filters {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            margin-bottom: 32px;
+        }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+            color: var(--neutral-gray-800);
+            font-size: 0.9rem;
+        }
+        
+        .filter-select {
+            padding: 10px 16px;
+            border: 1px solid var(--neutral-gray-300);
+            border-radius: 10px;
+            background: var(--neutral-white);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 1px solid var(--neutral-gray-300);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-gray-600);
+        }
+        
+        /* Onglets */
+        .tabs-container {
+            margin-bottom: 32px;
+        }
+        
+        .tabs-nav {
+            display: flex;
+            gap: 4px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: var(--neutral-gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+        
+        .tab-btn:hover {
+            color: var(--primary-blue);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-blue);
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-blue);
+            border-radius: 1px;
+        }
+        
+        /* Grille des Centres */
+        .centers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        /* Carte Centre */
+        .center-card {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .center-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .center-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            background: var(--neutral-gray-50);
+            position: relative;
+        }
+        
+        .center-type {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .center-type.hospital {
+            background: var(--accent-red);
+        }
+        
+        .center-type.clinic {
+            background: var(--accent-green);
+        }
+        
+        .center-type.mobile {
+            background: var(--accent-purple);
+        }
+        
+        .center-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin-bottom: 4px;
+        }
+        
+        .center-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--neutral-gray-600);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .center-address {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+        }
+        
+        .center-body {
+            padding: 20px;
+        }
+        
+        .center-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--neutral-gray-600);
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-weight: 500;
+            color: var(--neutral-gray-800);
+        }
+        
+        /* Badges Type Sanguin */
+        .blood-type-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .blood-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .blood-o-plus {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        }
+        
+        .blood-a-plus {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+        }
+        
+        .blood-b-plus {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        }
+        
+        .blood-ab-plus {
+            background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+        }
+        
+        .blood-o-neg {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        }
+        
+        .blood-critical {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Barre de Stock */
+        .stock-bar {
+            height: 8px;
+            background: var(--neutral-gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+        
+        .stock-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .stock-high { background: var(--accent-green); }
+        .stock-medium { background: var(--accent-orange); }
+        .stock-low { background: var(--accent-red); }
+        
+        /* Actions Centre */
+        .center-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .center-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .center-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .center-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
+        }
+        
+        .center-btn.secondary {
+            background: var(--neutral-white);
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+        
+        .center-btn.secondary:hover {
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        /* Bouton Favori */
+        .favorite-btn {
+            position: absolute;
+            top: 20px;
+            right: 60px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--neutral-white);
+            border: 1px solid var(--neutral-gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .favorite-btn:hover {
+            background: var(--neutral-gray-100);
+        }
+        
+        .favorite-btn.active {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #f44336;
+        }
+        
+        /* Carte Interactive */
+        .map-container {
+            height: 500px;
+            background: var(--neutral-gray-100);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+            position: relative;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--neutral-white);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            z-index: 10;
+            max-width: 300px;
+        }
+        
+        /* Tableau des Centres */
+        .centers-table {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin: 0;
+        }
+        
+        .table-content {
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            margin: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .table th {
+            background: var(--neutral-gray-50);
+            padding: 16px 24px;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            text-align: left;
+        }
+        
+        .table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            vertical-align: middle;
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table tr:hover {
+            background: rgba(25, 118, 210, 0.02);
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-open {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--accent-green);
+        }
+        
+        .status-busy {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        .status-closed {
+            background: rgba(158, 158, 158, 0.1);
+            color: #616161;
+        }
+        
+        /* Horaires */
+        .schedule-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--neutral-gray-200);
+        }
+        
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 32px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-300);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-800);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background: var(--neutral-gray-100);
+        }
+        
+        .page-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        /* Footer */
+        .donor-footer {
+            background: var(--neutral-white);
+            border-top: 1px solid var(--neutral-gray-200);
+            padding: 24px 32px;
+            margin-top: 32px;
+            margin-left: -32px;
+            margin-right: -32px;
+            margin-bottom: -32px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-link {
+            color: var(--neutral-gray-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-blue);
+        }
+        
+        .footer-copyright {
+            color: var(--neutral-gray-600);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .donor-sidebar {
+                width: 240px;
+            }
+            
+            .centers-main {
+                margin-left: 240px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .donor-sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .donor-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .centers-main {
+                margin-left: 0;
+            }
+            
+            .header-container {
+                padding: 0 16px;
+            }
+            
+            .donor-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .centers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .centers-main {
+                padding: 24px 16px;
+            }
+            
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs-nav {
+                flex-wrap: wrap;
+            }
+            
+            .center-actions {
+                flex-direction: column;
+            }
+            
+            .center-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-overlay {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 16px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--neutral-gray-100);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue-light);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+        
+        /* Custom */
+        .regions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .region-card {
+            background: var(--neutral-white);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--neutral-gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .region-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .region-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .region-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .region-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+        }
+        
+        .region-centers {
+            font-size: 0.9rem;
+            color: var(--neutral-gray-600);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Donneur -->
+    <header class="donor-header">
+        <div class="header-container">
+            <!-- Logo et Navigation Mobile -->
+            <div style="display: flex; align-items: center;">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <a href="dashboard.html" class="donor-logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <h1>BloodLink</h1>
+                        <span>Espace Donneur</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Navigation Principale -->
+            <nav class="donor-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Tableau de bord
+                </a>
+                <a href="alerts.html" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    Alertes
+                </a>
+                <a href="historique.html" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    Historique
+                </a>
+                <a href="recompenses.html" class="nav-item">
+                    <i class="fas fa-trophy"></i>
+                    Récompenses
+                </a>
+                <a href="centres.html" class="nav-item active">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Centres
+                </a>
+            </nav>
+            
+            <!-- Actions Droite -->
+            <div class="header-actions">
+                <!-- Profil Donneur -->
+                <a href="profil.html" class="donor-profile">
+                    <div class="donor-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Jean Dupont">
+                    </div>
+                    <div class="donor-info">
+                        <div class="donor-name">Abibe Diop</div>
+                        <div class="donor-status">Donneur O+ • 12 dons</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Overlay Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar Donneur -->
+    <aside class="donor-sidebar" id="donorSidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Mon espace</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    Vue d'ensemble
+                </a>
+                <a href="profile.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-user"></i></div>
+                    Mon profil
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    Statistiques
+                </a>
+                <a href="recompenses.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-trophy"></i></div>
+                    Mes récompenses
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Mes dons</div>
+            <nav class="sidebar-nav">
+                <a href="espace-donneur.html#donate" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-heartbeat"></i></div>
+                    Donner maintenant
+                </a>
+                <a href="historique.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-history"></i></div>
+                    Historique des dons
+                </a>
+                <a href="rendez-vous.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                    Mes rendez-vous
+                </a>
+                <a href="eligibilite.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-check-circle"></i></div>
+                    Éligibilité
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Centres</div>
+            <nav class="sidebar-nav">
+                <a href="centres.html" class="sidebar-link active">
+                    <div class="nav-icon"><i class="fas fa-hospital"></i></div>
+                    Centres de don
+                </a>
+                <a href="centres.html#favorites" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-star"></i></div>
+                    Favoris
+                </a>
+                <a href="centres.html#map" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-map"></i></div>
+                    Carte interactive
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Communauté</div>
+            <nav class="sidebar-nav">
+                <a href="communauté.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-users"></i></div>
+                    Réseau
+                </a>
+                <a href="messages.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-comments"></i></div>
+                    Messages
+                </a>
+                <a href="defis.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-flag"></i></div>
+                    Défis
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Paramètres</div>
+            <nav class="sidebar-nav">
+                <a href="parametres.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-cogs"></i></div>
+                    Paramètres
+                </a>
+                <a href="aide.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-question-circle"></i></div>
+                    Aide & Support
+                </a>
+                <a href="index.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+                    Déconnexion
+                </a>
+            </nav>
+        </div>
+    </aside>
+    
+    <!-- Contenu Principal Centres -->
+    <main class="centers-main">
+        <!-- En-tête -->
+        <div class="section-header">
+            <h1>Centres de Don Sénégalais</h1>
+            <p class="section-subtitle">Trouvez les centres de transfusion sanguine et de don du sang à travers tout le Sénégal. Programmez votre don près de chez vous.</p>
+        </div>
+        
+        <!-- Statistiques -->
+        <div class="stats-grid">
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon primary">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Centres actifs</div>
+                        <div class="stat-value">47</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +3 nouveaux
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon green">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Dons aujourd'hui</div>
+                        <div class="stat-value">1,243</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            +12% cette semaine
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Urgences en cours</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-trend trend-down">
+                            <i class="fas fa-arrow-down"></i>
+                            -2 cette semaine
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in">
+                <div class="stat-header">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <div class="stat-title">Régions couvertes</div>
+                        <div class="stat-value">14</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            100% du territoire
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filtres -->
+        <div class="centers-filters fade-in">
+            <h4 class="mb-3"><i class="fas fa-filter"></i> Filtres de recherche</h4>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Région</label>
+                    <select class="filter-select" id="regionFilter">
+                        <option value="">Toutes les régions</option>
+                        <option value="dakar">Dakar</option>
+                        <option value="thies">Thiès</option>
+                        <option value="saint-louis">Saint-Louis</option>
+                        <option value="kaolack">Kaolack</option>
+                        <option value="ziguinchor">Ziguinchor</option>
+                        <option value="diourbel">Diourbel</option>
+                        <option value="tambacounda">Tambacounda</option>
+                        <option value="kolda">Kolda</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="fas fa-hospital"></i> Type de centre</label>
+                    <select class="filter-select" id="typeFilter">
+                        <option value="">Tous les types</option>
+                        <option value="hospital">Hôpital</option>
+                        <option value="clinic">Clinique</option>
+                        <option value="center">Centre spécialisé</option>
+                        <option value="mobile">Unité mobile</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="fas fa-tint"></i> Type sanguin urgent</label>
+                    <select class="filter-select" id="bloodFilter">
+                        <option value="">Tous les types</option>
+                        <option value="o+">O+</option>
+                        <option value="a+">A+</option>
+                        <option value="b+">B+</option>
+                        <option value="ab+">AB+</option>
+                        <option value="o-">O-</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group search-box">
+                    <label><i class="fas fa-search"></i> Recherche</label>
+                    <input type="text" class="search-input" placeholder="Nom du centre, ville..." id="searchCenter">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between mt-3">
+                <button class="btn btn-outline-primary" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i>
+                    Réinitialiser
+                </button>
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="fas fa-check"></i>
+                    Appliquer les filtres
+                </button>
+            </div>
+        </div>
+        
+        <!-- Onglets -->
+        <div class="tabs-container fade-in" id="centersTabs">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="all">Tous les centres</button>
+                <button class="tab-btn" data-tab="nearby">Près de chez moi</button>
+                <button class="tab-btn" data-tab="favorites">Favoris</button>
+                <button class="tab-btn" data-tab="emergency">Urgences</button>
+                <button class="tab-btn" data-tab="mobile">Unités mobiles</button>
+            </div>
+            
+            <!-- Carte Interactive -->
+            <div id="map" class="map-container fade-in">
+                <div class="map-overlay">
+                    <h5><i class="fas fa-map"></i> Carte des centres</h5>
+                    <p class="small text-muted mb-2">Visualisez tous les centres de don sur la carte</p>
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                        <span class="badge bg-danger">Hôpital</span>
+                        <span class="badge bg-success">Clinique</span>
+                        <span class="badge bg-primary">Centre spécialisé</span>
+                        <span class="badge bg-purple">Unité mobile</span>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-sm btn-outline-primary" onclick="locateMe()">
+                            <i class="fas fa-location-arrow"></i>
+                            Me localiser
+                        </button>
+                    </div>
+                </div>
+                <!-- La carte sera ajoutée dynamiquement -->
+                <div id="mapPlaceholder" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #e9ecef;">
+                    <div class="text-center">
+                        <i class="fas fa-map-marked-alt fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Carte interactive des centres</h5>
+                        <p class="text-muted">Activez votre localisation pour voir les centres près de vous</p>
+                        <button class="btn btn-primary" onclick="initMap()">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Charger la carte
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Grille des Centres -->
+            <h3 class="mb-4">Centres de Don - Sénégal</h3>
+            <div class="centers-grid" id="centersGrid">
+                <!-- Centre 1 - Dakar -->
+                <div class="center-card" data-region="dakar" data-type="hospital" data-blood="o+,a+">
+                    <div class="center-header">
+                        <div class="center-type hospital">Hôpital</div>
+                        <button class="favorite-btn" data-center="1">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <div class="center-name">CHU de Fann</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Dakar, Sénégal
+                        </div>
+                        <div class="center-address">Route du front de terre, Dakar</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Téléphone</span>
+                                <span class="info-value">33 869 10 10</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">8h-18h</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Sang, Plasma</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">2.3 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus blood-critical">O+</span>
+                                <span class="blood-badge blood-a-plus">A+</span>
+                                <span class="blood-badge blood-b-plus">B+</span>
+                                <span class="blood-badge blood-ab-plus">AB+</span>
+                                <span class="blood-badge blood-o-neg">O-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Niveau de stock</span>
+                                <span class="info-label">35%</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-fill stock-low" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtCenter('CHU de Fann')">
+                                <i class="fas fa-calendar-check"></i>
+                                Programmer
+                            </button>
+                            <button class="center-btn secondary" onclick="viewCenterDetails(1)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Centre 2 - Dakar -->
+                <div class="center-card" data-region="dakar" data-type="center" data-blood="b+">
+                    <div class="center-header">
+                        <div class="center-type">Centre spécialisé</div>
+                        <button class="favorite-btn active" data-center="2">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <div class="center-name">Centre National de Transfusion Sanguine</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Dakar, Sénégal
+                        </div>
+                        <div class="center-address">Avenue Pasteur, Dakar</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Téléphone</span>
+                                <span class="info-value">33 821 20 20</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">7h30-16h30</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Tous types</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">4.1 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus">O+</span>
+                                <span class="blood-badge blood-a-plus">A+</span>
+                                <span class="blood-badge blood-b-plus blood-critical">B+</span>
+                                <span class="blood-badge blood-ab-plus">AB+</span>
+                                <span class="blood-badge blood-o-neg">O-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Niveau de stock</span>
+                                <span class="info-label">42%</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-fill stock-medium" style="width: 42%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtCenter('Centre National')">
+                                <i class="fas fa-calendar-check"></i>
+                                Programmer
+                            </button>
+                            <button class="center-btn secondary" onclick="viewCenterDetails(2)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Centre 3 - Thiès -->
+                <div class="center-card" data-region="thies" data-type="hospital" data-blood="ab+">
+                    <div class="center-header">
+                        <div class="center-type hospital">Hôpital</div>
+                        <button class="favorite-btn" data-center="3">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <div class="center-name">Hôpital Régional de Thiès</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Thiès, Sénégal
+                        </div>
+                        <div class="center-address">Route de Khombole, Thiès</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Téléphone</span>
+                                <span class="info-value">33 951 10 10</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">8h-17h</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Sang</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">68 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus">O+</span>
+                                <span class="blood-badge blood-a-plus">A+</span>
+                                <span class="blood-badge blood-b-plus">B+</span>
+                                <span class="blood-badge blood-ab-plus blood-critical">AB+</span>
+                                <span class="blood-badge blood-o-neg">O-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Niveau de stock</span>
+                                <span class="info-label">28%</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-fill stock-low" style="width: 28%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtCenter('Hôpital Thiès')">
+                                <i class="fas fa-calendar-check"></i>
+                                Programmer
+                            </button>
+                            <button class="center-btn secondary" onclick="viewCenterDetails(3)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Centre 4 - Saint-Louis -->
+                <div class="center-card" data-region="saint-louis" data-type="hospital" data-blood="o+,a+">
+                    <div class="center-header">
+                        <div class="center-type hospital">Hôpital</div>
+                        <button class="favorite-btn" data-center="4">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <div class="center-name">Hôpital Régional de Saint-Louis</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Saint-Louis, Sénégal
+                        </div>
+                        <div class="center-address">Avenue Jean Mermoz, Saint-Louis</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Téléphone</span>
+                                <span class="info-value">33 961 10 10</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">8h-16h</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Sang, Plaquettes</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">265 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus blood-critical">O+</span>
+                                <span class="blood-badge blood-a-plus blood-critical">A+</span>
+                                <span class="blood-badge blood-b-plus">B+</span>
+                                <span class="blood-badge blood-ab-plus">AB+</span>
+                                <span class="blood-badge blood-o-neg">O-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Niveau de stock</span>
+                                <span class="info-label">22%</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-fill stock-low" style="width: 22%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtCenter('Hôpital Saint-Louis')">
+                                <i class="fas fa-calendar-check"></i>
+                                Programmer
+                            </button>
+                            <button class="center-btn secondary" onclick="viewCenterDetails(4)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Centre 5 - Kaolack -->
+                <div class="center-card" data-region="kaolack" data-type="clinic" data-blood="b+">
+                    <div class="center-header">
+                        <div class="center-type clinic">Clinique</div>
+                        <button class="favorite-btn" data-center="5">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <div class="center-name">Centre de Santé de Kaolack</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Kaolack, Sénégal
+                        </div>
+                        <div class="center-address">Quartier Médina, Kaolack</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Téléphone</span>
+                                <span class="info-value">33 941 20 20</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">9h-15h</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Sang</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">192 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus">O+</span>
+                                <span class="blood-badge blood-a-plus">A+</span>
+                                <span class="blood-badge blood-b-plus blood-critical">B+</span>
+                                <span class="blood-badge blood-ab-plus">AB+</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Niveau de stock</span>
+                                <span class="info-label">45%</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-fill stock-medium" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtCenter('Centre Kaolack')">
+                                <i class="fas fa-calendar-check"></i>
+                                Programmer
+                            </button>
+                            <button class="center-btn secondary" onclick="viewCenterDetails(5)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Centre 6 - Ziguinchor -->
+                <div class="center-card" data-region="ziguinchor" data-type="hospital" data-blood="o-">
+                    <div class="center-header">
+                        <div class="center-type hospital">Hôpital</div>
+                        <button class="favorite-btn" data-center="6">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <div class="center-name">Hôpital Régional de Ziguinchor</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Ziguinchor, Sénégal
+                        </div>
+                        <div class="center-address">Avenue du Général de Gaulle, Ziguinchor</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Téléphone</span>
+                                <span class="info-value">33 991 10 10</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">8h-17h</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Sang, Plasma</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">450 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus">O+</span>
+                                <span class="blood-badge blood-a-plus">A+</span>
+                                <span class="blood-badge blood-b-plus">B+</span>
+                                <span class="blood-badge blood-ab-plus">AB+</span>
+                                <span class="blood-badge blood-o-neg blood-critical">O-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Niveau de stock</span>
+                                <span class="info-label">38%</span>
+                            </div>
+                            <div class="stock-bar">
+                                <div class="stock-fill stock-medium" style="width: 38%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtCenter('Hôpital Ziguinchor')">
+                                <i class="fas fa-calendar-check"></i>
+                                Programmer
+                            </button>
+                            <button class="center-btn secondary" onclick="viewCenterDetails(6)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Centre 7 - Unité Mobile -->
+                <div class="center-card" data-region="dakar" data-type="mobile" data-blood="a+,b+">
+                    <div class="center-header">
+                        <div class="center-type mobile">Unité mobile</div>
+                        <button class="favorite-btn active" data-center="7">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <div class="center-name">Unité Mobile - UCAD</div>
+                        <div class="center-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Université Cheikh Anta Diop
+                        </div>
+                        <div class="center-address">Campus UCAD, Dakar</div>
+                    </div>
+                    
+                    <div class="center-body">
+                        <div class="center-info">
+                            <div class="info-item">
+                                <span class="info-label">Dates</span>
+                                <span class="info-value">25-27 Mars</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Horaires</span>
+                                <span class="info-value">9h-16h</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Type de don</span>
+                                <span class="info-value">Sang</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Distance</span>
+                                <span class="info-value">3.5 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="info-label d-block mb-2">Stocks critiques :</span>
+                            <div class="blood-type-badges">
+                                <span class="blood-badge blood-o-plus">O+</span>
+                                <span class="blood-badge blood-a-plus blood-critical">A+</span>
+                                <span class="blood-badge blood-b-plus blood-critical">B+</span>
+                                <span class="blood-badge blood-ab-plus">AB+</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="info-label">Prochain créneau</span>
+                                <span class="info-value">Dans 2 jours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="center-actions">
+                            <button class="center-btn primary" onclick="scheduleAtMobile('UCAD')">
+                                <i class="fas fa-calendar-plus"></i>
+                                Réserver
+                            </button>
+                            <button class="center-btn secondary" onclick="viewMobileDetails(7)">
+                                <i class="fas fa-info-circle"></i>
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Autres centres par région -->
+            <h3 class="mb-4 mt-5">Autres Centres par Région</h3>
+            <div class="regions-grid" id="regionsGrid">
+                <!-- Région de Dakar -->
+                <div class="region-card" data-region="dakar">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div>
+                            <div class="region-name">Région de Dakar</div>
+                            <div class="region-centers">12 centres actifs</div>
+                        </div>
+                    </div>
+                    <ul class="schedule-list">
+                        <li class="schedule-item">
+                            <span>CHU Le Dantec</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Hôpital Principal</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Grand Dakar</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Clinique de la Madeleine</span>
+                            <span class="text-warning">● Limité</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="viewRegionCenters('dakar')">
+                        Voir tous les centres
+                    </button>
+                </div>
+                
+                <!-- Région de Thiès -->
+                <div class="region-card" data-region="thies">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-train"></i>
+                        </div>
+                        <div>
+                            <div class="region-name">Région de Thiès</div>
+                            <div class="region-centers">8 centres actifs</div>
+                        </div>
+                    </div>
+                    <ul class="schedule-list">
+                        <li class="schedule-item">
+                            <span>Hôpital de Mbour</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Thiès Est</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Hôpital de Tivaouane</span>
+                            <span class="text-danger">● Urgent</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Khombole</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="viewRegionCenters('thies')">
+                        Voir tous les centres
+                    </button>
+                </div>
+                
+                <!-- Région de Saint-Louis -->
+                <div class="region-card" data-region="saint-louis">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <div>
+                            <div class="region-name">Région de Saint-Louis</div>
+                            <div class="region-centers">6 centres actifs</div>
+                        </div>
+                    </div>
+                    <ul class="schedule-list">
+                        <li class="schedule-item">
+                            <span>Hôpital de Richard Toll</span>
+                            <span class="text-warning">● Limité</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Dagana</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Hôpital de Podor</span>
+                            <span class="text-danger">● Critique</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Rosso</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="viewRegionCenters('saint-louis')">
+                        Voir tous les centres
+                    </button>
+                </div>
+                
+                <!-- Région de Kaolack -->
+                <div class="region-card" data-region="kaolack">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                        <div>
+                            <div class="region-name">Région de Kaolack</div>
+                            <div class="region-centers">5 centres actifs</div>
+                        </div>
+                    </div>
+                    <ul class="schedule-list">
+                        <li class="schedule-item">
+                            <span>Hôpital de Fatick</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Foundiougne</span>
+                            <span class="text-warning">● Limité</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Hôpital de Gossas</span>
+                            <span class="text-danger">● Urgent</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Nioro</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="viewRegionCenters('kaolack')">
+                        Voir tous les centres
+                    </button>
+                </div>
+                
+                <!-- Région de Ziguinchor -->
+                <div class="region-card" data-region="ziguinchor">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <div>
+                            <div class="region-name">Région de Ziguinchor</div>
+                            <div class="region-centers">4 centres actifs</div>
+                        </div>
+                    </div>
+                    <ul class="schedule-list">
+                        <li class="schedule-item">
+                            <span>Hôpital de Bignona</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Oussouye</span>
+                            <span class="text-danger">● Critique</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Hôpital de Sédhiou</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Kolda</span>
+                            <span class="text-warning">● Limité</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="viewRegionCenters('ziguinchor')">
+                        Voir tous les centres
+                    </button>
+                </div>
+                
+                <!-- Région de Tambacounda -->
+                <div class="region-card" data-region="tambacounda">
+                    <div class="region-header">
+                        <div class="region-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div>
+                            <div class="region-name">Région de Tambacounda</div>
+                            <div class="region-centers">3 centres actifs</div>
+                        </div>
+                    </div>
+                    <ul class="schedule-list">
+                        <li class="schedule-item">
+                            <span>Hôpital Régional Tambacounda</span>
+                            <span class="text-success">● Ouvert</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Centre de Santé Bakel</span>
+                            <span class="text-warning">● Limité</span>
+                        </li>
+                        <li class="schedule-item">
+                            <span>Hôpital de Kédougou</span>
+                            <span class="text-danger">● Urgent</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="viewRegionCenters('tambacounda')">
+                        Voir tous les centres
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination fade-in">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="donor-footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Confidentialité</a>
+                    <a href="#terms" class="footer-link">Conditions</a>
+                    <a href="#faq" class="footer-link">FAQ</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+                <div class="footer-copyright">
+                    © 2024 BloodLink Pro. Réseau des centres v1.2.0
+                </div>
+            </div>
+        </footer>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion du menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const donorSidebar = document.getElementById('donorSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                donorSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+            
+            sidebarOverlay.addEventListener('click', function() {
+                donorSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+            
+            // Gestion des onglets
+            initTabs();
+            
+            // Gestion des favoris
+            initFavorites();
+            
+            // Gestion des filtres
+            initCenterFilters();
+            
+            // Initialiser la recherche
+            initSearch();
+            
+            // Animation des cartes
+            animateCards();
+        });
+        
+        // Initialiser les onglets
+        function initTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const centerCards = document.querySelectorAll('.center-card');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Retirer la classe active de tous les boutons
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    // Ajouter la classe active au bouton cliqué
+                    this.classList.add('active');
+                    
+                    const tab = this.dataset.tab;
+                    
+                    // Filtrer les cartes selon l'onglet
+                    centerCards.forEach(card => {
+                        if (tab === 'all') {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 10);
+                        } else if (tab === 'favorites') {
+                            const isFavorite = card.querySelector('.favorite-btn').classList.contains('active');
+                            if (isFavorite) {
+                                card.style.display = 'block';
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, 10);
+                            } else {
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateY(20px)';
+                                setTimeout(() => {
+                                    card.style.display = 'none';
+                                }, 300);
+                            }
+                        } else if (tab === 'mobile') {
+                            if (card.dataset.type === 'mobile') {
+                                card.style.display = 'block';
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, 10);
+                            } else {
+                                card.style.opacity = '0';
+                                card.style.transform = 'translateY(20px)';
+                                setTimeout(() => {
+                                    card.style.display = 'none';
+                                }, 300);
+                            }
+                        } else {
+                            // Pour les autres onglets, simuler un filtrage
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, 10);
+                        }
+                    });
+                    
+                    // Afficher un message pour "près de chez moi"
+                    if (tab === 'nearby') {
+                        showToast('Chargement des centres à proximité...', 'info');
+                        setTimeout(() => {
+                            showNearbyCenters();
+                        }, 500);
+                    }
+                    
+                    // Afficher un message pour "urgences"
+                    if (tab === 'emergency') {
+                        showEmergencyCenters();
+                    }
+                });
+            });
+        }
+        
+        // Initialiser les favoris
+        function initFavorites() {
+            const favoriteBtns = document.querySelectorAll('.favorite-btn');
+            
+            favoriteBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isActive = this.classList.contains('active');
+                    const centerId = this.dataset.center;
+                    
+                    if (isActive) {
+                        this.classList.remove('active');
+                        this.innerHTML = '<i class="far fa-star"></i>';
+                        showToast('Centre retiré des favoris', 'info');
+                    } else {
+                        this.classList.add('active');
+                        this.innerHTML = '<i class="fas fa-star"></i>';
+                        showToast('Centre ajouté aux favoris', 'success');
+                    }
+                    
+                    // Sauvegarder dans le stockage local
+                    saveFavorite(centerId, !isActive);
+                });
+            });
+        }
+        
+        // Sauvegarder un favori
+        function saveFavorite(centerId, isFavorite) {
+            let favorites = JSON.parse(localStorage.getItem('bloodlink_favorites')) || [];
+            
+            if (isFavorite) {
+                if (!favorites.includes(centerId)) {
+                    favorites.push(centerId);
+                }
+            } else {
+                favorites = favorites.filter(id => id !== centerId);
+            }
+            
+            localStorage.setItem('bloodlink_favorites', JSON.stringify(favorites));
+        }
+        
+        // Initialiser les filtres
+        function initCenterFilters() {
+            const regionFilter = document.getElementById('regionFilter');
+            const typeFilter = document.getElementById('typeFilter');
+            const bloodFilter = document.getElementById('bloodFilter');
+            
+            // Écouter les changements
+            regionFilter.addEventListener('change', applyFilters);
+            typeFilter.addEventListener('change', applyFilters);
+            bloodFilter.addEventListener('change', applyFilters);
+        }
+        
+        // Appliquer les filtres
+        function applyFilters() {
+            const region = document.getElementById('regionFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            const blood = document.getElementById('bloodFilter').value;
+            const centerCards = document.querySelectorAll('.center-card');
+            const regionCards = document.querySelectorAll('.region-card');
+            
+            let visibleCount = 0;
+            
+            // Filtrer les cartes de centre
+            centerCards.forEach(card => {
+                const matchesRegion = !region || card.dataset.region === region;
+                const matchesType = !type || card.dataset.type === type;
+                const matchesBlood = !blood || card.dataset.blood.includes(blood);
+                
+                if (matchesRegion && matchesType && matchesBlood) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                    visibleCount++;
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            // Filtrer les cartes de région
+            regionCards.forEach(card => {
+                if (!region || card.dataset.region === region) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Afficher un message si aucun résultat
+            if (visibleCount === 0) {
+                showToast('Aucun centre ne correspond à vos critères', 'warning');
+            } else {
+                showToast(`${visibleCount} centres trouvés`, 'success');
+            }
+        }
+        
+        // Réinitialiser les filtres
+        function resetFilters() {
+            document.getElementById('regionFilter').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('bloodFilter').value = '';
+            document.getElementById('searchCenter').value = '';
+            
+            const centerCards = document.querySelectorAll('.center-card');
+            const regionCards = document.querySelectorAll('.region-card');
+            
+            centerCards.forEach(card => {
+                card.style.display = 'block';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 10);
+            });
+            
+            regionCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            
+            showToast('Filtres réinitialisés', 'info');
+        }
+        
+        // Initialiser la recherche
+        function initSearch() {
+            const searchInput = document.getElementById('searchCenter');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const centerCards = document.querySelectorAll('.center-card');
+                
+                centerCards.forEach(card => {
+                    const name = card.querySelector('.center-name').textContent.toLowerCase();
+                    const address = card.querySelector('.center-address').textContent.toLowerCase();
+                    const location = card.querySelector('.center-location').textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || address.includes(searchTerm) || location.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        }
+        
+        // Afficher les centres à proximité
+        function showNearbyCenters() {
+            // Simuler la détection de position
+            showToast('Position détectée: Dakar, Plateau', 'success');
+            
+            // Mettre en avant les centres proches
+            const centerCards = document.querySelectorAll('.center-card');
+            centerCards.forEach(card => {
+                const distance = card.querySelector('.info-item:nth-child(4) .info-value').textContent;
+                if (distance.includes('km')) {
+                    const km = parseFloat(distance.split(' ')[0]);
+                    if (km < 10) {
+                        card.style.border = '2px solid var(--accent-green)';
+                    }
+                }
+            });
+        }
+        
+        // Afficher les centres en urgence
+        function showEmergencyCenters() {
+            const centerCards = document.querySelectorAll('.center-card');
+            let emergencyCount = 0;
+            
+            centerCards.forEach(card => {
+                const stockLevel = card.querySelector('.stock-fill').style.width;
+                const stockPercent = parseInt(stockLevel);
+                
+                if (stockPercent < 40) {
+                    card.style.display = 'block';
+                    emergencyCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (emergencyCount > 0) {
+                showToast(`${emergencyCount} centres en situation critique`, 'warning');
+            } else {
+                showToast('Aucun centre en situation critique', 'success');
+            }
+        }
+        
+        // Programmer un don dans un centre
+        function scheduleAtCenter(centerName) {
+            showModal(`Programmer un don - ${centerName}`, `
+                <div class="mb-4">
+                    <h4>${centerName}</h4>
+                    <p class="text-muted">Choisissez la date et l'horaire pour votre don</p>
+                </div>
+                
+                <form id="centerForm">
+                    <div class="mb-3">
+                        <label class="form-label">Date souhaitée</label>
+                        <input type="date" class="form-control" min="${new Date().toISOString().split('T')[0]}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Créneau horaire</label>
+                        <select class="form-select" required>
+                            <option value="">Sélectionner...</option>
+                            <option value="8-9">8h00 - 9h00</option>
+                            <option value="9-10">9h00 - 10h00</option>
+                            <option value="10-11">10h00 - 11h00</option>
+                            <option value="11-12">11h00 - 12h00</option>
+                            <option value="14-15">14h00 - 15h00</option>
+                            <option value="15-16">15h00 - 16h00</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Type de don</label>
+                        <select class="form-select" required>
+                            <option value="blood">Sang complet</option>
+                            <option value="plasma">Plasma</option>
+                            <option value="platelets">Plaquettes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Motif (optionnel)</label>
+                        <textarea class="form-control" rows="2" placeholder="Urgence spécifique, don régulier..."></textarea>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <small>Vous recevrez un SMS de confirmation et un rappel 24h avant.</small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-calendar-check"></i>
+                            Confirmer le rendez-vous
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="checkCenterAvailability('${centerName}')">
+                            <i class="fas fa-clock"></i>
+                            Voir les disponibilités
+                        </button>
+                    </div>
+                </form>
+            `);
+            
+            document.getElementById('centerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showToast('Rendez-vous programmé avec succès', 'success');
+                document.querySelector('.custom-modal')?.remove();
+            });
+        }
+        
+        // Programmer avec une unité mobile
+        function scheduleAtMobile(mobileName) {
+            showModal(`Unité Mobile - ${mobileName}`, `
+                <div class="text-center mb-4">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: white;">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h4>Unité Mobile de Don</h4>
+                    <p class="text-muted">${mobileName} - 25-27 Mars 2024</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Disponibilités :</h6>
+                    <div class="list-group mb-3">
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="mobileSlot" value="25-matin" checked>
+                            <strong>Lundi 25 Mars</strong>
+                            <small class="text-muted d-block">Matin : 9h00 - 12h00</small>
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="mobileSlot" value="25-aprem">
+                            <strong>Lundi 25 Mars</strong>
+                            <small class="text-muted d-block">Après-midi : 14h00 - 16h00</small>
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="mobileSlot" value="26-matin">
+                            <strong>Mardi 26 Mars</strong>
+                            <small class="text-muted d-block">Matin : 9h00 - 12h00</small>
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-2" type="radio" name="mobileSlot" value="27-matin">
+                            <strong>Mercredi 27 Mars</strong>
+                            <small class="text-muted d-block">Matin : 9h00 - 12h00</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <small>Les créneaux sont limités à 20 donneurs par session.</small>
+                </div>
+                
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg" onclick="confirmMobileReservation('${mobileName}')">
+                        <i class="fas fa-check-circle"></i>
+                        Réserver mon créneau
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Confirmer la réservation mobile
+        function confirmMobileReservation(mobileName) {
+            const selectedSlot = document.querySelector('input[name="mobileSlot"]:checked').value;
+            showToast(`Réservation confirmée pour ${mobileName}`, 'success');
+            document.querySelector('.custom-modal')?.remove();
+            
+            // Afficher un récapitulatif
+            setTimeout(() => {
+                showModal('Réservation confirmée', `
+                    <div class="text-center mb-4">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: white;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h4>Réservation confirmée !</h4>
+                        <p class="text-muted">Votre don est programmé avec l'unité mobile</p>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Détails de la réservation :</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Unité mobile :</span>
+                                    <strong>${mobileName}</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Date :</span>
+                                    <strong>${selectedSlot.split('-')[0]} Mars 2024</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Créneau :</span>
+                                    <strong>${selectedSlot.includes('matin') ? 'Matin' : 'Après-midi'}</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Code réservation :</span>
+                                    <strong>BL-MOB-${Math.floor(Math.random() * 10000)}</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <small>Présentez-vous 15 minutes avant votre créneau avec une pièce d'identité.</small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" onclick="addToCalendarMobile()">
+                            <i class="fas fa-calendar-plus"></i>
+                            Ajouter à mon calendrier
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="shareMobileReservation()">
+                            <i class="fas fa-share"></i>
+                            Partager avec des amis
+                        </button>
+                    </div>
+                `);
+            }, 500);
+        }
+        
+        // Voir les détails d'un centre
+        function viewCenterDetails(centerId) {
+            const centers = {
+                1: {
+                    name: 'CHU de Fann',
+                    type: 'Hôpital universitaire',
+                    address: 'Route du front de terre, Dakar',
+                    phone: '33 869 10 10',
+                    email: 'chu.fann@sante.sn',
+                    hours: 'Lundi-Vendredi: 8h-18h\nSamedi: 8h-13h\nDimanche: Urgences uniquement',
+                    services: 'Don de sang complet, Plasma, Tests sanguins, Conseil médical',
+                    capacity: '50 donneurs/jour',
+                    parking: 'Parking gratuit disponible',
+                    special: 'Centre de référence national'
+                },
+                2: {
+                    name: 'Centre National de Transfusion Sanguine',
+                    type: 'Centre spécialisé',
+                    address: 'Avenue Pasteur, Dakar',
+                    phone: '33 821 20 20',
+                    email: 'cnts@sante.sn',
+                    hours: 'Lundi-Samedi: 7h30-16h30',
+                    services: 'Tous types de dons, Recherche, Formation, Banque de sang',
+                    capacity: '100 donneurs/jour',
+                    parking: 'Parking sécurisé',
+                    special: 'Siège national de la transfusion sanguine'
+                },
+                3: {
+                    name: 'Hôpital Régional de Thiès',
+                    type: 'Hôpital régional',
+                    address: 'Route de Khombole, Thiès',
+                    phone: '33 951 10 10',
+                    email: 'hr.thies@sante.sn',
+                    hours: 'Lundi-Vendredi: 8h-17h\nSamedi: 8h-12h',
+                    services: 'Don de sang, Urgences, Consultations',
+                    capacity: '30 donneurs/jour',
+                    parking: 'Parking public',
+                    special: 'Centre régional de transfusion'
+                }
+            };
+            
+            const center = centers[centerId] || centers[1];
+            
+            showModal(`Détails du centre - ${center.name}`, `
+                <div class="mb-4">
+                    <h4>${center.name}</h4>
+                    <p class="text-muted">${center.type}</p>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Coordonnées</h6>
+                                <p class="card-text">
+                                    <i class="fas fa-map-marker-alt me-2"></i> ${center.address}<br>
+                                    <i class="fas fa-phone me-2"></i> ${center.phone}<br>
+                                    <i class="fas fa-envelope me-2"></i> ${center.email}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Horaires</h6>
+                                <p class="card-text" style="white-space: pre-line;">${center.hours}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Services offerts :</h6>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        ${center.services}
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Informations pratiques</h6>
+                                <p class="card-text">
+                                    <strong>Capacité :</strong> ${center.capacity}<br>
+                                    <strong>Parking :</strong> ${center.parking}<br>
+                                    <strong>Statut :</strong> ${center.special}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Équipement</h6>
+                                <p class="card-text">
+                                    <i class="fas fa-check text-success"></i> Matériel stérile<br>
+                                    <i class="fas fa-check text-success"></i> Personnel qualifié<br>
+                                    <i class="fas fa-check text-success"></i> Espace confortable<br>
+                                    <i class="fas fa-check text-success"></i> Collation offerte
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" onclick="scheduleAtCenter('${center.name}')">
+                        <i class="fas fa-calendar-check"></i>
+                        Programmer un don ici
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="getDirections(${centerId})">
+                        <i class="fas fa-directions"></i>
+                        Itinéraire vers ce centre
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Voir les détails d'une unité mobile
+        function viewMobileDetails(mobileId) {
+            showModal('Unité Mobile de Don', `
+                <div class="text-center mb-4">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; color: white;">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h4>Unité Mobile de Collecte</h4>
+                    <p class="text-muted">Campagne de don sur le campus UCAD</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Description :</h6>
+                    <p>Notre unité mobile s'installe sur le campus universitaire pour faciliter le don de sang aux étudiants, professeurs et personnel administratif.</p>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Dates</h6>
+                                <p class="card-text">
+                                    25 Mars : 9h-16h<br>
+                                    26 Mars : 9h-16h<br>
+                                    27 Mars : 9h-13h
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Emplacement</h6>
+                                <p class="card-text">
+                                    Campus UCAD<br>
+                                    Devant la Faculté de Médecine<br>
+                                    Parking principal
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Équipement disponible :</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <ul>
+                                <li>4 lits de don</li>
+                                <li>Matériel stérile</li>
+                                <li>Zone d'accueil</li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul>
+                                <li>Espace repos</li>
+                                <li>Collations</li>
+                                <li>WiFi gratuit</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <small>Apportez une pièce d'identité. Pas besoin de rendez-vous préalable.</small>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" onclick="scheduleAtMobile('UCAD')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Réserver un créneau
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="shareMobileCampaign()">
+                        <i class="fas fa-share-alt"></i>
+                        Partager la campagne
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Voir les centres d'une région
+        function viewRegionCenters(region) {
+            const regionNames = {
+                'dakar': 'Dakar',
+                'thies': 'Thiès',
+                'saint-louis': 'Saint-Louis',
+                'kaolack': 'Kaolack',
+                'ziguinchor': 'Ziguinchor',
+                'tambacounda': 'Tambacounda'
+            };
+            
+            const regionName = regionNames[region] || region;
+            
+            showModal(`Centres - Région ${regionName}`, `
+                <div class="mb-4">
+                    <h4>Région ${regionName}</h4>
+                    <p class="text-muted">Liste complète des centres de don</p>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nom du centre</th>
+                                <th>Type</th>
+                                <th>Ville</th>
+                                <th>Statut</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="regionCentersList">
+                            <!-- Les centres seront chargés dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button class="btn btn-outline-primary" onclick="loadRegionCenters('${region}')">
+                        <i class="fas fa-sync"></i>
+                        Charger les centres
+                    </button>
+                </div>
+            `);
+            
+            // Charger les centres de la région
+            setTimeout(() => {
+                loadRegionCenters(region);
+            }, 100);
+        }
+        
+        // Charger les centres d'une région
+        function loadRegionCenters(region) {
+            const centersByRegion = {
+                'dakar': [
+                    {name: 'CHU de Fann', type: 'Hôpital', city: 'Dakar', status: 'Ouvert'},
+                    {name: 'Hôpital Principal', type: 'Hôpital', city: 'Dakar', status: 'Ouvert'},
+                    {name: 'Centre National', type: 'Centre spécialisé', city: 'Dakar', status: 'Ouvert'},
+                    {name: 'Clinique de la Madeleine', type: 'Clinique', city: 'Dakar', status: 'Limité'},
+                    {name: 'Centre de Santé Grand Dakar', type: 'Centre', city: 'Dakar', status: 'Ouvert'},
+                    {name: 'Hôpital Dalal Jamm', type: 'Hôpital', city: 'Guédiawaye', status: 'Ouvert'},
+                    {name: 'Centre de Santé Pikine', type: 'Centre', city: 'Pikine', status: 'Ouvert'}
+                ],
+                'thies': [
+                    {name: 'Hôpital Régional', type: 'Hôpital', city: 'Thiès', status: 'Ouvert'},
+                    {name: 'Hôpital de Mbour', type: 'Hôpital', city: 'Mbour', status: 'Ouvert'},
+                    {name: 'Centre de Santé Thiès Est', type: 'Centre', city: 'Thiès', status: 'Ouvert'},
+                    {name: 'Hôpital de Tivaouane', type: 'Hôpital', city: 'Tivaouane', status: 'Urgent'},
+                    {name: 'Centre de Santé Khombole', type: 'Centre', city: 'Khombole', status: 'Ouvert'}
+                ]
+            };
+            
+            const centers = centersByRegion[region] || [
+                {name: 'Centre Régional', type: 'Hôpital', city: region, status: 'Ouvert'},
+                {name: 'Centre de Santé Principal', type: 'Centre', city: region, status: 'Ouvert'}
+            ];
+            
+            const tbody = document.getElementById('regionCentersList');
+            tbody.innerHTML = '';
+            
+            centers.forEach(center => {
+                const row = document.createElement('tr');
+                let statusBadge = '';
+                
+                if (center.status === 'Ouvert') {
+                    statusBadge = '<span class="badge bg-success">Ouvert</span>';
+                } else if (center.status === 'Limité') {
+                    statusBadge = '<span class="badge bg-warning">Limité</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-danger">Urgent</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${center.name}</td>
+                    <td>${center.type}</td>
+                    <td>${center.city}</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="viewCenterInRegion('${center.name}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Voir un centre spécifique dans une région
+        function viewCenterInRegion(centerName) {
+            showToast(`Ouverture des détails pour ${centerName}`, 'info');
+            // Ici, on pourrait ouvrir les détails complets du centre
+        }
+        
+        // Initialiser la carte (simulée)
+        function initMap() {
+            const mapPlaceholder = document.getElementById('mapPlaceholder');
+            mapPlaceholder.innerHTML = `
+                <div style="width: 100%; height: 100%; background: #e9ecef; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div class="text-center">
+                        <i class="fas fa-map-marked-alt fa-3x text-primary mb-3"></i>
+                        <h5 class="text-primary">Carte interactive chargée</h5>
+                        <p class="text-muted">47 centres affichés sur la carte</p>
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                            <span class="badge bg-danger">● Hôpital (18)</span>
+                            <span class="badge bg-success">● Clinique (12)</span>
+                            <span class="badge bg-primary">● Centre (14)</span>
+                            <span class="badge bg-purple">● Mobile (3)</span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary btn-sm" onclick="zoomToDakar()">
+                                <i class="fas fa-search-location"></i>
+                                Zoom Dakar
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="showAllCenters()">
+                                <i class="fas fa-expand"></i>
+                                Tout voir
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="showEmergencyOnMap()">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Urgences
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            showToast('Carte interactive chargée', 'success');
+        }
+        
+        // Obtenir l'itinéraire vers un centre
+        function getDirections(centerId) {
+            const centers = {
+                1: {name: 'CHU de Fann', address: 'Route du front de terre, Dakar'},
+                2: {name: 'Centre National', address: 'Avenue Pasteur, Dakar'},
+                3: {name: 'Hôpital Thiès', address: 'Route de Khombole, Thiès'}
+            };
+            
+            const center = centers[centerId] || centers[1];
+            
+            showModal(`Itinéraire - ${center.name}`, `
+                <div class="mb-4">
+                    <h4>${center.name}</h4>
+                    <p class="text-muted">${center.address}</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Options d'accès :</h6>
+                    <div class="list-group mb-3">
+                        <a href="#" class="list-group-item list-group-item-action" onclick="openGoogleMaps('${center.address}')">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"><i class="fas fa-car text-primary"></i> En voiture</h6>
+                                <small>15-20 min</small>
+                            </div>
+                            <p class="mb-1">Depuis le centre-ville de Dakar</p>
+                            <small>Trafic modéré • Parking disponible</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action" onclick="openTransport('${center.name}')">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"><i class="fas fa-bus text-success"></i> Transport en commun</h6>
+                                <small>25-35 min</small>
+                            </div>
+                            <p class="mb-1">Bus N°10, 14, 23 • Arrêt "Hôpital Fann"</p>
+                            <small>Fréquence : 10-15 min</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action" onclick="openTaxiApp()">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"><i class="fas fa-taxi text-warning"></i> Taxi/VTC</h6>
+                                <small>10-15 min</small>
+                            </div>
+                            <p class="mb-1">Uber, Heetch, Taxis traditionnels</p>
+                            <small>Coût estimé : 1500-2000 FCFA</small>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <small>Nous vous recommandons d'arriver 15 minutes avant votre rendez-vous.</small>
+                </div>
+                
+                <div class="d-grid">
+                    <button class="btn btn-primary" onclick="openNavigationApp('${center.address}')">
+                        <i class="fas fa-directions"></i>
+                        Démarrer la navigation
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Ouvrir Google Maps (simulé)
+        function openGoogleMaps(address) {
+            showToast(`Ouverture de Google Maps avec l'adresse: ${address}`, 'info');
+        }
+        
+        // Ouvrir l'application de transport (simulé)
+        function openTransport(centerName) {
+            showToast(`Recherche des transports vers ${centerName}`, 'info');
+        }
+        
+        // Ouvrir l'application de taxi (simulé)
+        function openTaxiApp() {
+            showToast('Ouverture de l\'application de taxi', 'info');
+        }
+        
+        // Démarrer la navigation (simulé)
+        function openNavigationApp(address) {
+            showToast(`Navigation démarrée vers: ${address}`, 'success');
+            document.querySelector('.custom-modal')?.remove();
+        }
+        
+        // Vérifier la disponibilité d'un centre
+        function checkCenterAvailability(centerName) {
+            showModal(`Disponibilités - ${centerName}`, `
+                <div class="mb-4">
+                    <h4>${centerName}</h4>
+                    <p class="text-muted">Créneaux disponibles cette semaine</p>
+                </div>
+                
+                <div class="mb-4">
+                    <h6>Lundi 18 Mars :</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button class="btn btn-outline-success btn-sm">8h00</button>
+                        <button class="btn btn-outline-success btn-sm">9h00</button>
+                        <button class="btn btn-outline-success btn-sm">10h00</button>
+                        <button class="btn btn-outline-success btn-sm">11h00</button>
+                        <button class="btn btn-outline-secondary btn-sm">14h00</button>
+                        <button class="btn btn-outline-success btn-sm">15h00</button>
+                    </div>
+                    
+                    <h6>Mardi 19 Mars :</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button class="btn btn-outline-success btn-sm">8h00</button>
+                        <button class="btn btn-outline-success btn-sm">9h00</button>
+                        <button class="btn btn-outline-success btn-sm">10h00</button>
+                        <button class="btn btn-outline-warning btn-sm">11h00</button>
+                        <button class="btn btn-outline-success btn-sm">14h00</button>
+                        <button class="btn btn-outline-success btn-sm">15h00</button>
+                    </div>
+                    
+                    <h6>Mercredi 20 Mars :</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button class="btn btn-outline-success btn-sm">8h00</button>
+                        <button class="btn btn-outline-success btn-sm">9h00</button>
+                        <button class="btn btn-outline-success btn-sm">10h00</button>
+                        <button class="btn btn-outline-success btn-sm">11h00</button>
+                        <button class="btn btn-outline-success btn-sm">14h00</button>
+                        <button class="btn btn-outline-success btn-sm">15h00</button>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <small>Les créneaux en vert sont disponibles, en orange presque complets, en griff complets.</small>
+                </div>
+                
+                <div class="d-grid">
+                    <button class="btn btn-primary" onclick="scheduleAtCenter('${centerName}')">
+                        <i class="fas fa-calendar-check"></i>
+                        Réserver un créneau
+                    </button>
+                </div>
+            `);
+        }
+        
+        // Fonctions de la carte (simulées)
+        function zoomToDakar() {
+            showToast('Zoom sur la région de Dakar', 'info');
+        }
+        
+        function showAllCenters() {
+            showToast('Affichage de tous les centres', 'info');
+        }
+        
+        function showEmergencyOnMap() {
+            showToast('Centres en urgence mis en évidence', 'warning');
+        }
+        
+        function locateMe() {
+            showToast('Localisation en cours...', 'info');
+            setTimeout(() => {
+                showToast('Position détectée: Dakar, Plateau', 'success');
+                showNearbyCenters();
+            }, 1000);
+        }
+        
+        // Afficher un toast
+        function showToast(message, type) {
+            // Créer le toast
+            const toast = document.createElement('div');
+            toast.className = `toast position-fixed top-0 end-0 mt-3 me-3`;
+            toast.style.zIndex = '10000';
+            
+            const bgColor = type === 'success' ? 'bg-success' : type === 'warning' ? 'bg-warning' : type === 'info' ? 'bg-info' : 'bg-primary';
+            
+            toast.innerHTML = `
+                <div class="toast-header ${bgColor} text-white">
+                    <strong class="me-auto">BloodLink Centres</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Initialiser le toast Bootstrap
+            const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+            bsToast.show();
+            
+            // Supprimer le toast après fermeture
+            toast.addEventListener('hidden.bs.toast', function() {
+                toast.remove();
+            });
+        }
+        
+        // Afficher un modal
+        function showModal(title, content) {
+            // Supprimer l'ancien modal s'il existe
+            const existingModal = document.querySelector('.custom-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Créer le modal
+            const modal = document.createElement('div');
+            modal.className = 'custom-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1002;
+                animation: fadeIn 0.3s ease;
+                padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl);">
+                    <div style="padding: 24px; border-bottom: 1px solid var(--neutral-gray-200);">
+                        <h3 style="margin: 0; color: var(--neutral-gray-800);">${title}</h3>
+                    </div>
+                    <div style="padding: 24px;">
+                        ${content}
+                    </div>
+                    <div style="padding: 16px 24px; border-top: 1px solid var(--neutral-gray-200); text-align: right;">
+                        <button onclick="this.closest('.custom-modal').remove()" style="background: none; border: none; color: var(--neutral-gray-600); cursor: pointer; padding: 8px 16px; border-radius: 8px;">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        // Animation des cartes
+        function animateCards() {
+            const cards = document.querySelectorAll('.fade-in');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+        
+        // Fonctions supplémentaires
+        function addToCalendarMobile() {
+            showToast('Ajouté à votre calendrier', 'success');
+        }
+        
+        function shareMobileReservation() {
+            showToast('Partage de la réservation', 'info');
+        }
+        
+        function shareMobileCampaign() {
+            showToast('Campagne partagée sur les réseaux', 'success');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2850 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Dons | BloodLink</title>
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Médicale Professionnelle */
+            --primary-blue: #1a5f7a;
+            --secondary-blue: #2d8fbb;
+            --accent-blue: #57c1eb;
+            --light-blue: #e8f4f8;
+            --medical-teal: #008b8b;
+            --emergency-red: #e63946;
+            --success-green: #2a9d8f;
+            --warning-orange: #f4a261;
+            --soft-purple: #9d4edd;
+            
+            /* Neutres */
+            --pure-white: #ffffff;
+            --snow-white: #f8fafc;
+            --crystal-gray: #f1f5f9;
+            --ice-gray: #e2e8f0;
+            --slate-gray: #64748b;
+            --charcoal: #334155;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-blue) 0%, var(--medical-teal) 100%);
+            --gradient-emergency: linear-gradient(135deg, var(--emergency-red) 0%, #ff6b6b 100%);
+            --gradient-success: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%);
+            
+            /* Ombres */
+            --shadow-sm: 0 2px 8px rgba(26, 95, 122, 0.08);
+            --shadow-md: 0 4px 16px rgba(26, 95, 122, 0.12);
+            --shadow-lg: 0 8px 32px rgba(26, 95, 122, 0.16);
+            --shadow-xl: 0 16px 48px rgba(26, 95, 122, 0.2);
+            
+            /* Bordures */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--snow-white) 0%, var(--light-blue) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ====== HEADER MOBILE OPTIMISÉ ====== */
+        .hospital-header {
+            background: var(--pure-white);
+            border-bottom: 1px solid var(--ice-gray);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Logo Médical Mobile */
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon i {
+            color: var(--pure-white);
+            font-size: 1.3rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            font-size: 0.7rem;
+            color: var(--secondary-blue);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        /* Menu Hamburger */
+        .mobile-menu-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .mobile-menu-btn:hover {
+            background: var(--crystal-gray);
+            border-color: var(--accent-blue);
+            color: var(--secondary-blue);
+        }
+        
+        .mobile-menu-btn.active {
+            background: var(--secondary-blue);
+            border-color: var(--secondary-blue);
+            color: var(--pure-white);
+        }
+        
+        /* Actions Droite Mobile */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* Recherche Mobile */
+        .search-wrapper {
+            position: relative;
+            display: none;
+        }
+        
+        .search-wrapper.active {
+            display: block;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: var(--pure-white);
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+        }
+        
+        .search-input {
+            padding: 12px 16px 12px 44px;
+            border: 1px solid var(--ice-gray);
+            border-radius: var(--radius-full);
+            width: 100%;
+            font-size: 0.9rem;
+            transition: all var(--transition-base);
+            background: var(--crystal-gray);
+            color: var(--charcoal);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(87, 193, 235, 0.1);
+            background: var(--pure-white);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-gray);
+            pointer-events: none;
+        }
+        
+        /* Bouton Recherche Mobile */
+        .search-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .search-btn:hover {
+            background: var(--crystal-gray);
+            color: var(--secondary-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Profil Utilisateur Mobile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        
+        .user-profile:hover {
+            background: rgba(45, 143, 187, 0.08);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 2px solid var(--accent-blue);
+            padding: 2px;
+            background: var(--pure-white);
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: calc(var(--radius-md) - 2px);
+        }
+        
+        .user-info {
+            display: none;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+        }
+        
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--secondary-blue);
+            font-weight: 500;
+        }
+        
+        /* ====== SIDEBAR MOBILE AVANCÉE ====== */
+        .medical-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            width: 280px;
+            background: var(--pure-white);
+            border-right: 1px solid var(--ice-gray);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 998;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(-100%);
+            transition: transform var(--transition-base) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .medical-sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .sidebar-section {
+            padding: 0 20px;
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            color: var(--slate-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-left: 12px;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--slate-gray);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            position: relative;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(45, 143, 187, 0.08);
+            color: var(--primary-blue);
+        }
+        
+        .sidebar-link.active {
+            background: rgba(45, 143, 187, 0.12);
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+        
+        .sidebar-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--secondary-blue);
+            border-radius: 0 var(--radius-full) var(--radius-full) 0;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--gradient-accent);
+            color: var(--pure-white);
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        /* ====== CONTENU PRINCIPAL RESPONSIVE ====== */
+        .dashboard-content {
+            margin-top: 70px;
+            padding: 20px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, var(--snow-white) 0%, var(--light-blue) 100%);
+        }
+        
+        /* En-tête de Section Mobile */
+        .page-header {
+            margin-bottom: 24px;
+        }
+        
+        .page-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        
+        .page-subtitle {
+            color: var(--slate-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* ====== FILTRES HISTORIQUE MOBILE ====== */
+        .history-filters {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            margin-bottom: 24px;
+        }
+        
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .filter-header h3 {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .filter-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .filter-toggle:hover {
+            background: var(--crystal-gray);
+            border-color: var(--accent-blue);
+            color: var(--secondary-blue);
+        }
+        
+        .filter-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-content.active {
+            display: grid;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .filter-label {
+            font-size: 0.85rem;
+            color: var(--slate-gray);
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid var(--ice-gray);
+            border-radius: var(--radius-md);
+            background: var(--pure-white);
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            transition: all var(--transition-base);
+            width: 100%;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(87, 193, 235, 0.1);
+        }
+        
+        .filter-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--ice-gray);
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            border: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .filter-btn.primary {
+            background: var(--gradient-primary);
+            color: var(--pure-white);
+        }
+        
+        .filter-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .filter-btn.secondary {
+            background: var(--pure-white);
+            color: var(--secondary-blue);
+            border: 2px solid var(--secondary-blue);
+        }
+        
+        .filter-btn.secondary:hover {
+            background: var(--secondary-blue);
+            color: var(--pure-white);
+        }
+        
+        /* ====== CARTES HISTORIQUE MOBILE ====== */
+        .history-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .history-card {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .history-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-blue);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--pure-white);
+            background: var(--gradient-primary);
+            flex-shrink: 0;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+        
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--slate-gray);
+        }
+        
+        .card-content {
+            margin-bottom: 16px;
+        }
+        
+        .card-content p {
+            color: var(--slate-gray);
+            line-height: 1.5;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--slate-gray);
+        }
+        
+        /* ====== TABLEAU HISTORIQUE RESPONSIVE ====== */
+        .history-table {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--ice-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--snow-white);
+        }
+        
+        .table-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 0;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .table-content {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table {
+            width: 100%;
+            margin: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 600px;
+        }
+        
+        .table th {
+            background: var(--light-blue);
+            padding: 14px 16px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--ice-gray);
+            text-align: left;
+            white-space: nowrap;
+        }
+        
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--ice-gray);
+            vertical-align: middle;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+        }
+        
+        .table tbody tr {
+            transition: all var(--transition-fast);
+        }
+        
+        .table tbody tr:hover {
+            background: rgba(45, 143, 187, 0.05);
+        }
+        
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Badges de Statut Mobile */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        
+        .status-completed {
+            background: rgba(42, 157, 143, 0.1);
+            color: var(--success-green);
+        }
+        
+        .status-pending {
+            background: rgba(244, 162, 97, 0.1);
+            color: var(--warning-orange);
+        }
+        
+        .status-critical {
+            background: rgba(230, 57, 70, 0.1);
+            color: var(--emergency-red);
+        }
+        
+        .status-active {
+            background: rgba(45, 143, 187, 0.1);
+            color: var(--secondary-blue);
+        }
+        
+        /* Type Sanguin Mobile */
+        .blood-type {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--pure-white);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .blood-type.o-plus { background: linear-gradient(135deg, var(--emergency-red) 0%, #ff6b6b 100%); }
+        .blood-type.o-minus { background: linear-gradient(135deg, #c1121f 0%, #780000 100%); }
+        .blood-type.a-plus { background: linear-gradient(135deg, var(--secondary-blue) 0%, #1a759f 100%); }
+        .blood-type.a-minus { background: linear-gradient(135deg, #1a759f 0%, #184e77 100%); }
+        .blood-type.b-plus { background: linear-gradient(135deg, var(--success-green) 0%, #2a9d8f 100%); }
+        .blood-type.b-minus { background: linear-gradient(135deg, #2a9d8f 0%, #1d3557 100%); }
+        .blood-type.ab-plus { background: linear-gradient(135deg, var(--soft-purple) 0%, #9d4edd 100%); }
+        .blood-type.ab-minus { background: linear-gradient(135deg, #9d4edd 0%, #5a189a 100%); }
+        
+        /* Actions Tableau Mobile */
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        
+        .btn-action:hover {
+            background: var(--crystal-gray);
+            color: var(--secondary-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        .btn-action.primary {
+            background: var(--secondary-blue);
+            color: var(--pure-white);
+            border-color: var(--secondary-blue);
+        }
+        
+        .btn-action.primary:hover {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        
+        /* Actions Responsive pour petits écrans */
+        .table-actions-mobile {
+            display: none;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        /* ====== STATISTIQUES HISTORIQUE MOBILE ====== */
+        .history-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--pure-white);
+            background: var(--gradient-primary);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--slate-gray);
+        }
+        
+        /* ====== PAGINATION MOBILE ====== */
+        .history-pagination {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            margin-bottom: 24px;
+        }
+        
+        .pagination-info {
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--slate-gray);
+            font-size: 0.9rem;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .pagination-btn:hover {
+            background: var(--crystal-gray);
+            border-color: var(--accent-blue);
+            color: var(--secondary-blue);
+        }
+        
+        .pagination-btn.active {
+            background: var(--secondary-blue);
+            border-color: var(--secondary-blue);
+            color: var(--pure-white);
+        }
+        
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* ====== FOOTER MOBILE ====== */
+        .medical-footer {
+            background: var(--pure-white);
+            border-top: 1px solid var(--ice-gray);
+            padding: 20px;
+            margin-top: 24px;
+            margin-left: -20px;
+            margin-right: -20px;
+            margin-bottom: -20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .footer-link {
+            color: var(--slate-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary-blue);
+        }
+        
+        .footer-copyright {
+            color: var(--slate-gray);
+            font-size: 0.85rem;
+        }
+        
+        /* ====== OVERLAY MOBILE ====== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 997;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        /* ====== ANIMATIONS MOBILE ====== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.5s var(--transition-base);
+        }
+        
+        /* ====== MEDIA QUERIES POUR TABLETTES ====== */
+        @media (min-width: 768px) {
+            .header-container {
+                padding: 0 32px;
+            }
+            
+            .dashboard-content {
+                padding: 32px;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .history-filters,
+            .history-pagination,
+            .medical-footer {
+                padding: 24px;
+            }
+            
+            .history-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .history-stats {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+            
+            .filter-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filter-actions {
+                grid-template-columns: auto auto;
+                justify-content: flex-end;
+            }
+            
+            .user-info {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .search-wrapper {
+                display: block;
+                position: static;
+                padding: 0;
+                background: transparent;
+                box-shadow: none;
+            }
+            
+            .search-input {
+                width: 240px;
+            }
+            
+            .search-btn {
+                display: none;
+            }
+        }
+        
+        /* ====== MEDIA QUERIES POUR DESKTOP ====== */
+        @media (min-width: 992px) {
+            .medical-sidebar {
+                transform: translateX(0);
+                width: 280px;
+            }
+            
+            .dashboard-content {
+                margin-left: 280px;
+                padding: 40px;
+            }
+            
+            .mobile-menu-btn {
+                display: none;
+            }
+            
+            .medical-footer {
+                margin-left: -40px;
+                margin-right: -40px;
+                margin-bottom: -40px;
+            }
+            
+            .history-cards {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+            
+            .filter-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .search-input {
+                width: 280px;
+            }
+            
+            .search-input:focus {
+                width: 320px;
+            }
+        }
+        
+        /* ====== SCROLLBAR PERSONNALISÉE ====== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--crystal-gray);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-blue);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+        
+        /* ====== CARTE DONNEUR MOBILE ====== */
+        .donor-card-mobile {
+            display: none;
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            margin-bottom: 16px;
+        }
+        
+        @media (max-width: 767px) {
+            .table {
+                display: none;
+            }
+            
+            .donor-card-mobile {
+                display: block;
+            }
+        }
+        
+        /* ====== MODAL MOBILE ====== */
+        .modal-mobile {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideIn 0.3s var(--transition-base);
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ====== NAVIGATION PRINCIPALE ====== */
+.main-nav {
+    display: flex;
+    gap: 4px;
+    margin-left: 48px;
+}
+
+.nav-item {
+    padding: 12px 24px;
+    text-decoration: none;
+    color: var(--slate-gray);
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.nav-item:hover {
+    color: var(--primary-blue);
+    background: rgba(45, 143, 187, 0.08);
+}
+
+.nav-item.active {
+    color: var(--primary-blue);
+    background: rgba(45, 143, 187, 0.12);
+}
+
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 24px;
+    right: 24px;
+    height: 3px;
+    background: var(--secondary-blue);
+    border-radius: var(--radius-full);
+}
+
+/* ====== NOTIFICATIONS ====== */
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--ice-gray);
+    background: var(--pure-white);
+    color: var(--slate-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-btn:hover {
+    background: var(--crystal-gray);
+    color: var(--secondary-blue);
+    border-color: var(--accent-blue);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--gradient-emergency);
+    color: var(--pure-white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--pure-white);
+    box-shadow: var(--shadow-sm);
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ====== PROFIL UTILISATEUR DESKTOP ====== */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 16px;
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.user-profile:hover {
+    background: rgba(45, 143, 187, 0.08);
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px solid var(--accent-blue);
+    padding: 2px;
+    background: var(--pure-white);
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: calc(var(--radius-md) - 2px);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--charcoal);
+    font-size: 0.95rem;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: var(--secondary-blue);
+    font-weight: 500;
+}
+
+/* ====== MEDIA QUERIES POUR CACHER/MONTRE ====== */
+@media (max-width: 992px) {
+    .main-nav {
+        display: none;
+    }
+    
+    .notification-wrapper {
+        display: none;
+    }
+    
+    .search-wrapper {
+        display: none;
+    }
+    
+    .user-info {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    .search-btn {
+        display: none;
+    }
+    
+    .search-wrapper {
+        display: block !important;
+        position: static !important;
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    
+    .search-input {
+        width: 240px;
+    }
+    
+    .user-info {
+        display: flex !important;
+    }
+    
+    .notification-wrapper {
+        display: block !important;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header Hospitalier -->
+<header class="hospital-header">
+    <div class="header-container">
+        <!-- Logo et Menu Mobile -->
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <a href="index.html" class="medical-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>BloodLink</h1>
+                    <span>Système de don de sang</span>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Navigation Principale (cachée sur mobile) -->
+        <nav class="main-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                Tableau de bord
+            </a>
+            <a href="analytics.html" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                Analytiques
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="fas fa-file-medical"></i>
+                Rapports
+            </a>
+            <a href="history.html" class="nav-item active">
+                <i class="fas fa-history"></i>
+                Historique
+            </a>
+            <a href="#inventory" class="nav-item">
+                <i class="fas fa-tint"></i>
+                Stocks
+            </a>
+        </nav>
+        
+        <!-- Actions Droite -->
+        <div class="header-actions">
+            <!-- Recherche -->
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Rechercher dans l'historique...">
+            </div>
+            
+            <!-- Notifications -->
+            <div class="notification-wrapper">
+                <button class="notification-btn" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+            
+            <!-- Profil Utilisateur -->
+            <a href="#profile" class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Dr. Martin">
+                </div>
+                <div class="user-info">
+                    <div class="user-name">Dr. Sow</div>
+                    <div class="user-role">Hématologue</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</header>
+    
+    <!-- Overlay Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar Mobile -->
+    <aside class="medical-sidebar" id="medicalSidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Navigation</div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-home"></i></div>
+                    Tableau de bord
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    Analytiques
+                </a>
+                <a href="reports.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-file-medical"></i></div>
+                    Rapports
+                </a>
+                <a href="#history" class="sidebar-link active">
+                    <div class="nav-icon"><i class="fas fa-history"></i></div>
+                    Historique
+                    <span class="nav-badge">128</span>
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Types d'Historique</div>
+            <nav class="sidebar-nav">
+                <a href="#donations" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-heartbeat"></i></div>
+                    Dons de sang
+                </a>
+                <a href="#transfusions" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-syringe"></i></div>
+                    Transfusions
+                </a>
+                <a href="#tests" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-flask"></i></div>
+                    Tests sanguins
+                </a>
+                <a href="#inventory" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-boxes"></i></div>
+                    Mouvements stock
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Filtres Temporels</div>
+            <nav class="sidebar-nav">
+                <a href="#today" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-day"></i></div>
+                    Aujourd'hui
+                </a>
+                <a href="#week" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-week"></i></div>
+                    Cette semaine
+                </a>
+                <a href="#month" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                    Ce mois
+                </a>
+                <a href="#year" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar"></i></div>
+                    Cette année
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Actions Rapides</div>
+            <nav class="sidebar-nav">
+                <a href="#export" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-download"></i></div>
+                    Exporter
+                </a>
+                <a href="#print" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-print"></i></div>
+                    Imprimer
+                </a>
+                <a href="#archive" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-archive"></i></div>
+                    Archiver
+                </a>
+                <a href="#cleanup" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-broom"></i></div>
+                    Nettoyer
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Administration</div>
+            <nav class="sidebar-nav">
+                <a href="#settings" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-cogs"></i></div>
+                    Paramètres
+                </a>
+                <a href="#help" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-question-circle"></i></div>
+                    Aide
+                </a>
+            </nav>
+        </div>
+    </aside>
+    
+    <!-- Contenu Principal -->
+    <main class="dashboard-content">
+        <!-- En-tête -->
+        <div class="page-header">
+            <h1>📜 Historique des Dons</h1>
+            <p class="page-subtitle">Consultez l'historique complet des dons de sang, transfusions et mouvements de stock. Filtrer, rechercher et exporter les données.</p>
+        </div>
+        
+        <!-- Statistiques Rapides -->
+        <div class="history-stats">
+            <div class="stat-card fade-in-up">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--success-green);">+12%</div>
+                </div>
+                <div class="stat-value">842</div>
+                <div class="stat-label">Dons ce mois</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.1s;">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: var(--gradient-emergency);">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--emergency-red);">24</div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-label">Transfusions</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.2s;">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%);">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--success-green);">98%</div>
+                </div>
+                <div class="stat-value">3,248</div>
+                <div class="stat-label">Tests validés</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.3s;">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--soft-purple) 0%, #7b2cbf 100%);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--soft-purple);">128</div>
+                </div>
+                <div class="stat-value">15,842</div>
+                <div class="stat-label">Total historique</div>
+            </div>
+        </div>
+        
+        <!-- Filtres d'Historique -->
+        <div class="history-filters fade-in-up">
+            <div class="filter-header">
+                <h3>🔍 Filtres d'Historique</h3>
+                <button class="filter-toggle" id="filterToggle">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+            
+            <div class="filter-content" id="filterContent">
+                <div class="filter-group">
+                    <label class="filter-label">Période</label>
+                    <select class="filter-select" id="periodSelect">
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month" selected>Ce mois</option>
+                        <option value="quarter">Ce trimestre</option>
+                        <option value="year">Cette année</option>
+                        <option value="all">Tout l'historique</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Type d'activité</label>
+                    <select class="filter-select" id="activitySelect">
+                        <option value="all">Toutes activités</option>
+                        <option value="donation">Dons de sang</option>
+                        <option value="transfusion">Transfusions</option>
+                        <option value="test">Tests sanguins</option>
+                        <option value="inventory">Mouvements stock</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Statut</label>
+                    <select class="filter-select" id="statusSelect">
+                        <option value="all">Tous statuts</option>
+                        <option value="completed">Complété</option>
+                        <option value="pending">En attente</option>
+                        <option value="cancelled">Annulé</option>
+                        <option value="error">Erreur</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Tri par</label>
+                    <select class="filter-select" id="sortSelect">
+                        <option value="date_desc">Date (récent)</option>
+                        <option value="date_asc">Date (ancien)</option>
+                        <option value="name_asc">Nom (A-Z)</option>
+                        <option value="name_desc">Nom (Z-A)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="filter-btn secondary" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i>
+                    Réinitialiser
+                </button>
+                <button class="filter-btn primary" onclick="applyFilters()">
+                    <i class="fas fa-filter"></i>
+                    Appliquer
+                </button>
+            </div>
+        </div>
+        
+        <!-- Cartes d'Historique (Visible sur mobile) -->
+        <div class="history-cards">
+            <!-- Carte Don Récent -->
+            <div class="history-card fade-in-up" onclick="viewDonDetails(1)">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">Don complet A+</div>
+                        <div class="card-subtitle">Marie Laurent • 14 Mars 2024</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Don de sang complet (450ml) réussi. Test de compatibilité validé. Stock mis à jour.</p>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 10:30 AM</span>
+                        <span class="status-badge status-completed">Complet</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Transfusion -->
+            <div class="history-card fade-in-up" onclick="viewTransfusionDetails(1)" style="animation-delay: 0.1s;">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--gradient-emergency);">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">Transfusion urgente O-</div>
+                        <div class="card-subtitle">Urgence CHU • 13 Mars 2024</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Transfusion d'urgence pour intervention chirurgicale. 2 unités O- utilisées.</p>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 14:15 PM</span>
+                        <span class="status-badge status-completed">Complet</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carte Test Sanguin -->
+            <div class="history-card fade-in-up" onclick="viewTestDetails(1)" style="animation-delay: 0.2s;">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%);">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">Test de dépistage</div>
+                        <div class="card-subtitle">Pierre Martin • 12 Mars 2024</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Test sanguin complet : VIH, Hépatites, Syphilis. Tous résultats négatifs.</p>
+                    <div class="card-meta">
+                        <span><i class="fas fa-clock"></i> 09:45 AM</span>
+                        <span class="status-badge status-completed">Validé</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tableau d'Historique -->
+        <div class="history-table fade-in-up">
+            <div class="table-header">
+                <h3>📋 Historique Détailé</h3>
+                <div class="table-actions">
+                    <button class="btn-action" onclick="exportHistory()">
+                        <i class="fas fa-download"></i>
+                        Exporter
+                    </button>
+                    <button class="btn-action primary" onclick="refreshHistory()">
+                        <i class="fas fa-sync-alt"></i>
+                        Actualiser
+                    </button>
+                </div>
+            </div>
+            <div class="table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date & Heure</th>
+                            <th>Donneur/Patient</th>
+                            <th>Type</th>
+                            <th>Type sanguin</th>
+                            <th>Volume</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--charcoal);">14/03/2024</div>
+                                    <div style="font-size: 0.8rem; color: var(--slate-gray);">10:30 AM</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face" alt="Marie" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal); font-size: 0.9rem;">Marie Laurent</div>
+                                        <div style="font-size: 0.75rem; color: var(--slate-gray);">ID: BL-2024-001</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-heartbeat" style="color: var(--emergency-red);"></i>
+                                    <span style="font-size: 0.9rem;">Don</span>
+                                </div>
+                            </td>
+                            <td><span class="blood-type a-plus">A+</span></td>
+                            <td>450ml</td>
+                            <td><span class="status-badge status-completed"><i class="fas fa-check-circle"></i> Complet</span></td>
+                            <td>
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn-action" onclick="viewDetails(1)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="printRecord(1)">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--charcoal);">13/03/2024</div>
+                                    <div style="font-size: 0.8rem; color: var(--slate-gray);">14:15 PM</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Patient" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal); font-size: 0.9rem;">Jean Dupont</div>
+                                        <div style="font-size: 0.75rem; color: var(--slate-gray);">CHU Urgence</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-syringe" style="color: var(--emergency-red);"></i>
+                                    <span style="font-size: 0.9rem;">Transfusion</span>
+                                </div>
+                            </td>
+                            <td><span class="blood-type o-minus">O-</span></td>
+                            <td>900ml</td>
+                            <td><span class="status-badge status-completed"><i class="fas fa-check-circle"></i> Complet</span></td>
+                            <td>
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn-action" onclick="viewDetails(2)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="printRecord(2)">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--charcoal);">12/03/2024</div>
+                                    <div style="font-size: 0.8rem; color: var(--slate-gray);">09:45 AM</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" alt="Pierre" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal); font-size: 0.9rem;">Pierre Martin</div>
+                                        <div style="font-size: 0.75rem; color: var(--slate-gray);">ID: BL-2024-002</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-flask" style="color: var(--success-green);"></i>
+                                    <span style="font-size: 0.9rem;">Test</span>
+                                </div>
+                            </td>
+                            <td><span class="blood-type o-minus">O-</span></td>
+                            <td>Test</td>
+                            <td><span class="status-badge status-completed"><i class="fas fa-check-circle"></i> Validé</span></td>
+                            <td>
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn-action" onclick="viewDetails(3)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="printRecord(3)">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--charcoal);">11/03/2024</div>
+                                    <div style="font-size: 0.8rem; color: var(--slate-gray);">16:20 PM</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=32&h=32&fit=crop&crop=face" alt="Sophie" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal); font-size: 0.9rem;">Sophie Martin</div>
+                                        <div style="font-size: 0.75rem; color: var(--slate-gray);">ID: BL-2024-004</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-heartbeat" style="color: var(--emergency-red);"></i>
+                                    <span style="font-size: 0.9rem;">Don</span>
+                                </div>
+                            </td>
+                            <td><span class="blood-type ab-plus">AB+</span></td>
+                            <td>450ml</td>
+                            <td><span class="status-badge status-pending"><i class="fas fa-clock"></i> En attente</span></td>
+                            <td>
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn-action" onclick="viewDetails(4)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="validateRecord(4)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--charcoal);">10/03/2024</div>
+                                    <div style="font-size: 0.8rem; color: var(--slate-gray);">11:10 AM</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+                                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="Jean" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal); font-size: 0.9rem;">Lamine Diatta</div>
+                                        <div style="font-size: 0.75rem; color: var(--slate-gray);">ID: BL-2024-003</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <i class="fas fa-flask" style="color: var(--success-green);"></i>
+                                    <span style="font-size: 0.9rem;">Test</span>
+                                </div>
+                            </td>
+                            <td><span class="blood-type b-plus">B+</span></td>
+                            <td>Test</td>
+                            <td><span class="status-badge status-critical"><i class="fas fa-exclamation-triangle"></i> Échec</span></td>
+                            <td>
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="btn-action" onclick="viewDetails(5)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="retestRecord(5)">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Cartes Donneurs Mobile (alternative au tableau) -->
+        <div class="history-cards" id="mobileCards">
+            <!-- Ces cartes sont générées dynamiquement en JavaScript pour mobile -->
+        </div>
+        
+        <!-- Pagination -->
+        <div class="history-pagination fade-in-up">
+            <div class="pagination-info">
+                Affichage de 1 à 5 sur 128 entrées
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn disabled">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">4</button>
+                <button class="pagination-btn">5</button>
+                <button class="pagination-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="medical-footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Confidentialité</a>
+                    <a href="#terms" class="footer-link">Conditions</a>
+                    <a href="#help" class="footer-link">Aide</a>
+                </div>
+                <div class="footer-copyright">
+                    © 2024 BloodLink Pro • Historique des dons
+                </div>
+            </div>
+        </footer>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser AOS
+            AOS.init({
+                duration: 600,
+                once: true,
+                offset: 50,
+                easing: 'ease-out-cubic'
+            });
+            
+            // Gestion du menu hamburger
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const medicalSidebar = document.getElementById('medicalSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                medicalSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+                mobileMenuBtn.classList.toggle('active');
+                document.body.style.overflow = medicalSidebar.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            sidebarOverlay.addEventListener('click', function() {
+                medicalSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Gestion de la recherche mobile
+            const searchBtn = document.getElementById('searchBtn');
+            const searchWrapper = document.getElementById('searchWrapper');
+            
+            searchBtn.addEventListener('click', function() {
+                searchWrapper.classList.toggle('active');
+                if (searchWrapper.classList.contains('active')) {
+                    searchWrapper.querySelector('.search-input').focus();
+                }
+            });
+            
+            // Fermer la recherche en cliquant à l'extérieur
+            document.addEventListener('click', function(e) {
+                if (!searchWrapper.contains(e.target) && !searchBtn.contains(e.target)) {
+                    searchWrapper.classList.remove('active');
+                }
+            });
+            
+            // Gestion des filtres mobile
+            const filterToggle = document.getElementById('filterToggle');
+            const filterContent = document.getElementById('filterContent');
+            
+            filterToggle.addEventListener('click', function() {
+                filterContent.classList.toggle('active');
+            });
+            
+            // Générer les cartes mobiles
+            generateMobileCards();
+            
+            // Animation des cartes
+            animateCards();
+            
+            // Gérer le redimensionnement
+            handleResize();
+        });
+        
+        // Générer les cartes pour mobile
+        function generateMobileCards() {
+            const mobileCardsContainer = document.getElementById('mobileCards');
+            const isMobile = window.innerWidth < 768;
+            
+            if (isMobile && mobileCardsContainer) {
+                // Données des cartes
+                const historyData = [
+                    {
+                        id: 1,
+                        date: '14/03/2024',
+                        time: '10:30 AM',
+                        name: 'Marie Laurent',
+                        type: 'Don',
+                        bloodType: 'A+',
+                        volume: '450ml',
+                        status: 'completed',
+                        icon: 'heartbeat',
+                        color: 'emergency-red'
+                    },
+                    {
+                        id: 2,
+                        date: '13/03/2024',
+                        time: '14:15 PM',
+                        name: 'Jean Dupont',
+                        type: 'Transfusion',
+                        bloodType: 'O-',
+                        volume: '900ml',
+                        status: 'completed',
+                        icon: 'syringe',
+                        color: 'emergency-red'
+                    },
+                    {
+                        id: 3,
+                        date: '12/03/2024',
+                        time: '09:45 AM',
+                        name: 'Pierre Martin',
+                        type: 'Test',
+                        bloodType: 'O-',
+                        volume: 'Test',
+                        status: 'completed',
+                        icon: 'flask',
+                        color: 'success-green'
+                    },
+                    {
+                        id: 4,
+                        date: '11/03/2024',
+                        time: '16:20 PM',
+                        name: 'Sophie Martin',
+                        type: 'Don',
+                        bloodType: 'AB+',
+                        volume: '450ml',
+                        status: 'pending',
+                        icon: 'heartbeat',
+                        color: 'emergency-red'
+                    },
+                    {
+                        id: 5,
+                        date: '10/03/2024',
+                        time: '11:10 AM',
+                        name: 'Lamine Diatta',
+                        type: 'Test',
+                        bloodType: 'B+',
+                        volume: 'Test',
+                        status: 'critical',
+                        icon: 'flask',
+                        color: 'success-green'
+                    }
+                ];
+                
+                // Vider le conteneur
+                mobileCardsContainer.innerHTML = '';
+                
+                // Générer les cartes
+                historyData.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'history-card fade-in-up';
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.onclick = () => viewDetails(item.id);
+                    
+                    // Déterminer la couleur de l'icône
+                    let iconColor;
+                    switch(item.color) {
+                        case 'emergency-red': iconColor = 'var(--emergency-red)'; break;
+                        case 'success-green': iconColor = 'var(--success-green)'; break;
+                        default: iconColor = 'var(--secondary-blue)';
+                    }
+                    
+                    // Déterminer le statut
+                    let statusClass, statusText, statusIcon;
+                    switch(item.status) {
+                        case 'completed':
+                            statusClass = 'status-completed';
+                            statusText = 'Complet';
+                            statusIcon = 'check-circle';
+                            break;
+                        case 'pending':
+                            statusClass = 'status-pending';
+                            statusText = 'En attente';
+                            statusIcon = 'clock';
+                            break;
+                        case 'critical':
+                            statusClass = 'status-critical';
+                            statusText = 'Échec';
+                            statusIcon = 'exclamation-triangle';
+                            break;
+                        default:
+                            statusClass = 'status-active';
+                            statusText = 'Actif';
+                            statusIcon = 'circle';
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-icon" style="background: ${iconColor};">
+                                <i class="fas fa-${item.icon}"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">${item.type} ${item.bloodType}</div>
+                                <div class="card-subtitle">${item.name} • ${item.date}</div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <p>${getDescription(item.type, item.bloodType, item.volume)}</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> ${item.time}</span>
+                                <span class="status-badge ${statusClass}">
+                                    <i class="fas fa-${statusIcon}"></i> ${statusText}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    mobileCardsContainer.appendChild(card);
+                });
+            }
+        }
+        
+        // Fonction pour obtenir la description
+        function getDescription(type, bloodType, volume) {
+            switch(type) {
+                case 'Don':
+                    return `Don de sang complet (${volume}) réussi. Type ${bloodType} validé.`;
+                case 'Transfusion':
+                    return `Transfusion ${volume} de sang ${bloodType}. Intervention réussie.`;
+                case 'Test':
+                    return `Test sanguin complet effectué. Type ${bloodType} confirmé.`;
+                default:
+                    return 'Activité enregistrée dans le système.';
+            }
+        }
+        
+        // Animation des cartes
+        function animateCards() {
+            const cards = document.querySelectorAll('.fade-in-up');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+        
+        // Gérer le redimensionnement
+        function handleResize() {
+            const isMobile = window.innerWidth < 768;
+            const table = document.querySelector('.table-content');
+            const mobileCards = document.getElementById('mobileCards');
+            
+            if (isMobile) {
+                if (table) table.style.display = 'none';
+                if (mobileCards) mobileCards.style.display = 'grid';
+                generateMobileCards();
+            } else {
+                if (table) table.style.display = 'block';
+                if (mobileCards) mobileCards.style.display = 'none';
+            }
+            
+            // Ajuster la hauteur de la sidebar
+            const sidebar = document.getElementById('medicalSidebar');
+            if (sidebar) {
+                sidebar.style.height = `calc(100vh - 70px)`;
+            }
+        }
+        
+        // Écouter le redimensionnement
+        window.addEventListener('resize', handleResize);
+        
+        // Fonctions des filtres
+        function resetFilters() {
+            const selects = document.querySelectorAll('.filter-select');
+            selects.forEach(select => {
+                select.selectedIndex = 0;
+            });
+            
+            showToast('Filtres réinitialisés', 'success');
+        }
+        
+        function applyFilters() {
+            const period = document.getElementById('periodSelect').value;
+            const activity = document.getElementById('activitySelect').value;
+            const status = document.getElementById('statusSelect').value;
+            const sort = document.getElementById('sortSelect').value;
+            
+            showToast('Filtres appliqués avec succès', 'success');
+            
+            // Ici, vous pouvez ajouter la logique pour filtrer l'historique
+            console.log('Filtres appliqués:', { period, activity, status, sort });
+            
+            // Fermer les filtres sur mobile
+            if (window.innerWidth < 768) {
+                document.getElementById('filterContent').classList.remove('active');
+            }
+        }
+        
+        // Fonctions de l'historique
+        function viewDonDetails(id) {
+            showModal('🩸 Détails du Don', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--emergency-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-heartbeat" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Don de Sang Complet</h4>
+                    <p style="color: var(--slate-gray);">Marie Laurent • 14 Mars 2024, 10:30</p>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 16px;">Informations du Don</h5>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Type sanguin :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;"><span class="blood-type a-plus">A+</span></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Volume :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">450 ml</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Durée :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">12 minutes</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Statut :</span>
+                            <span class="status-badge status-completed">Complet</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Référence :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">BL-DON-2024-001</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn-action primary" onclick="printRecord(${id})" style="width: 100%; justify-content: center; padding: 12px;">
+                        <i class="fas fa-print"></i>
+                        Imprimer la fiche
+                    </button>
+                    <button onclick="closeModal()" class="btn-action" style="width: 100%; justify-content: center; padding: 12px;">
+                        <i class="fas fa-times"></i>
+                        Fermer
+                    </button>
+                </div>
+            `);
+        }
+        
+        function viewTransfusionDetails(id) {
+            showModal('💉 Détails de la Transfusion', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--emergency-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-syringe" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Transfusion Urgente</h4>
+                    <p style="color: var(--slate-gray);">Jean Dupont • 13 Mars 2024, 14:15</p>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 16px;">Détails Médicaux</h5>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Type sanguin :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;"><span class="blood-type o-minus">O-</span></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Volume transfusé :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">900 ml (2 unités)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Motif :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">Intervention chirurgicale</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Médecin :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">Dr. Sow</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Statut :</span>
+                            <span class="status-badge status-completed">Succès</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function viewTestDetails(id) {
+            showModal('🧪 Détails du Test', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--success-green); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-flask" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Test Sanguin Complet</h4>
+                    <p style="color: var(--slate-gray);">Pierre Martin • 12 Mars 2024, 09:45</p>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 16px;">Résultats des Tests</h5>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Type sanguin :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;"><span class="blood-type o-minus">O-</span></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">VIH :</span>
+                            <span style="color: var(--success-green); font-weight: 600;">Négatif</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Hépatite B :</span>
+                            <span style="color: var(--success-green); font-weight: 600;">Négatif</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Hépatite C :</span>
+                            <span style="color: var(--success-green); font-weight: 600;">Négatif</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Syphilis :</span>
+                            <span style="color: var(--success-green); font-weight: 600;">Négatif</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function viewDetails(id) {
+            // Selon l'ID, afficher les détails appropriés
+            if (id <= 2) {
+                viewDonDetails(id);
+            } else if (id === 3) {
+                viewTestDetails(id);
+            } else {
+                showModal('📄 Détails de l\'Enregistrement', `
+                    <div style="text-align: center; margin-bottom: 24px;">
+                        <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                            <i class="fas fa-file-medical" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h4 style="color: var(--charcoal); margin-bottom: 8px;">Enregistrement #${id}</h4>
+                        <p style="color: var(--slate-gray);">Détails complets de l'activité</p>
+                    </div>
+                    
+                    <div style="display: grid; gap: 12px;">
+                        <button class="btn-action primary" onclick="printRecord(${id})" style="width: 100%; justify-content: center; padding: 12px;">
+                            <i class="fas fa-print"></i>
+                            Imprimer
+                        </button>
+                        <button onclick="closeModal()" class="btn-action" style="width: 100%; justify-content: center; padding: 12px;">
+                            <i class="fas fa-times"></i>
+                            Fermer
+                        </button>
+                    </div>
+                `);
+            }
+        }
+        
+        function exportHistory() {
+            showModal('📤 Exporter l\'Historique', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-download" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Exporter l'historique</h4>
+                    <p style="color: var(--slate-gray);">Sélectionnez le format et la période</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="filter-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Format d'export</label>
+                    <select class="filter-select" style="width: 100%;">
+                        <option value="pdf">PDF</option>
+                        <option value="excel">Excel</option>
+                        <option value="csv">CSV</option>
+                        <option value="json">JSON</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="filter-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Période</label>
+                    <select class="filter-select" style="width: 100%;">
+                        <option value="all">Tout l'historique</option>
+                        <option value="month">Ce mois</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="today">Aujourd'hui</option>
+                    </select>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn-action primary" onclick="startExport()" style="width: 100%; justify-content: center; padding: 12px;">
+                        <i class="fas fa-download"></i>
+                        Exporter maintenant
+                    </button>
+                </div>
+            `);
+        }
+        
+        function startExport() {
+            showToast('Exportation en cours...', 'info');
+            setTimeout(() => {
+                showToast('Exportation terminée avec succès', 'success');
+                closeModal();
+            }, 2000);
+        }
+        
+        function refreshHistory() {
+            showToast('Actualisation de l\'historique...', 'info');
+            setTimeout(() => {
+                showToast('Historique actualisé', 'success');
+            }, 1000);
+        }
+        
+        function printRecord(id) {
+            showToast('Impression de l\'enregistrement...', 'info');
+            // Ici, vous ajouteriez la logique d'impression
+        }
+        
+        function validateRecord(id) {
+            if (confirm('Valider cet enregistrement ?')) {
+                showToast('Enregistrement validé avec succès', 'success');
+            }
+        }
+        
+        function retestRecord(id) {
+            if (confirm('Relancer le test pour cet échantillon ?')) {
+                showToast('Nouveau test programmé', 'success');
+            }
+        }
+        
+        // Fonction pour afficher un modal
+        function showModal(title, content) {
+            // Supprimer l'ancien modal s'il existe
+            const existingModal = document.querySelector('.modal-mobile');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Créer le modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-mobile';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div style="padding: 20px; border-bottom: 1px solid var(--ice-gray); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; color: var(--charcoal); font-size: 1.2rem; font-weight: 600;">${title}</h3>
+                        <button onclick="closeModal()" style="background: none; border: none; color: var(--slate-gray); cursor: pointer; font-size: 1.2rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); transition: all var(--transition-fast);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div style="padding: 20px;">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            
+            // Ajouter au body
+            document.body.appendChild(modal);
+            
+            // Empêcher le défilement du body
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Fonction pour fermer le modal
+        function closeModal() {
+            const modal = document.querySelector('.modal-mobile');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Fonction pour afficher des notifications toast
+        function showToast(message, type = 'info') {
+            // Supprimer les anciens toasts
+            const existingToasts = document.querySelectorAll('.toast-mobile');
+            existingToasts.forEach(toast => toast.remove());
+            
+            // Créer le toast
+            const toast = document.createElement('div');
+            toast.className = 'toast-mobile';
+            
+            let bgColor, icon;
+            switch(type) {
+                case 'success':
+                    bgColor = 'var(--success-green)';
+                    icon = 'fas fa-check-circle';
+                    break;
+                case 'error':
+                    bgColor = 'var(--emergency-red)';
+                    icon = 'fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    bgColor = 'var(--warning-orange)';
+                    icon = 'fas fa-exclamation-triangle';
+                    break;
+                default:
+                    bgColor = 'var(--secondary-blue)';
+                    icon = 'fas fa-info-circle';
+            }
+            
+            toast.style.cssText = `
+                position: fixed;
+                top: 90px;
+                left: 20px;
+                right: 20px;
+                background: ${bgColor};
+                color: white;
+                padding: 14px 20px;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-lg);
+                z-index: 1002;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: toastSlideIn 0.3s var(--transition-base);
+            `;
+            
+            toast.innerHTML = `
+                <i class="${icon}" style="font-size: 1.2rem;"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Supprimer après 3 secondes
+            setTimeout(() => {
+                toast.style.animation = 'toastSlideOut 0.3s var(--transition-base)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+            
+            // Ajouter les animations CSS si nécessaire
+            if (!document.querySelector('#toast-animations')) {
+                const style = document.createElement('style');
+                style.id = 'toast-animations';
+                style.textContent = `
+                    @keyframes toastSlideIn {
+                        from {
+                            transform: translateY(-100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                    }
+                    @keyframes toastSlideOut {
+                        from {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
+                        to {
+                            transform: translateY(-100%);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Navigation dans la sidebar
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (window.innerWidth < 992) {
+                    // Fermer la sidebar sur mobile après clic
+                    document.getElementById('medicalSidebar').classList.remove('active');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    document.getElementById('mobileMenuBtn').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
+                // Retirer la classe active de tous les liens
+                document.querySelectorAll('.sidebar-link').forEach(l => {
+                    l.classList.remove('active');
+                });
+                
+                // Ajouter la classe active au lien cliqué
+                this.classList.add('active');
+            });
+        });
+        // Gestion des notifications
+function setupNotifications() {
+    const notificationBtn = document.getElementById('notificationBtn');
+    
+    if (notificationBtn) {
+        notificationBtn.addEventListener('click', function() {
+            showHistoryNotifications();
+        });
+    }
+}
+
+// Afficher les notifications spécifiques à l'historique
+function showHistoryNotifications() {
+    const notifications = [
+        {
+            title: 'Nouvel historique ajouté',
+            message: '3 nouveaux dons enregistrés dans l\'historique',
+            time: 'Il y a 5 min',
+            type: 'info'
+        },
+        {
+            title: 'Exportation terminée',
+            message: 'L\'export de l\'historique mensuel est prêt',
+            time: 'Il y a 2 heures',
+            type: 'success'
+        },
+        {
+            title: 'Archive programmée',
+            message: 'L\'archive des anciens dons est prévue pour demain',
+            time: 'Il y a 1 jour',
+            type: 'warning'
+        }
+    ];
+    
+    // Créer le modal de notifications
+    createNotificationModal(notifications);
+}
+
+// Fonction pour créer le modal des notifications
+function createNotificationModal(notifications) {
+    // Supprimer l'ancien modal s'il existe
+    const existingModal = document.querySelector('.notification-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Créer le modal
+    const modal = document.createElement('div');
+    modal.className = 'notification-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        width: 380px;
+        max-width: 90vw;
+        background: var(--pure-white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        z-index: 1001;
+        border: 1px solid var(--ice-gray);
+        overflow: hidden;
+        animation: slideIn 0.3s var(--transition-base);
+    `;
+    
+    // Header du modal
+    const header = document.createElement('div');
+    header.style.cssText = `
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--ice-gray);
+        background: var(--snow-white);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    `;
+    header.innerHTML = `
+        <h4 style="margin: 0; font-size: 1.1rem; color: var(--charcoal); font-weight: 600;">Notifications Historique</h4>
+        <button onclick="this.closest('.notification-modal').remove()" style="background: none; border: none; color: var(--slate-gray); cursor: pointer; font-size: 1.2rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); transition: all var(--transition-fast);">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    // Contenu du modal
+    const content = document.createElement('div');
+    content.style.cssText = 'max-height: 400px; overflow-y: auto;';
+    
+    notifications.forEach(notif => {
+        const item = document.createElement('div');
+        item.style.cssText = `
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--ice-gray);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        `;
+        
+        // Déterminer la couleur selon le type
+        let iconColor;
+        switch(notif.type) {
+            case 'success': iconColor = 'var(--success-green)'; break;
+            case 'warning': iconColor = 'var(--warning-orange)'; break;
+            case 'error': iconColor = 'var(--emergency-red)'; break;
+            default: iconColor = 'var(--secondary-blue)';
+        }
+        
+        item.innerHTML = `
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+                <div style="width: 40px; height: 40px; border-radius: var(--radius-md); background: ${iconColor}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <i class="fas fa-bell" style="color: white; font-size: 1rem;"></i>
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; color: var(--charcoal); margin-bottom: 6px;">${notif.title}</div>
+                    <div style="font-size: 0.9rem; color: var(--slate-gray); margin-bottom: 8px; line-height: 1.4;">${notif.message}</div>
+                    <div style="font-size: 0.8rem; color: var(--slate-gray); display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-clock"></i>
+                        ${notif.time}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        item.addEventListener('click', function() {
+            modal.remove();
+            // Action spécifique selon la notification
+            if (notif.type === 'success') {
+                // Rediriger vers l'export
+                exportHistory();
+            }
+        });
+        
+        content.appendChild(item);
+    });
+    
+    // Footer du modal
+    const footer = document.createElement('div');
+    footer.style.cssText = `
+        padding: 16px 24px;
+        text-align: center;
+        border-top: 1px solid var(--ice-gray);
+        background: var(--snow-white);
+    `;
+    footer.innerHTML = `
+        <a href="#allNotifications" style="color: var(--secondary-blue); text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <i class="fas fa-bell"></i>
+            Voir toutes les notifications
+        </a>
+    `;
+    
+    // Assembler le modal
+    modal.appendChild(header);
+    modal.appendChild(content);
+    modal.appendChild(footer);
+    
+    // Ajouter au body
+    document.body.appendChild(modal);
+    
+    // Fermer en cliquant à l'extérieur
+    setTimeout(() => {
+        const closeModal = (e) => {
+            if (!modal.contains(e.target) && e.target !== document.getElementById('notificationBtn')) {
+                modal.remove();
+                document.removeEventListener('click', closeModal);
+            }
+        };
+        document.addEventListener('click', closeModal);
+    }, 100);
+}
+
+// Ajouter dans votre DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    // ... votre code existant ...
+    
+    // Initialiser les notifications
+    setupNotifications();
+    
+    // ... reste du code ...
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodLink Hôpitaux - Profil</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hospital.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="hospital-platform">
+    <!-- Header Hospitalier -->
+    <header class="hospital-header">
+        <div class="header-container">
+            <div class="hospital-brand">
+                <div class="brand-logo">🏥</div>
+                <div class="brand-info">
+                    <h1>BloodLink Hôpitaux</h1>
+                    <span class="hospital-name" id="currentHospital">Hôpital Abass Ndao</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="quick-actions">
+                    <button class="btn btn-emergency" onclick="declareQuickEmergency()">
+                        🚨 Urgence Sanguine
+                    </button>
+                    <button class="btn btn-primary" onclick="openStockManagement()">
+                        🩸 Gérer le Stock
+                    </button>
+                </div>
+                
+                <div class="user-menu">
+                    <div class="notification-bell" id="notificationBell">
+                        <span class="notification-count">3</span>
+                        🔔
+                    </div>
+                    <div class="hospital-profile">
+                        <span class="profile-name">Dr. Cissé</span>
+                        <span class="profile-role">Responsable Hématologie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Principale -->
+    <nav class="hospital-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Tableau de Bord
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="urgences.html" class="nav-link">
+                        <span class="nav-icon">🚨</span>
+                        Urgences
+                        <span class="nav-badge" id="urgentBadge">2</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html" class="nav-link">
+                        <span class="nav-icon">🩸</span>
+                        Stocks Sanguins
+                        <span class="nav-badge critical">CRITIQUE</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reservations.html" class="nav-link">
+                        <span class="nav-icon">📦</span>
+                        Réservations
+                        <span class="nav-badge" id="reservationBadge">5</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="demandes.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Demandes
+                        <span class="nav-badge" id="demandBadge">8</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="profil.html" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        Profil Hôpital
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-footer">
+                <div class="hospital-status">
+                    <span class="status-indicator online"></span>
+                    Connecté au réseau BloodLink
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <main class="hospital-main">
+        <div class="main-container">
+            <!-- En-tête de Page -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1>Profil de l'Hôpital</h1>
+                    <p>Gérez les informations et paramètres de votre établissement</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="profilPage.exportHospitalData()">
+                        📊 Exporter les données
+                    </button>
+                </div>
+            </div>
+
+            <div class="profile-layout">
+                <!-- Colonne de gauche - Informations générales -->
+                <div class="profile-sidebar">
+                    <!-- Carte Profil Hôpital -->
+                    <section class="profile-card">
+                        <div class="profile-header">
+                            <div class="hospital-avatar">
+                                🏥
+                            </div>
+                            <div class="profile-info">
+                                <h2 id="hospitalNameDisplay">Hôpital Abass Ndao</h2>
+                                <p class="hospital-type">Centre Hospitalier Universitaire (CHU)</p>
+                                <div class="hospital-status-badge">
+                                    <span class="status-indicator online"></span>
+                                    Actif sur BloodLink
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="bedCount">850</span>
+                                <span class="stat-label">Lits</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="staffCount">1,250</span>
+                                <span class="stat-label">Personnel</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="annualTransfusions">12,458</span>
+                                <span class="stat-label">Transfusions/an</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contacts d'urgence -->
+                    <section class="emergency-contacts">
+                        <h3>📞 Contacts d'Urgence</h3>
+                        <div class="contacts-list">
+                            <div class="contact-item">
+                                <span class="contact-name">Dr. Cissé</span>
+                                <span class="contact-role">Responsable Hématologie</span>
+                                <span class="contact-phone">+221 782080346</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-name">Dr. Diallo</span>
+                                <span class="contact-role">Chirurgie Cardiaque</span>
+                                <span class="contact-phone">+221 774771500</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-name">Mme. Prerra</span>
+                                <span class="contact-role">Directrice Administrative</span>
+                                <span class="contact-phone">+221 753102010</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Statut du système -->
+                    <section class="system-status">
+                        <h3>🔧 Statut du Système</h3>
+                        <div class="status-list">
+                            <div class="status-item online">
+                                <span class="status-name">Connexion BloodLink</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                            <div class="status-item online">
+                                <span class="status-name">Synchronisation stocks</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                            <div class="status-item warning">
+                                <span class="status-name">Sauvegarde données</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                            <div class="status-item online">
+                                <span class="status-name">Notifications</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Colonne de droite - Détails et paramètres -->
+                <div class="profile-content">
+                    <!-- Navigation des sections -->
+                    <nav class="profile-tabs">
+                        <button class="tab-button active" data-tab="informations">
+                            📝 Informations
+                        </button>
+                        <button class="tab-button" data-tab="parametres">
+                            ⚙️ Paramètres
+                        </button>
+                        <button class="tab-button" data-tab="securite">
+                            🔐 Sécurité
+                        </button>
+                        <button class="tab-button" data-tab="statistiques">
+                            📈 Statistiques
+                        </button>
+                    </nav>
+
+                    <!-- Contenu des onglets -->
+                    <div class="tab-content">
+                        <!-- Onglet Informations -->
+                        <div class="tab-pane active" id="informations-tab">
+                            <div class="section-header">
+                                <h2>Informations Générales</h2>
+                                <button class="btn btn-outline" onclick="profilPage.editHospitalInfo()">
+                                    ✏️ Modifier
+                                </button>
+                            </div>
+
+                            <div class="info-grid">
+                                <div class="info-section">
+                                    <h3>Identité de l'établissement</h3>
+                                    <div class="info-item">
+                                        <span class="info-label">Nom officiel</span>
+                                        <span class="info-value" id="infoHospitalName">Hôpital Abass Ndao</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Type d'établissement</span>
+                                        <span class="info-value" id="infoHospitalType">Centre Hospitalier Universitaire (CHU)</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Numéro FINESS</span>
+                                        <span class="info-value" id="infoFiness">750000123</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">SIRET</span>
+                                        <span class="info-value" id="infoSiret">123 456 789 00123</span>
+                                    </div>
+                                </div>
+
+                                <div class="info-section">
+                                    <h3>Coordonnées</h3>
+                                    <div class="info-item">
+                                        <span class="info-label">Adresse</span>
+                                        <span class="info-value" id="infoAddress">34 Avenue de Chekh Anta Diop, 75015 Dakar</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Téléphone</span>
+                                        <span class="info-value" id="infoPhone">+221 782080346</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Email</span>
+                                        <span class="info-value" id="infoEmail">abass@hopital.sn</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Site web</span>
+                                        <span class="info-value" id="infoWebsite">www.hopital-Abass-Ndao.sn</span>
+                                    </div>
+                                </div>
+
+                                <div class="info-section">
+                                    <h3>Capacités médicales</h3>
+                                    <div class="info-item">
+                                        <span class="info-label">Nombre de lits</span>
+                                        <span class="info-value" id="infoBeds">850</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Services spécialisés</span>
+                                        <span class="info-value" id="infoServices">Urgences, Chirurgie, Cardiologie, Maternité, Oncologie, Pédiatrie</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Bloc opératoire</span>
+                                        <span class="info-value" id="infoSurgeryRooms">12 salles</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Banque de sang</span>
+                                        <span class="info-value" id="infoBloodBank">Interne - Niveau 3</span>
+                                    </div>
+                                </div>
+
+                                <div class="info-section">
+                                    <h3>Équipe dirigeante</h3>
+                                    <div class="info-item">
+                                        <span class="info-label">Directeur</span>
+                                        <span class="info-value" id="infoDirector">Dr. Cissé</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Responsable Hématologie</span>
+                                        <span class="info-value" id="infoHematology">Dr. Gueye</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Responsable Qualité</span>
+                                        <span class="info-value" id="infoQuality">Mme. Prerra</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Coordinateur BloodLink</span>
+                                        <span class="info-value" id="infoCoordinator">Dr. Cissé</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Paramètres -->
+                        <div class="tab-pane" id="parametres-tab">
+                            <div class="section-header">
+                                <h2>Paramètres de l'Application</h2>
+                                <button class="btn btn-outline" onclick="profilPage.resetSettings()">
+                                    🔄 Restaurer défauts
+                                </button>
+                            </div>
+
+                            <div class="settings-grid">
+                                <div class="settings-section">
+                                    <h3>🩸 Gestion des Stocks</h3>
+                                    
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Seuils d'alerte automatique</h4>
+                                            <p>Recevoir des alertes quand les stocks descendent sous les niveaux critiques</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="alertThresholds" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Seuil critique (unités)</h4>
+                                            <p>Nombre minimum d'unités avant alerte critique</p>
+                                        </div>
+                                        <input type="number" class="setting-input" id="criticalThreshold" value="5" min="1" max="20">
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Seuil bas (unités)</h4>
+                                            <p>Nombre minimum d'unités avant alerte bas niveau</p>
+                                        </div>
+                                        <input type="number" class="setting-input" id="lowThreshold" value="15" min="5" max="50">
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3>🔔 Notifications</h3>
+                                    
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Notifications push</h4>
+                                            <p>Recevoir des notifications en temps réel</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="pushNotifications" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Alertes par email</h4>
+                                            <p>Recevoir les alertes importantes par email</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="emailAlerts" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Notifications SMS</h4>
+                                            <p>Recevoir les alertes critiques par SMS</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="smsAlerts">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3>📊 Rapports Automatiques</h3>
+                                    
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Rapport quotidien</h4>
+                                            <p>Générer un rapport quotidien à 8h00</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="dailyReport" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Rapport hebdomadaire</h4>
+                                            <p>Générer un rapport hebdomadaire le lundi</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="weeklyReport">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Rapport mensuel</h4>
+                                            <p>Générer un rapport mensuel le 1er du mois</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="monthlyReport" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h3>🌐 Préférences d'Affichage</h3>
+                                    
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Mode sombre</h4>
+                                            <p>Utiliser le thème sombre de l'application</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="darkMode" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Langue</h4>
+                                            <p>Langue de l'interface</p>
+                                        </div>
+                                        <select class="setting-input" id="language">
+                                            <option value="fr" selected>Français</option>
+                                            <option value="en">English</option>
+                                            <option value="es">Español</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="setting-info">
+                                            <h4>Fuseau horaire</h4>
+                                            <p>Fuseau horaire pour les rapports</p>
+                                        </div>
+                                        <select class="setting-input" id="timezone">
+                                          
+                                        <option value="Africa/Dakar">Africa/Dakar (UTC+0)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-actions">
+                                <button class="btn btn-outline" onclick="profilPage.cancelSettings()">
+                                    Annuler
+                                </button>
+                                <button class="btn btn-primary" onclick="profilPage.saveSettings()">
+                                    💾 Sauvegarder les paramètres
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Sécurité -->
+                        <div class="tab-pane" id="securite-tab">
+                            <div class="section-header">
+                                <h2>Sécurité et Accès</h2>
+                                <button class="btn btn-outline" onclick="profilPage.auditLog()">
+                                    📋 Journal d'audit
+                                </button>
+                            </div>
+
+                            <div class="security-grid">
+                                <div class="security-section">
+                                    <h3>🔐 Compte Utilisateur</h3>
+                                    
+                                    <div class="security-item">
+                                        <div class="security-info">
+                                            <h4>Mot de passe</h4>
+                                            <p>Dernière modification: 15/01/2024</p>
+                                        </div>
+                                        <button class="btn btn-outline" onclick="profilPage.changePassword()">
+                                            Modifier
+                                        </button>
+                                    </div>
+
+                                    <div class="security-item">
+                                        <div class="security-info">
+                                            <h4>Authentification à deux facteurs</h4>
+                                            <p>Ajoutez une couche de sécurité supplémentaire</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="twoFactorAuth">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="security-item">
+                                        <div class="security-info">
+                                            <h4>Sessions actives</h4>
+                                            <p>2 appareils connectés</p>
+                                        </div>
+                                        <button class="btn btn-outline" onclick="profilPage.manageSessions()">
+                                            Gérer
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="security-section">
+                                    <h3>👥 Gestion des Accès</h3>
+                                    
+                                    <div class="access-list">
+                                        <div class="access-item">
+                                            <div class="user-avatar">👨‍⚕️</div>
+                                            <div class="user-info">
+                                                <h4>Dr. Martin</h4>
+                                                <p>Administrateur • Dernière connexion: Aujourd'hui 08:45</p>
+                                            </div>
+                                            <div class="access-actions">
+                                                <button class="btn-icon" title="Modifier">
+                                                    ✏️
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="access-item">
+                                            <div class="user-avatar">👩‍⚕️</div>
+                                            <div class="user-info">
+                                                <h4>Dr. Lefebvre</h4>
+                                                <p>Utilisateur standard • Dernière connexion: Hier 16:30</p>
+                                            </div>
+                                            <div class="access-actions">
+                                                <button class="btn-icon" title="Modifier">
+                                                    ✏️
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="access-item">
+                                            <div class="user-avatar">👨‍💼</div>
+                                            <div class="user-info">
+                                                <h4>M. Durand</h4>
+                                                <p>Lecture seule • Dernière connexion: 12/01/2024</p>
+                                            </div>
+                                            <div class="access-actions">
+                                                <button class="btn-icon" title="Modifier">
+                                                    ✏️
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-primary full-width" onclick="profilPage.addUser()">
+                                        👤 Ajouter un utilisateur
+                                    </button>
+                                </div>
+
+                                <div class="security-section">
+                                    <h3>🛡️ Paramètres de Sécurité</h3>
+                                    
+                                    <div class="security-item">
+                                        <div class="security-info">
+                                            <h4>Verrouillage automatique</h4>
+                                            <p>Verrouiller la session après 15 minutes d'inactivité</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="autoLock" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="security-item">
+                                        <div class="security-info">
+                                            <h4>Journalisation des activités</h4>
+                                            <p>Enregistrer toutes les actions importantes</p>
+                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="activityLogging" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="security-item">
+                                        <div class="security-info">
+                                            <h4>Chiffrement des données</h4>
+                                            <p>Chiffrer toutes les données sensibles</p>
+                                        </div>
+                                        <div class="security-status active">
+                                            Activé
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Statistiques -->
+                        <div class="tab-pane" id="statistiques-tab">
+                            <div class="section-header">
+                                <h2>Statistiques et Performance</h2>
+                                <div class="period-selector">
+                                    <select id="statsPeriod" onchange="profilPage.updateStats()">
+                                        <option value="7days">7 derniers jours</option>
+                                        <option value="30days" selected>30 derniers jours</option>
+                                        <option value="90days">3 derniers mois</option>
+                                        <option value="1year">1 an</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="stats-overview">
+                                <div class="stats-grid">
+                                    <div class="stat-card large">
+                                        <div class="stat-header">
+                                            <h3>📈 Activité Globale</h3>
+                                            <span class="stat-trend positive">+12%</span>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-main">
+                                                <span class="stat-value">94%</span>
+                                                <span class="stat-label">Taux d'utilisation</span>
+                                            </div>
+                                            <div class="stat-chart" id="globalActivityChart">
+                                                <!-- Graphique sera généré dynamiquement -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="stat-card">
+                                        <div class="stat-header">
+                                            <h3>🩸 Utilisation Stocks</h3>
+                                            <span class="stat-trend positive">+8%</span>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-main">
+                                                <span class="stat-value">1,247</span>
+                                                <span class="stat-label">Unités utilisées</span>
+                                            </div>
+                                            <div class="stat-details">
+                                                <div class="detail-item">
+                                                    <span class="detail-label">O+</span>
+                                                    <span class="detail-value">423</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">A+</span>
+                                                    <span class="detail-value">315</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">B+</span>
+                                                    <span class="detail-value">198</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="stat-card">
+                                        <div class="stat-header">
+                                            <h3>🚨 Urgences</h3>
+                                            <span class="stat-trend negative">+5%</span>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-main">
+                                                <span class="stat-value">47</span>
+                                                <span class="stat-label">Urgences déclarées</span>
+                                            </div>
+                                            <div class="stat-details">
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Temps moyen réponse</span>
+                                                    <span class="detail-value">18min</span>
+                                                </div>
+                                                <div class="detail-item">
+                                                    <span class="detail-label">Taux de succès</span>
+                                                    <span class="detail-value">96%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="detailed-stats">
+                                <div class="stats-section">
+                                    <h3>Performance par Service</h3>
+                                    <div class="service-stats" id="serviceStats">
+                                        <!-- Statistiques par service -->
+                                    </div>
+                                </div>
+
+                                <div class="stats-section">
+                                    <h3>Tendances Mensuelles</h3>
+                                    <div class="trend-chart" id="monthlyTrendChart">
+                                        <!-- Graphique des tendances -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="export-actions">
+                                <button class="btn btn-outline" onclick="profilPage.exportStats('pdf')">
+                                    📄 PDF
+                                </button>
+                                <button class="btn btn-outline" onclick="profilPage.exportStats('excel')">
+                                    📊 Excel
+                                </button>
+                                <button class="btn btn-primary" onclick="profilPage.exportStats('full')">
+                                    📦 Rapport Complet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Édition Profil -->
+    <div class="modal-overlay" id="editProfileModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>✏️ Modifier le Profil</h3>
+                <button class="modal-close" onclick="profilPage.closeEditModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="profileForm">
+                    <div class="form-section">
+                        <h4>Informations Générales</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nom de l'hôpital *</label>
+                                <input type="text" id="editHospitalName" value="Hôpital Abass Ndao" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Type d'établissement *</label>
+                                <select id="editHospitalType" required>
+                                    <option value="CHU">Centre Hospitalier Universitaire (CHU)</option>
+                                    <option value="CH">Centre Hospitalier</option>
+                                    <option value="CL">Clinique</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Numéro FINESS *</label>
+                                <input type="text" id="editFiness" value="750000123" required>
+                            </div>
+                            <div class="form-group">
+                                <label>SIRET *</label>
+                                <input type="text" id="editSiret" value="12345678900123" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Coordonnées</h4>
+                        <div class="form-group">
+                            <label>Adresse *</label>
+                            <input type="text" id="editAddress" value="34 Avenue de Chekh Anta Diop, 75015 Dakar" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Téléphone *</label>
+                                <input type="tel" id="editPhone" value="+221 782080346" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" id="editEmail" value="abass@hopital.sn" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Site web</label>
+                            <input type="url" id="editWebsite" value="www.hopital-Abass-Ndao.sn">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Capacités Médicales</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nombre de lits *</label>
+                                <input type="number" id="editBeds" value="850" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Salles d'opération</label>
+                                <input type="number" id="editSurgeryRooms" value="12" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Services spécialisés *</label>
+                            <textarea id="editServices" rows="3" required>Urgences, Chirurgie, Cardiologie, Maternité, Oncologie, Pédiatrie</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="profilPage.closeEditModal()">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            💾 Sauvegarder les modifications
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/hospital-core.js"></script>
+    <script src="js/profil-page.js"></script>
+</body>
+
+</html>

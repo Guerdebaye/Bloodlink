@@ -1,0 +1,2756 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapports Analytiques | BloodLink</title>
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Médicale Professionnelle */
+            --primary-blue: #1a5f7a;
+            --secondary-blue: #2d8fbb;
+            --accent-blue: #57c1eb;
+            --light-blue: #e8f4f8;
+            --medical-teal: #008b8b;
+            --emergency-red: #e63946;
+            --success-green: #2a9d8f;
+            --warning-orange: #f4a261;
+            --soft-purple: #9d4edd;
+            
+            /* Neutres */
+            --pure-white: #ffffff;
+            --snow-white: #f8fafc;
+            --crystal-gray: #f1f5f9;
+            --ice-gray: #e2e8f0;
+            --slate-gray: #64748b;
+            --charcoal: #334155;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-blue) 0%, var(--medical-teal) 100%);
+            --gradient-emergency: linear-gradient(135deg, var(--emergency-red) 0%, #ff6b6b 100%);
+            --gradient-success: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%);
+            
+            /* Ombres */
+            --shadow-sm: 0 2px 8px rgba(26, 95, 122, 0.08);
+            --shadow-md: 0 4px 16px rgba(26, 95, 122, 0.12);
+            --shadow-lg: 0 8px 32px rgba(26, 95, 122, 0.16);
+            --shadow-xl: 0 16px 48px rgba(26, 95, 122, 0.2);
+            
+            /* Bordures */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--snow-white) 0%, var(--light-blue) 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ====== HEADER HOSPITALIER ====== */
+        .hospital-header {
+            background: var(--pure-white);
+            border-bottom: 1px solid var(--ice-gray);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Logo Médical */
+        .medical-logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon i {
+            color: var(--pure-white);
+            font-size: 1.5rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--secondary-blue);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        /* Navigation Principale */
+        .main-nav {
+            display: flex;
+            gap: 4px;
+            margin-left: 48px;
+        }
+        
+        .nav-item {
+            padding: 12px 24px;
+            text-decoration: none;
+            color: var(--slate-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary-blue);
+            background: rgba(45, 143, 187, 0.08);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-blue);
+            background: rgba(45, 143, 187, 0.12);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 24px;
+            right: 24px;
+            height: 3px;
+            background: var(--secondary-blue);
+            border-radius: var(--radius-full);
+        }
+        
+        /* Actions Droite */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* Recherche Médicale */
+        .search-wrapper {
+            position: relative;
+        }
+        
+        .search-input {
+            padding: 10px 16px 10px 44px;
+            border: 1px solid var(--ice-gray);
+            border-radius: var(--radius-full);
+            width: 280px;
+            font-size: 0.9rem;
+            transition: all var(--transition-base);
+            background: var(--crystal-gray);
+            color: var(--charcoal);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(87, 193, 235, 0.1);
+            width: 320px;
+            background: var(--pure-white);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate-gray);
+            pointer-events: none;
+        }
+        
+        /* Notifications */
+        .notification-wrapper {
+            position: relative;
+        }
+        
+        .notification-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-base);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-btn:hover {
+            background: var(--crystal-gray);
+            color: var(--secondary-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: var(--gradient-emergency);
+            color: var(--pure-white);
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--pure-white);
+            box-shadow: var(--shadow-sm);
+            animation: badgePulse 2s infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Profil Utilisateur */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 8px 16px;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .user-profile:hover {
+            background: rgba(45, 143, 187, 0.08);
+        }
+        
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 2px solid var(--accent-blue);
+            padding: 2px;
+            background: var(--pure-white);
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: calc(var(--radius-md) - 2px);
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: var(--charcoal);
+            font-size: 0.95rem;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--secondary-blue);
+            font-weight: 500;
+        }
+        
+        /* ====== SIDEBAR MÉDICALE FLUIDE ====== */
+        .medical-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            width: 280px;
+            background: var(--pure-white);
+            border-right: 1px solid var(--ice-gray);
+            padding: 32px 0;
+            overflow-y: auto;
+            z-index: 999;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-base) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .sidebar-section {
+            padding: 0 24px;
+            margin-bottom: 32px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            color: var(--slate-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            text-decoration: none;
+            color: var(--slate-gray);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            position: relative;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(45, 143, 187, 0.08);
+            color: var(--primary-blue);
+            transform: translateX(6px);
+        }
+        
+        .sidebar-link.active {
+            background: rgba(45, 143, 187, 0.12);
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+        
+        .sidebar-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--secondary-blue);
+            border-radius: 0 var(--radius-full) var(--radius-full) 0;
+        }
+        
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: transform var(--transition-fast);
+        }
+        
+        .sidebar-link:hover .nav-icon {
+            transform: scale(1.1);
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--gradient-accent);
+            color: var(--pure-white);
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        /* ====== CONTENU PRINCIPAL ====== */
+        .dashboard-content {
+            margin-left: 280px;
+            margin-top: 70px;
+            padding: 40px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, var(--snow-white) 0%, var(--light-blue) 100%);
+        }
+        
+        /* En-tête de Section */
+        .page-header {
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        
+        .page-subtitle {
+            color: var(--slate-gray);
+            font-size: 1.2rem;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+        
+        /* ====== FILTRES RAPPORTS ====== */
+        .report-filters {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            margin-bottom: 40px;
+        }
+        
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .filter-header h3 {
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-size: 0.9rem;
+            color: var(--slate-gray);
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            padding: 12px 16px;
+            border: 1px solid var(--ice-gray);
+            border-radius: var(--radius-md);
+            background: var(--pure-white);
+            color: var(--charcoal);
+            font-size: 0.95rem;
+            transition: all var(--transition-base);
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(87, 193, 235, 0.1);
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            padding-top: 20px;
+            border-top: 1px solid var(--ice-gray);
+        }
+        
+        .filter-btn {
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-btn.primary {
+            background: var(--gradient-primary);
+            color: var(--pure-white);
+        }
+        
+        .filter-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .filter-btn.secondary {
+            background: var(--pure-white);
+            color: var(--secondary-blue);
+            border: 2px solid var(--secondary-blue);
+        }
+        
+        .filter-btn.secondary:hover {
+            background: var(--secondary-blue);
+            color: var(--pure-white);
+        }
+        
+        /* ====== RAPPORTS CARDS ====== */
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+        
+        .report-card {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-blue);
+        }
+        
+        .report-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .report-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: var(--pure-white);
+            background: var(--gradient-primary);
+            flex-shrink: 0;
+        }
+        
+        .report-card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+        
+        .report-card-subtitle {
+            font-size: 0.9rem;
+            color: var(--slate-gray);
+        }
+        
+        .report-card-content {
+            margin-bottom: 24px;
+        }
+        
+        .report-card-content p {
+            color: var(--slate-gray);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--slate-gray);
+        }
+        
+        .report-size {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* ====== TABLEAU RAPPORTS ====== */
+        .reports-table {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .table-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--ice-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--snow-white);
+        }
+        
+        .table-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 0;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .table-content {
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            margin: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .table th {
+            background: var(--light-blue);
+            padding: 18px 24px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--ice-gray);
+            text-align: left;
+        }
+        
+        .table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--ice-gray);
+            vertical-align: middle;
+            color: var(--charcoal);
+        }
+        
+        .table tbody tr {
+            transition: all var(--transition-fast);
+        }
+        
+        .table tbody tr:hover {
+            background: rgba(45, 143, 187, 0.05);
+        }
+        
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Badges de Statut Rapport */
+        .report-status-badge {
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-completed {
+            background: rgba(42, 157, 143, 0.1);
+            color: var(--success-green);
+        }
+        
+        .status-pending {
+            background: rgba(244, 162, 97, 0.1);
+            color: var(--warning-orange);
+        }
+        
+        .status-processing {
+            background: rgba(45, 143, 187, 0.1);
+            color: var(--secondary-blue);
+        }
+        
+        .status-error {
+            background: rgba(230, 57, 70, 0.1);
+            color: var(--emergency-red);
+        }
+        
+        /* Type de Rapport */
+        .report-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.85rem;
+            background: rgba(45, 143, 187, 0.08);
+            color: var(--secondary-blue);
+        }
+        
+        /* Actions Tableau */
+        .btn-action {
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-action:hover {
+            background: var(--crystal-gray);
+            color: var(--secondary-blue);
+            border-color: var(--accent-blue);
+        }
+        
+        .btn-action.primary {
+            background: var(--secondary-blue);
+            color: var(--pure-white);
+            border-color: var(--secondary-blue);
+        }
+        
+        .btn-action.primary:hover {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        
+        /* ====== STATISTIQUES RAPPORTS ====== */
+        .report-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-card.completed::before {
+            background: var(--gradient-success);
+        }
+        
+        .stat-card.error::before {
+            background: var(--gradient-emergency);
+        }
+        
+        .stat-card.pending::before {
+            background: linear-gradient(135deg, var(--warning-orange) 0%, #e76f51 100%);
+        }
+        
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--pure-white);
+            background: var(--gradient-primary);
+        }
+        
+        .stat-icon.completed {
+            background: var(--gradient-success);
+        }
+        
+        .stat-icon.error {
+            background: var(--gradient-emergency);
+        }
+        
+        .stat-icon.pending {
+            background: linear-gradient(135deg, var(--warning-orange) 0%, #e76f51 100%);
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--slate-gray);
+        }
+        
+        /* ====== GÉNÉRATEUR RAPPORT ====== */
+        .report-generator {
+            background: var(--pure-white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--ice-gray);
+            margin-bottom: 40px;
+        }
+        
+        .generator-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .generator-header h3 {
+            font-size: 1.8rem;
+            color: var(--charcoal);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .generator-header p {
+            color: var(--slate-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .generator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-label {
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            font-weight: 500;
+        }
+        
+        .form-control {
+            padding: 12px 16px;
+            border: 1px solid var(--ice-gray);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            transition: all var(--transition-base);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(87, 193, 235, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .generator-btn {
+            padding: 14px 40px;
+            border-radius: var(--radius-full);
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .generator-btn.primary {
+            background: var(--gradient-primary);
+            color: var(--pure-white);
+        }
+        
+        .generator-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .generator-btn.secondary {
+            background: var(--pure-white);
+            color: var(--secondary-blue);
+            border: 2px solid var(--secondary-blue);
+        }
+        
+        .generator-btn.secondary:hover {
+            background: var(--secondary-blue);
+            color: var(--pure-white);
+        }
+        
+        /* ====== FOOTER MÉDICAL ====== */
+        .medical-footer {
+            background: var(--pure-white);
+            border-top: 1px solid var(--ice-gray);
+            padding: 28px 40px;
+            margin-top: 40px;
+            margin-left: -40px;
+            margin-right: -40px;
+            margin-bottom: -40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+        
+        .footer-link {
+            color: var(--slate-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            color: var(--secondary-blue);
+        }
+        
+        .footer-copyright {
+            color: var(--slate-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* ====== RESPONSIVE DESIGN ====== */
+        @media (max-width: 1200px) {
+            .medical-sidebar {
+                width: 240px;
+            }
+            
+            .dashboard-content {
+                margin-left: 240px;
+                padding: 32px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .medical-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .medical-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .dashboard-content {
+                margin-left: 0;
+            }
+            
+            .main-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .search-input {
+                width: 200px;
+            }
+            
+            .search-input:focus {
+                width: 240px;
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .report-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-content {
+                padding: 24px;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-actions {
+                flex-direction: column;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .report-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+            
+            .table-actions {
+                justify-content: flex-end;
+            }
+            
+            .generator-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .generator-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .dashboard-content {
+                padding: 20px;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .report-filters,
+            .report-card,
+            .report-generator {
+                padding: 20px;
+            }
+            
+            .table-header h3 {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* ====== BOUTON MENU MOBILE ====== */
+        .mobile-menu-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ice-gray);
+            background: var(--pure-white);
+            color: var(--slate-gray);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            margin-right: 12px;
+        }
+        
+        .mobile-menu-btn:hover {
+            background: var(--crystal-gray);
+            border-color: var(--accent-blue);
+            color: var(--secondary-blue);
+        }
+        
+        /* ====== OVERLAY MOBILE ====== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        /* ====== ANIMATIONS ====== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s var(--transition-base);
+        }
+        
+        /* ====== SCROLLBAR PERSONNALISÉE ====== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--crystal-gray);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-blue);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Hospitalier -->
+    <header class="hospital-header">
+        <div class="header-container">
+            <!-- Logo et Menu Mobile -->
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <a href="index.html" class="medical-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>BloodLink</h1>
+                        <span>Système de don de sang</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Navigation Principale -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Tableau de bord
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    Analytiques
+                </a>
+                <a href="#reports" class="nav-item active">
+                    <i class="fas fa-file-medical"></i>
+                    Rapports
+                </a>
+                <a href="#donors" class="nav-item">
+                    <i class="fas fa-user-injured"></i>
+                    Donneurs
+                </a>
+                <a href="#inventory" class="nav-item">
+                    <i class="fas fa-tint"></i>
+                    Stocks
+                </a>
+            </nav>
+            
+            <!-- Actions Droite -->
+            <div class="header-actions">
+                <!-- Recherche -->
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Rechercher rapport...">
+                </div>
+                
+                <!-- Notifications -->
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </button>
+                </div>
+                
+                <!-- Profil Utilisateur -->
+                <a href="#profile" class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Dr. Martin">
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">Dr. Sow</div>
+                        <div class="user-role">Hématologue</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Overlay Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar Médicale -->
+    <aside class="medical-sidebar" id="medicalSidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Tableau de bord</div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    Vue d'ensemble
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    Analytiques
+                </a>
+                <a href="#reports" class="sidebar-link active">
+                    <div class="nav-icon"><i class="fas fa-file-medical"></i></div>
+                    Rapports
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Types de Rapports</div>
+            <nav class="sidebar-nav">
+                <a href="#daily" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-day"></i></div>
+                    Quotidiens
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#weekly" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-week"></i></div>
+                    Hebdomadaires
+                </a>
+                <a href="#monthly" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                    Mensuels
+                </a>
+                <a href="#annual" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar"></i></div>
+                    Annuels
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Rapports Spécialisés</div>
+            <nav class="sidebar-nav">
+                <a href="#stock" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-boxes"></i></div>
+                    Inventaire
+                </a>
+                <a href="#donors" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-users"></i></div>
+                    Donneurs
+                </a>
+                <a href="#transfusions" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-syringe"></i></div>
+                    Transfusions
+                </a>
+                <a href="#quality" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-clipboard-check"></i></div>
+                    Qualité
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Génération</div>
+            <nav class="sidebar-nav">
+                <a href="#new" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-plus-circle"></i></div>
+                    Nouveau rapport
+                </a>
+                <a href="#templates" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-file-alt"></i></div>
+                    Modèles
+                </a>
+                <a href="#scheduled" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-clock"></i></div>
+                    Planifiés
+                </a>
+                <a href="#export" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-download"></i></div>
+                    Exportation
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Historique</div>
+            <nav class="sidebar-nav">
+                <a href="#recent" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-history"></i></div>
+                    Récents
+                </a>
+                <a href="#archived" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-archive"></i></div>
+                    Archivés
+                </a>
+                <a href="#favorites" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-star"></i></div>
+                    Favoris
+                </a>
+                <a href="#shared" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-share-alt"></i></div>
+                    Partagés
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Administration</div>
+            <nav class="sidebar-nav">
+                <a href="#settings" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-cogs"></i></div>
+                    Paramètres
+                </a>
+                <a href="#help" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-question-circle"></i></div>
+                    Aide
+                </a>
+            </nav>
+        </div>
+    </aside>
+    
+    <!-- Contenu Principal -->
+    <main class="dashboard-content">
+        <!-- En-tête -->
+        <div class="page-header">
+            <h1>📊 Rapports Analytiques</h1>
+            <p class="page-subtitle">Générez, visualisez et exportez des rapports détaillés sur l'activité des dons, les stocks et les performances du système BloodLink.</p>
+        </div>
+        
+        <!-- Statistiques Rapides -->
+        <div class="report-stats">
+            <div class="stat-card completed fade-in-up">
+                <div class="stat-header">
+                    <div class="stat-icon completed">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--success-green);">98%</div>
+                </div>
+                <div class="stat-value">247</div>
+                <div class="stat-label">Rapports générés ce mois</div>
+            </div>
+            
+            <div class="stat-card fade-in-up" style="animation-delay: 0.1s;">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--warning-orange);">5</div>
+                </div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">En cours de génération</div>
+            </div>
+            
+            <div class="stat-card pending fade-in-up" style="animation-delay: 0.2s;">
+                <div class="stat-header">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--secondary-blue);">3.2s</div>
+                </div>
+                <div class="stat-value">1,248</div>
+                <div class="stat-label">Temps moyen de génération</div>
+            </div>
+            
+            <div class="stat-card error fade-in-up" style="animation-delay: 0.3s;">
+                <div class="stat-header">
+                    <div class="stat-icon error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--emergency-red);">2</div>
+                </div>
+                <div class="stat-value">0.8%</div>
+                <div class="stat-label">Taux d'erreur</div>
+            </div>
+        </div>
+        
+        <!-- Filtres de Rapports -->
+        <div class="report-filters fade-in-up">
+            <div class="filter-header">
+                <h3>🔍 Filtres Avancés</h3>
+                <div style="font-size: 0.9rem; color: var(--slate-gray);">
+                    <i class="fas fa-info-circle"></i>
+                    Appliquez des filtres pour affiner vos recherches
+                </div>
+            </div>
+            
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Période</label>
+                    <select class="filter-select">
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month" selected>Ce mois</option>
+                        <option value="quarter">Ce trimestre</option>
+                        <option value="year">Cette année</option>
+                        <option value="custom">Personnalisée</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Type de rapport</label>
+                    <select class="filter-select">
+                        <option value="all">Tous les types</option>
+                        <option value="inventory">Inventaire</option>
+                        <option value="donations">Dons</option>
+                        <option value="transfusions">Transfusions</option>
+                        <option value="quality">Qualité</option>
+                        <option value="financial">Financier</option>
+                        <option value="performance">Performance</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Statut</label>
+                    <select class="filter-select">
+                        <option value="all">Tous les statuts</option>
+                        <option value="completed">Complet</option>
+                        <option value="pending">En attente</option>
+                        <option value="processing">En cours</option>
+                        <option value="error">Erreur</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Format</label>
+                    <select class="filter-select">
+                        <option value="all">Tous formats</option>
+                        <option value="pdf">PDF</option>
+                        <option value="excel">Excel</option>
+                        <option value="csv">CSV</option>
+                        <option value="html">HTML</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="filter-btn secondary" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i>
+                    Réinitialiser
+                </button>
+                <button class="filter-btn primary" onclick="applyFilters()">
+                    <i class="fas fa-filter"></i>
+                    Appliquer les filtres
+                </button>
+            </div>
+        </div>
+        
+        <!-- Rapports Prédéfinis -->
+        <div class="reports-grid">
+            <!-- Rapport d'Inventaire -->
+            <div class="report-card fade-in-up" onclick="viewReport('inventory')">
+                <div class="report-card-header">
+                    <div class="report-icon" style="background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--medical-teal) 100%);">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div>
+                        <div class="report-card-title">Rapport d'Inventaire</div>
+                        <div class="report-card-subtitle">Stocks sanguins actuels</div>
+                    </div>
+                </div>
+                <div class="report-card-content">
+                    <p>Analyse détaillée des niveaux de stock par type sanguin, date d'expiration et emplacement. Inclut les tendances et les prévisions.</p>
+                    <div class="report-meta">
+                        <span><i class="far fa-clock"></i> Généré le 14 Mars 2024</span>
+                        <span class="report-size"><i class="fas fa-file-pdf"></i> 2.4 MB</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rapport des Dons -->
+            <div class="report-card fade-in-up" onclick="viewReport('donations')" style="animation-delay: 0.1s;">
+                <div class="report-card-header">
+                    <div class="report-icon" style="background: linear-gradient(135deg, var(--emergency-red) 0%, #ff6b6b 100%);">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div>
+                        <div class="report-card-title">Rapport des Dons</div>
+                        <div class="report-card-subtitle">Activité mensuelle des dons</div>
+                    </div>
+                </div>
+                <div class="report-card-content">
+                    <p>Statistiques complètes sur les dons de sang, plasma et plaquettes. Analyse par type sanguin, âge, sexe et fréquence des dons.</p>
+                    <div class="report-meta">
+                        <span><i class="far fa-clock"></i> Généré le 13 Mars 2024</span>
+                        <span class="report-size"><i class="fas fa-file-excel"></i> 1.8 MB</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rapport de Qualité -->
+            <div class="report-card fade-in-up" onclick="viewReport('quality')" style="animation-delay: 0.2s;">
+                <div class="report-card-header">
+                    <div class="report-icon" style="background: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%);">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <div class="report-card-title">Rapport de Qualité</div>
+                        <div class="report-card-subtitle">Contrôles qualité et conformité</div>
+                    </div>
+                </div>
+                <div class="report-card-content">
+                    <p>Évaluation des procédures de contrôle qualité, conformité aux normes sanitaires et résultats des tests de laboratoire.</p>
+                    <div class="report-meta">
+                        <span><i class="far fa-clock"></i> Généré le 12 Mars 2024</span>
+                        <span class="report-size"><i class="fas fa-file-pdf"></i> 3.1 MB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tableau des Rapports -->
+        <div class="reports-table fade-in-up">
+            <div class="table-header">
+                <h3>📋 Historique des Rapports</h3>
+                <div class="table-actions">
+                    <button class="btn-action" onclick="exportReports()">
+                        <i class="fas fa-download"></i>
+                        Exporter
+                    </button>
+                    <button class="btn-action primary" onclick="generateNewReport()">
+                        <i class="fas fa-plus"></i>
+                        Nouveau rapport
+                    </button>
+                </div>
+            </div>
+            <div class="table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nom du rapport</th>
+                            <th>Type</th>
+                            <th>Date de génération</th>
+                            <th>Statut</th>
+                            <th>Taille</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--medical-teal) 100%); display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-file-pdf" style="color: white; font-size: 1rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal);">Rapport_Inventaire_Mars_2024.pdf</div>
+                                        <div style="font-size: 0.85rem; color: var(--slate-gray);">Stock sanguin complet</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="report-type"><i class="fas fa-boxes"></i> Inventaire</span></td>
+                            <td>14/03/2024 10:30</td>
+                            <td><span class="report-status-badge status-completed"><i class="fas fa-check-circle"></i> Complet</span></td>
+                            <td>2.4 MB</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-action" onclick="downloadReport(1)">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="shareReport(1)">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="btn-action primary" onclick="viewReportDetails(1)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--emergency-red) 0%, #ff6b6b 100%); display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-file-excel" style="color: white; font-size: 1rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal);">Donneurs_Actifs_Q1_2024.xlsx</div>
+                                        <div style="font-size: 0.85rem; color: var(--slate-gray);">Analyse trimestrielle</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="report-type"><i class="fas fa-users"></i> Donneurs</span></td>
+                            <td>13/03/2024 14:15</td>
+                            <td><span class="report-status-badge status-completed"><i class="fas fa-check-circle"></i> Complet</span></td>
+                            <td>1.8 MB</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-action" onclick="downloadReport(2)">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="shareReport(2)">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="btn-action primary" onclick="viewReportDetails(2)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%); display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-file-pdf" style="color: white; font-size: 1rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal);">Controle_Qualite_Fevrier_2024.pdf</div>
+                                        <div style="font-size: 0.85rem; color: var(--slate-gray);">Rapport mensuel qualité</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="report-type"><i class="fas fa-clipboard-check"></i> Qualité</span></td>
+                            <td>12/03/2024 09:45</td>
+                            <td><span class="report-status-badge status-completed"><i class="fas fa-check-circle"></i> Complet</span></td>
+                            <td>3.1 MB</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-action" onclick="downloadReport(3)">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="shareReport(3)">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <button class="btn-action primary" onclick="viewReportDetails(3)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--warning-orange) 0%, #e76f51 100%); display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-file-alt" style="color: white; font-size: 1rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal);">Transfusions_Urgentes.docx</div>
+                                        <div style="font-size: 0.85rem; color: var(--slate-gray);">Analyse des urgences</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="report-type"><i class="fas fa-syringe"></i> Transfusions</span></td>
+                            <td>11/03/2024 16:20</td>
+                            <td><span class="report-status-badge status-processing"><i class="fas fa-spinner fa-spin"></i> En cours</span></td>
+                            <td>—</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-action" onclick="cancelReport(4)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="viewReportProgress(4)">
+                                        <i class="fas fa-chart-line"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--soft-purple) 0%, #7b2cbf 100%); display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-file-csv" style="color: white; font-size: 1rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--charcoal);">Performance_Systeme.csv</div>
+                                        <div style="font-size: 0.85rem; color: var(--slate-gray);">Métriques système</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="report-type"><i class="fas fa-chart-line"></i> Performance</span></td>
+                            <td>10/03/2024 11:10</td>
+                            <td><span class="report-status-badge status-error"><i class="fas fa-exclamation-triangle"></i> Erreur</span></td>
+                            <td>—</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn-action" onclick="retryReport(5)">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="viewReportError(5)">
+                                        <i class="fas fa-bug"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Générateur de Rapport -->
+        <div class="report-generator fade-in-up">
+            <div class="generator-header">
+                <h3>⚡ Générateur de Rapport Rapide</h3>
+                <p>Créez un nouveau rapport personnalisé en quelques clics. Sélectionnez les paramètres souhaités et générez instantanément.</p>
+            </div>
+            
+            <div class="generator-form">
+                <div class="form-group">
+                    <label class="form-label">Type de rapport</label>
+                    <select class="form-control" id="reportType">
+                        <option value="inventory">Inventaire des stocks</option>
+                        <option value="donations">Activité des dons</option>
+                        <option value="transfusions">Historique des transfusions</option>
+                        <option value="quality">Contrôle qualité</option>
+                        <option value="financial">Analyse financière</option>
+                        <option value="performance">Performance système</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Période</label>
+                    <select class="form-control" id="reportPeriod">
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month" selected>Ce mois</option>
+                        <option value="quarter">Ce trimestre</option>
+                        <option value="year">Cette année</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Format de sortie</label>
+                    <select class="form-control" id="reportFormat">
+                        <option value="pdf">PDF (Recommandé)</option>
+                        <option value="excel">Excel</option>
+                        <option value="csv">CSV</option>
+                        <option value="html">HTML</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Niveau de détail</label>
+                    <select class="form-control" id="reportDetail">
+                        <option value="summary">Résumé</option>
+                        <option value="standard" selected>Standard</option>
+                        <option value="detailed">Détaillé</option>
+                        <option value="complete">Complet</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button class="generator-btn secondary" onclick="previewReport()">
+                    <i class="fas fa-eye"></i>
+                    Aperçu
+                </button>
+                <button class="generator-btn primary" onclick="generateReport()">
+                    <i class="fas fa-magic"></i>
+                    Générer le rapport
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="medical-footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#privacy" class="footer-link">Confidentialité</a>
+                    <a href="#terms" class="footer-link">Conditions</a>
+                    <a href="#security" class="footer-link">Sécurité</a>
+                    <a href="#help" class="footer-link">Aide</a>
+                </div>
+                <div class="footer-copyright">
+                    © 2024 BloodLink Pro v2.4.1 • Module Rapports
+                </div>
+            </div>
+        </footer>
+    </main>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser AOS
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100,
+                easing: 'ease-out-cubic'
+            });
+            
+            // Gestion du menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const medicalSidebar = document.getElementById('medicalSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                medicalSidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+                document.body.style.overflow = medicalSidebar.classList.contains('active') ? 'hidden' : '';
+            });
+            
+            sidebarOverlay.addEventListener('click', function() {
+                medicalSidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Gestion des notifications
+            setupNotifications();
+            
+            // Animation des cartes
+            animateCards();
+        });
+        
+        // Gestion des notifications
+        function setupNotifications() {
+            const notificationBtn = document.getElementById('notificationBtn');
+            
+            notificationBtn.addEventListener('click', function() {
+                showReportNotifications();
+            });
+        }
+        
+        // Afficher les notifications de rapports
+        function showReportNotifications() {
+            const notifications = [
+                {
+                    title: 'Rapport mensuel prêt',
+                    message: 'Le rapport d\'inventaire de Mars 2024 est disponible',
+                    time: 'Il y a 2 heures',
+                    type: 'inventory'
+                },
+                {
+                    title: 'Erreur de génération',
+                    message: 'Le rapport de performance a échoué. Cliquez pour réessayer.',
+                    time: 'Il y a 5 heures',
+                    type: 'error'
+                }
+            ];
+            
+            // Créer le modal de notifications
+            createNotificationModal(notifications);
+        }
+        
+        // Créer le modal de notifications
+        function createNotificationModal(notifications) {
+            // Supprimer l'ancien modal s'il existe
+            const existingModal = document.querySelector('.notification-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Créer le modal
+            const modal = document.createElement('div');
+            modal.className = 'notification-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                width: 380px;
+                max-width: 90vw;
+                background: var(--pure-white);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-xl);
+                z-index: 1001;
+                border: 1px solid var(--ice-gray);
+                overflow: hidden;
+                animation: slideIn 0.3s var(--transition-base);
+            `;
+            
+            // Header du modal
+            const header = document.createElement('div');
+            header.style.cssText = `
+                padding: 20px 24px;
+                border-bottom: 1px solid var(--ice-gray);
+                background: var(--snow-white);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            `;
+            header.innerHTML = `
+                <h4 style="margin: 0; font-size: 1.1rem; color: var(--charcoal); font-weight: 600;">Notifications Rapports</h4>
+                <button onclick="this.closest('.notification-modal').remove()" style="background: none; border: none; color: var(--slate-gray); cursor: pointer; font-size: 1.2rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); transition: all var(--transition-fast);">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Contenu du modal
+            const content = document.createElement('div');
+            content.style.cssText = 'max-height: 400px; overflow-y: auto;';
+            
+            notifications.forEach(notif => {
+                const item = document.createElement('div');
+                item.style.cssText = `
+                    padding: 16px 24px;
+                    border-bottom: 1px solid var(--ice-gray);
+                    cursor: pointer;
+                    transition: all var(--transition-fast);
+                `;
+                
+                item.innerHTML = `
+                    <div style="display: flex; align-items: flex-start; gap: 14px;">
+                        <div style="width: 40px; height: 40px; border-radius: var(--radius-md); background: ${notif.type === 'error' ? 'var(--emergency-red)' : 'var(--secondary-blue)'}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-${notif.type === 'error' ? 'exclamation-triangle' : 'file-alt'}" style="color: white; font-size: 1rem;"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: var(--charcoal); margin-bottom: 6px;">${notif.title}</div>
+                            <div style="font-size: 0.9rem; color: var(--slate-gray); margin-bottom: 8px; line-height: 1.4;">${notif.message}</div>
+                            <div style="font-size: 0.8rem; color: var(--slate-gray); display: flex; align-items: center; gap: 6px;">
+                                <i class="fas fa-clock"></i>
+                                ${notif.time}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    modal.remove();
+                });
+                
+                content.appendChild(item);
+            });
+            
+            // Footer du modal
+            const footer = document.createElement('div');
+            footer.style.cssText = `
+                padding: 16px 24px;
+                text-align: center;
+                border-top: 1px solid var(--ice-gray);
+                background: var(--snow-white);
+            `;
+            footer.innerHTML = `
+                <a href="#allNotifications" style="color: var(--secondary-blue); text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <i class="fas fa-bell"></i>
+                    Voir toutes les notifications
+                </a>
+            `;
+            
+            // Assembler le modal
+            modal.appendChild(header);
+            modal.appendChild(content);
+            modal.appendChild(footer);
+            
+            // Ajouter au body
+            document.body.appendChild(modal);
+            
+            // Fermer en cliquant à l'extérieur
+            setTimeout(() => {
+                const closeModal = (e) => {
+                    if (!modal.contains(e.target) && e.target !== document.getElementById('notificationBtn')) {
+                        modal.remove();
+                        document.removeEventListener('click', closeModal);
+                    }
+                };
+                document.addEventListener('click', closeModal);
+            }, 100);
+        }
+        
+        // Animation des cartes
+        function animateCards() {
+            const cards = document.querySelectorAll('.fade-in-up');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+        
+        // Fonctions des filtres
+        function resetFilters() {
+            const selects = document.querySelectorAll('.filter-select');
+            selects.forEach(select => {
+                select.selectedIndex = 0;
+            });
+            
+            showToast('Filtres réinitialisés', 'success');
+        }
+        
+        function applyFilters() {
+            const period = document.querySelector('.filter-select').value;
+            const type = document.querySelectorAll('.filter-select')[1].value;
+            const status = document.querySelectorAll('.filter-select')[2].value;
+            const format = document.querySelectorAll('.filter-select')[3].value;
+            
+            showToast('Filtres appliqués avec succès', 'success');
+            
+            // Ici, vous pouvez ajouter la logique pour filtrer les rapports
+            console.log('Filtres appliqués:', { period, type, status, format });
+        }
+        
+        // Fonctions des rapports
+        function viewReport(type) {
+            let title, content;
+            
+            switch(type) {
+                case 'inventory':
+                    title = '📦 Rapport d\'Inventaire';
+                    content = `
+                        <div style="text-align: center; margin-bottom: 24px;">
+                            <div style="width: 80px; height: 80px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--medical-teal) 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                <i class="fas fa-boxes" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                            <h4 style="color: var(--charcoal); margin-bottom: 8px;">Rapport d'Inventaire Complet</h4>
+                            <p style="color: var(--slate-gray);">Dernière mise à jour: 14 Mars 2024, 10:30</p>
+                        </div>
+                        
+                        <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                            <h5 style="color: var(--charcoal); margin-bottom: 16px;">Statistiques Clés</h5>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary-blue); line-height: 1;">84%</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Niveau moyen</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--success-green); line-height: 1;">782</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Unités totales</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--warning-orange); line-height: 1;">12%</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Stocks O-</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--soft-purple); line-height: 1;">15j</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Péremption moyenne</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; gap: 12px;">
+                            <button class="btn-action primary" onclick="downloadReport('inventory')" style="width: 100%; justify-content: center; padding: 14px;">
+                                <i class="fas fa-download"></i>
+                                Télécharger le PDF
+                            </button>
+                            <button class="btn-action" onclick="shareReport('inventory')" style="width: 100%; justify-content: center; padding: 14px;">
+                                <i class="fas fa-share-alt"></i>
+                                Partager le rapport
+                            </button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'donations':
+                    title = '🩸 Rapport des Dons';
+                    content = `
+                        <div style="text-align: center; margin-bottom: 24px;">
+                            <div style="width: 80px; height: 80px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--emergency-red) 0%, #ff6b6b 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                <i class="fas fa-heartbeat" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                            <h4 style="color: var(--charcoal); margin-bottom: 8px;">Rapport Mensuel des Dons</h4>
+                            <p style="color: var(--slate-gray);">Mars 2024 • Analyse complète</p>
+                        </div>
+                        
+                        <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                            <h5 style="color: var(--charcoal); margin-bottom: 16px;">Performance du Mois</h5>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary-blue); line-height: 1;">842</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Dons totaux</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--success-green); line-height: 1;">+15%</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Croissance</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--warning-orange); line-height: 1;">42</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Nouveaux donneurs</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--soft-purple); line-height: 1;">98.2%</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Taux de succès</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'quality':
+                    title = '✅ Rapport de Qualité';
+                    content = `
+                        <div style="text-align: center; margin-bottom: 24px;">
+                            <div style="width: 80px; height: 80px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--success-green) 0%, #4cc9f0 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                                <i class="fas fa-clipboard-check" style="color: white; font-size: 2rem;"></i>
+                            </div>
+                            <h4 style="color: var(--charcoal); margin-bottom: 8px;">Rapport de Contrôle Qualité</h4>
+                            <p style="color: var(--slate-gray);">Février 2024 • Normes ISO 9001</p>
+                        </div>
+                        
+                        <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                            <h5 style="color: var(--charcoal); margin-bottom: 16px;">Indicateurs de Qualité</h5>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--success-green); line-height: 1;">99.8%</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Tests réussis</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary-blue); line-height: 1;">0</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Non-conformités</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--warning-orange); line-height: 1;">100%</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Traçabilité</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--soft-purple); line-height: 1;">4.9/5</div>
+                                    <div style="color: var(--slate-gray); font-size: 0.9rem;">Satisfaction</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            showModal(title, content);
+        }
+        
+        function downloadReport(id) {
+            showToast('Téléchargement du rapport en cours...', 'info');
+            setTimeout(() => {
+                showToast('Rapport téléchargé avec succès', 'success');
+            }, 2000);
+        }
+        
+        function shareReport(id) {
+            showModal('📤 Partager le Rapport', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-share-alt" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Partager le rapport</h4>
+                    <p style="color: var(--slate-gray);">Envoyez ce rapport à vos collaborateurs</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Adresses email</label>
+                    <input type="text" class="form-control" style="border-color: var(--ice-gray); border-radius: var(--radius-md);" placeholder="email@exemple.com, email2@exemple.com">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Message (optionnel)</label>
+                    <textarea class="form-control" style="border-color: var(--ice-gray); border-radius: var(--radius-md);" rows="3" placeholder="Ajouter un message..."></textarea>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn btn-primary" onclick="shareReportConfirm()" style="border-radius: var(--radius-full); padding: 12px 24px; background: var(--gradient-primary); border: none;">
+                        <i class="fas fa-paper-plane"></i>
+                        Partager le rapport
+                    </button>
+                </div>
+            `);
+        }
+        
+        function shareReportConfirm() {
+            showToast('Rapport partagé avec succès', 'success');
+            document.querySelector('.custom-modal').remove();
+        }
+        
+        function viewReportDetails(id) {
+            showModal('🔍 Détails du Rapport', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 80px; height: 80px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--medical-teal) 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-file-pdf" style="color: white; font-size: 2rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 4px;">Rapport_Inventaire_Mars_2024.pdf</h4>
+                    <p style="color: var(--slate-gray);">Stock sanguin complet • Généré le 14/03/2024</p>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 16px;">Informations Techniques</h5>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Taille :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">2.4 MB</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Pages :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">24 pages</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Format :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">PDF (Optimisé)</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Version :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">2.1</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Généré par :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;">Dr. Sow</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn-action primary" onclick="downloadReport(${id})" style="width: 100%; justify-content: center; padding: 14px;">
+                        <i class="fas fa-download"></i>
+                        Télécharger
+                    </button>
+                    <button class="btn-action" onclick="this.closest('.custom-modal').remove()" style="width: 100%; justify-content: center; padding: 14px;">
+                        <i class="fas fa-times"></i>
+                        Fermer
+                    </button>
+                </div>
+            `);
+        }
+        
+        function cancelReport(id) {
+            if (confirm('Êtes-vous sûr de vouloir annuler la génération de ce rapport ?')) {
+                showToast('Génération annulée', 'warning');
+                // Ici, vous ajouteriez la logique pour annuler la génération
+            }
+        }
+        
+        function viewReportProgress(id) {
+            showModal('⏳ Progression de Génération', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--warning-orange); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-spinner fa-spin" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Génération en cours</h4>
+                    <p style="color: var(--slate-gray);">Transfusions_Urgentes.docx</p>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: var(--charcoal); font-weight: 500;">Progression</span>
+                        <span style="color: var(--secondary-blue); font-weight: 600;">65%</span>
+                    </div>
+                    <div style="height: 12px; background: var(--ice-gray); border-radius: var(--radius-full); overflow: hidden;">
+                        <div style="width: 65%; height: 100%; background: linear-gradient(90deg, var(--warning-orange), #e76f51); border-radius: var(--radius-full); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 12px;">Étapes</h5>
+                    <div style="display: grid; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--success-green); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check" style="color: white; font-size: 0.8rem;"></i>
+                            </div>
+                            <span style="color: var(--charcoal);">Collecte des données</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--success-green); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check" style="color: white; font-size: 0.8rem;"></i>
+                            </div>
+                            <span style="color: var(--charcoal);">Analyse statistique</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--warning-orange); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-spinner fa-spin" style="color: white; font-size: 0.8rem;"></i>
+                            </div>
+                            <span style="color: var(--charcoal);">Génération du document</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--ice-gray); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-clock" style="color: var(--slate-gray); font-size: 0.8rem;"></i>
+                            </div>
+                            <span style="color: var(--slate-gray);">Finalisation</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="this.closest('.custom-modal').remove()" class="btn btn-secondary" style="border-radius: var(--radius-full); padding: 12px 24px; width: 100%;">
+                    <i class="fas fa-times"></i>
+                    Fermer
+                </button>
+            `);
+        }
+        
+        function retryReport(id) {
+            showToast('Nouvelle tentative de génération...', 'info');
+            setTimeout(() => {
+                showToast('Rapport généré avec succès', 'success');
+            }, 3000);
+        }
+        
+        function viewReportError(id) {
+            showModal('⚠️ Erreur de Génération', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--emergency-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-exclamation-triangle" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Erreur de génération</h4>
+                    <p style="color: var(--slate-gray);">Performance_Systeme.csv</p>
+                </div>
+                
+                <div style="background: rgba(230, 57, 70, 0.1); border: 1px solid rgba(230, 57, 70, 0.3); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+                    <div style="font-weight: 600; color: var(--emergency-red); margin-bottom: 8px;">Erreur : Timeout de connexion</div>
+                    <div style="color: var(--charcoal); font-size: 0.9rem;">
+                        La génération a échoué en raison d'un timeout de la base de données. Vérifiez la connexion réseau et réessayez.
+                    </div>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 12px;">Détails techniques</h5>
+                    <div style="font-family: monospace; background: var(--crystal-gray); padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--charcoal); overflow-x: auto;">
+                        ERROR: Database connection timeout<br>
+                        TIMESTAMP: 2024-03-10 11:10:32<br>
+                        ATTEMPT: 3/3<br>
+                        QUERY: SELECT * FROM system_metrics WHERE date >= '2024-01-01'
+                    </div>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn btn-primary" onclick="retryReport(${id})" style="border-radius: var(--radius-full); padding: 12px 24px; background: var(--gradient-primary); border: none;">
+                        <i class="fas fa-redo"></i>
+                        Réessayer la génération
+                    </button>
+                    <button onclick="this.closest('.custom-modal').remove()" class="btn btn-secondary" style="border-radius: var(--radius-full); padding: 12px 24px;">
+                        <i class="fas fa-times"></i>
+                        Fermer
+                    </button>
+                </div>
+            `);
+        }
+        
+        function exportReports() {
+            showModal('📤 Exporter les Rapports', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-download" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Exporter les rapports</h4>
+                    <p style="color: var(--slate-gray);">Sélectionnez les rapports à exporter</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Format d'export</label>
+                    <select class="form-control" style="border-color: var(--ice-gray); border-radius: var(--radius-md);">
+                        <option value="zip">ZIP (Tous formats)</option>
+                        <option value="pdf">PDF uniquement</option>
+                        <option value="excel">Excel uniquement</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Période</label>
+                    <select class="form-control" style="border-color: var(--ice-gray); border-radius: var(--radius-md);">
+                        <option value="all">Tous les rapports</option>
+                        <option value="month">Ce mois</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="today">Aujourd'hui</option>
+                    </select>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn btn-primary" onclick="startExport()" style="border-radius: var(--radius-full); padding: 12px 24px; background: var(--gradient-primary); border: none;">
+                        <i class="fas fa-download"></i>
+                        Commencer l'export
+                    </button>
+                </div>
+            `);
+        }
+        
+        function startExport() {
+            showToast('Exportation en cours...', 'info');
+            setTimeout(() => {
+                showToast('Exportation terminée avec succès', 'success');
+                document.querySelector('.custom-modal').remove();
+            }, 3000);
+        }
+        
+        function generateNewReport() {
+            showModal('🆕 Nouveau Rapport Personnalisé', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-plus" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Créer un nouveau rapport</h4>
+                    <p style="color: var(--slate-gray);">Configurez un rapport personnalisé</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Nom du rapport</label>
+                    <input type="text" class="form-control" style="border-color: var(--ice-gray); border-radius: var(--radius-md);" placeholder="Ex: Rapport_Special_Analyse_2024">
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Description</label>
+                    <textarea class="form-control" style="border-color: var(--ice-gray); border-radius: var(--radius-md);" rows="3" placeholder="Décrivez l'objectif de ce rapport..."></textarea>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--charcoal); margin-bottom: 8px; display: block;">Modules à inclure</label>
+                    <div style="display: grid; gap: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; color: var(--charcoal);">
+                            <input type="checkbox" checked>
+                            Inventaire des stocks
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; color: var(--charcoal);">
+                            <input type="checkbox" checked>
+                            Activité des dons
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; color: var(--charcoal);">
+                            <input type="checkbox">
+                            Transfusions
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; color: var(--charcoal);">
+                            <input type="checkbox">
+                            Contrôle qualité
+                        </label>
+                    </div>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <button class="btn btn-primary" onclick="createCustomReport()" style="border-radius: var(--radius-full); padding: 12px 24px; background: var(--gradient-primary); border: none;">
+                        <i class="fas fa-magic"></i>
+                        Créer le rapport
+                    </button>
+                </div>
+            `);
+        }
+        
+        function createCustomReport() {
+            showToast('Création du rapport en cours...', 'info');
+            setTimeout(() => {
+                showToast('Rapport créé avec succès', 'success');
+                document.querySelector('.custom-modal').remove();
+            }, 2000);
+        }
+        
+        function previewReport() {
+            showModal('👁️ Aperçu du Rapport', `
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--secondary-blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="fas fa-eye" style="color: white; font-size: 1.5rem;"></i>
+                    </div>
+                    <h4 style="color: var(--charcoal); margin-bottom: 8px;">Aperçu du rapport</h4>
+                    <p style="color: var(--slate-gray);">Configuration actuelle</p>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 16px;">Paramètres sélectionnés</h5>
+                    <div style="display: grid; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Type :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;" id="previewType">Inventaire</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Période :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;" id="previewPeriod">Ce mois</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--ice-gray); padding-bottom: 8px;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Format :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;" id="previewFormat">PDF</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--slate-gray); font-weight: 500;">Détail :</span>
+                            <span style="color: var(--charcoal); font-weight: 600;" id="previewDetail">Standard</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--snow-white); border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;">
+                    <h5 style="color: var(--charcoal); margin-bottom: 12px;">Contenu estimé</h5>
+                    <ul style="color: var(--slate-gray); margin-left: 20px;">
+                        <li style="margin-bottom: 6px;">Analyse des niveaux de stock</li>
+                        <li style="margin-bottom: 6px;">Tendances mensuelles</li>
+                        <li style="margin-bottom: 6px;">Prévisions de demande</li>
+                        <li>Recommandations d'approvisionnement</li>
+                    </ul>
+                </div>
+                
+                <button onclick="this.closest('.custom-modal').remove()" class="btn btn-secondary" style="border-radius: var(--radius-full); padding: 12px 24px; width: 100%;">
+                    <i class="fas fa-times"></i>
+                    Fermer
+                </button>
+            `);
+            
+            // Mettre à jour les valeurs de l'aperçu
+            document.getElementById('previewType').textContent = document.getElementById('reportType').options[document.getElementById('reportType').selectedIndex].text;
+            document.getElementById('previewPeriod').textContent = document.getElementById('reportPeriod').options[document.getElementById('reportPeriod').selectedIndex].text;
+            document.getElementById('previewFormat').textContent = document.getElementById('reportFormat').options[document.getElementById('reportFormat').selectedIndex].text;
+            document.getElementById('previewDetail').textContent = document.getElementById('reportDetail').options[document.getElementById('reportDetail').selectedIndex].text;
+        }
+        
+        function generateReport() {
+            const type = document.getElementById('reportType').value;
+            const period = document.getElementById('reportPeriod').value;
+            const format = document.getElementById('reportFormat').value;
+            const detail = document.getElementById('reportDetail').value;
+            
+            showToast('Génération du rapport en cours...', 'info');
+            
+            // Simuler la génération
+            setTimeout(() => {
+                showToast('Rapport généré avec succès !', 'success');
+                // Ici, vous ajouteriez la logique pour télécharger ou afficher le rapport
+            }, 3000);
+        }
+        
+        // Fonction pour afficher un modal
+        function showModal(title, content) {
+            // Supprimer l'ancien modal s'il existe
+            const existingModal = document.querySelector('.custom-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Créer le modal
+            const modal = document.createElement('div');
+            modal.className = 'custom-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1002;
+                animation: fadeIn 0.3s var(--transition-base);
+                padding: 20px;
+            `;
+            
+            // Contenu du modal
+            modal.innerHTML = `
+                <div style="background: var(--pure-white); border-radius: var(--radius-lg); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl);">
+                    <div style="padding: 24px; border-bottom: 1px solid var(--ice-gray); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; color: var(--charcoal); font-size: 1.3rem; font-weight: 600;">${title}</h3>
+                        <button onclick="this.closest('.custom-modal').remove()" style="background: none; border: none; color: var(--slate-gray); cursor: pointer; font-size: 1.2rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); transition: all var(--transition-fast);">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div style="padding: 24px;">
+                        ${content}
+                    </div>
+                </div>
+            `;
+            
+            // Ajouter au body
+            document.body.appendChild(modal);
+            
+            // Fermer en cliquant à l'extérieur
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        // Fonction pour afficher des notifications toast
+        function showToast(message, type = 'info') {
+            // Supprimer les anciens toasts
+            const existingToasts = document.querySelectorAll('.custom-toast');
+            existingToasts.forEach(toast => toast.remove());
+            
+            // Créer le toast
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast';
+            
+            let bgColor, icon;
+            switch(type) {
+                case 'success':
+                    bgColor = 'var(--success-green)';
+                    icon = 'fas fa-check-circle';
+                    break;
+                case 'error':
+                    bgColor = 'var(--emergency-red)';
+                    icon = 'fas fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    bgColor = 'var(--warning-orange)';
+                    icon = 'fas fa-exclamation-triangle';
+                    break;
+                default:
+                    bgColor = 'var(--secondary-blue)';
+                    icon = 'fas fa-info-circle';
+            }
+            
+            toast.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${bgColor};
+                color: white;
+                padding: 16px 24px;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-lg);
+                z-index: 1003;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: slideInRight 0.3s var(--transition-base);
+                max-width: 350px;
+            `;
+            
+            toast.innerHTML = `
+                <i class="${icon}" style="font-size: 1.2rem;"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Supprimer après 3 secondes
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s var(--transition-base)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+            
+            // Ajouter les animations CSS si nécessaire
+            if (!document.querySelector('#toast-animations')) {
+                const style = document.createElement('style');
+                style.id = 'toast-animations';
+                style.textContent = `
+                    @keyframes slideInRight {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+                    @keyframes slideOutRight {
+                        from {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                        to {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Gérer le redimensionnement de la fenêtre
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992 && document.querySelector('.medical-sidebar.active')) {
+                document.querySelector('.medical-sidebar').classList.remove('active');
+                document.querySelector('.sidebar-overlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

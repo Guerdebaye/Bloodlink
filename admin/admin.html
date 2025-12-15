@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration | BloodLink Pro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="admin.css" rel="stylesheet">
+    
+    <script>
+        // Vérification de session admin
+        (function() {
+            const sessionData = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
+            
+            if (!sessionData) {
+                // Rediriger vers la page de connexion
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const session = JSON.parse(sessionData);
+                const loginTime = new Date(session.loginTime);
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                
+                // Déconnexion automatique après 24 heures
+                if (hoursDiff >= 24) {
+                    localStorage.removeItem('adminSession');
+                    sessionStorage.removeItem('adminSession');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Mettre à jour le nom d'utilisateur dans l'interface
+                document.addEventListener('DOMContentLoaded', function() {
+                    const userNameElements = document.querySelectorAll('.user-name');
+                    userNameElements.forEach(el => {
+                        el.textContent = session.email || 'Admin System';
+                    });
+                });
+                
+            } catch (error) {
+                // Nettoyer la session corrompue
+                localStorage.removeItem('adminSession');
+                sessionStorage.removeItem('adminSession');
+                window.location.href = 'login.html';
+            }
+        })();
+    </script>
+</head>
+<body class="admin-body">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="bloodlink-logo">
+                <i class="fas fa-heart-pulse"></i>
+                <span>BloodLink</span>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Chargement de l'administration...</p>
+        </div>
+    </div>
+
+    <!-- Admin Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark admin-nav">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <div class="brand-logo">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>BloodLink<span class="brand-pro">Admin</span></span>
+                </div>
+            </a>
+            
+            <div class="navbar-actions ms-auto">
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" 
+                       data-bs-toggle="dropdown">
+                        <div class="user-avatar admin">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="user-info ms-2 d-none d-md-block">
+                            <div class="user-name">Admin System</div>
+                            <div class="user-role">Super Administrateur</div>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="#settings" onclick="Admin.switchSection('settings')">
+                            <i class="fas fa-cog me-2"></i>Paramètres
+                        </a></li>
+                        <li><a class="dropdown-item" href="#profile" onclick="Admin.switchSection('profile')">
+                            <i class="fas fa-user me-2"></i>Mon Profil
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="Admin.logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                        </a></li>
+                        <li><a class="dropdown-item" href="../index.html">
+                            <i class="fas fa-home me-2"></i>Retour au site public
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Layout -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="admin-menu" style="position: fixed;">
+                <div class="menu-section">
+                    <h6>Tableaux de Bord</h6>
+                    <a href="#overview" class="menu-item active" onclick="Admin.switchSection('overview')">
+                        <i class="fas fa-tachometer-alt me-3"></i>
+                        Vue d'Ensemble
+                    </a>
+                    <a href="#analytics" class="menu-item" onclick="Admin.switchSection('analytics')">
+                        <i class="fas fa-chart-bar me-3"></i>
+                        Analytics Avancés
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <h6>Gestion des Données</h6>
+                    <a href="#users" class="menu-item" onclick="Admin.switchSection('users')">
+                        <i class="fas fa-users me-3"></i>
+                        Utilisateurs
+                        <span class="menu-badge" id="usersCount">2,847</span>
+                    </a>
+                    <a href="#hospitals" class="menu-item" onclick="Admin.switchSection('hospitals')">
+                        <i class="fas fa-hospital me-3"></i>
+                        Hôpitaux
+                        <span class="menu-badge" id="hospitalsCount">156</span>
+                    </a>
+                    <a href="#alerts" class="menu-item" onclick="Admin.switchSection('alerts')">
+                        <i class="fas fa-bell me-3"></i>
+                        Alertes
+                        <span class="menu-badge" id="alertsCount">12</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <h6>Contenu & Activité</h6>
+                    <a href="#donations" class="menu-item" onclick="Admin.switchSection('donations')">
+                        <i class="fas fa-hand-holding-heart me-3"></i>
+                        Dons
+                        <span class="menu-badge" id="donationsCount">15,247</span>
+                    </a>
+                    <a href="#badges" class="menu-item" onclick="Admin.switchSection('badges')">
+                        <i class="fas fa-trophy me-3"></i>
+                        Récompenses
+                    </a>
+                    <a href="#reports" class="menu-item" onclick="Admin.switchSection('reports')">
+                        <i class="fas fa-file-alt me-3"></i>
+                        Rapports
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <h6>Système</h6>
+                    <a href="#settings" class="menu-item" onclick="Admin.switchSection('settings')">
+                        <i class="fas fa-cog me-3"></i>
+                        Paramètres
+                    </a>
+                    <a href="#logs" class="menu-item" onclick="Admin.switchSection('logs')">
+                        <i class="fas fa-clipboard-list me-3"></i>
+                        Logs Système
+                    </a>
+                    <a href="#api" class="menu-item" onclick="Admin.switchSection('api')">
+                        <i class="fas fa-code me-3"></i>
+                        API & Intégrations
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Overview Section -->
+            <section id="overview" class="admin-section active">
+                <div class="section-header">
+                    <h1>Tableau de Bord Administrateur</h1>
+                    <p>Statistiques et monitoring du système en temps réel</p>
+                </div>
+
+                        <!-- System Status -->
+                        <div class="row g-4 mb-5">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="status-card online">
+                                    <div class="status-icon">
+                                        <i class="fas fa-server"></i>
+                                    </div>
+                                    <div class="status-content">
+                                        <div class="status-title">Serveur API</div>
+                                        <div class="status-value">En ligne</div>
+                                        <div class="status-subtitle">99.8% uptime</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="status-card online">
+                                    <div class="status-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="status-content">
+                                        <div class="status-title">Base de Données</div>
+                                        <div class="status-value">Optimale</div>
+                                        <div class="status-subtitle">2.4GB / 10GB</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="status-card warning">
+                                    <div class="status-icon">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
+                                    <div class="status-content">
+                                        <div class="status-title">Alertes Actives</div>
+                                        <div class="status-value">12 alertes</div>
+                                        <div class="status-subtitle">3 urgentes</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="status-card online">
+                                    <div class="status-icon">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    <div class="status-content">
+                                        <div class="status-title">App Mobile</div>
+                                        <div class="status-value">Stable</div>
+                                        <div class="status-subtitle">v2.4.1</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                <!-- Quick Stats -->
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Activité des Dons - 30 derniers jours</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="adminDonationChart" height="250"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Distribution Géographique</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="region-stats">
+                                            <div class="region-item">
+                                                <div class="region-name">Matam</div>
+                                                <div class="region-bar">
+                                                    <div class="region-progress" style="width: 65%"></div>
+                                                </div>
+                                                <div class="region-value">65%</div>
+                                            </div>
+                                            <div class="region-item">
+                                                <div class="region-name">Fatick</div>
+                                                <div class="region-bar">
+                                                    <div class="region-progress" style="width: 45%"></div>
+                                                </div>
+                                                <div class="region-value">45%</div>
+                                            </div>
+                                            <div class="region-item">
+                                                <div class="region-name">Thies</div>
+                                                <div class="region-bar">
+                                                    <div class="region-progress" style="width: 38%"></div>
+                                                </div>
+                                                <div class="region-value">38%</div>
+                                            </div>
+                                            <div class="region-item">
+                                                <div class="region-name">Mbour</div>
+                                                <div class="region-bar">
+                                                    <div class="region-progress" style="width: 32%"></div>
+                                                </div>
+                                                <div class="region-value">32%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                <!-- Recent Activity & Alerts -->
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Activité Récente</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="activity-timeline" id="adminActivityTimeline">
+                                            <!-- Activity loaded dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="card-title mb-0">Alertes Urgentes</h5>
+                                            <span class="badge bg-danger">3 critiques</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="urgent-alerts-list" id="urgentAlertsList">
+                                            <!-- Urgent alerts loaded dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </section>
+            
+            <!-- Analytics Avancés Section - Version Premium -->
+<section id="analytics" class="admin-section">
+    <div class="section-header">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="section-icon">
+                        <i class="fas fa-chart-network"></i>
+                    </div>
+                    <div>
+                        <h1 class="section-title">Intelligence Analytique Avancée</h1>
+                        <p class="section-subtitle">Tableau de bord d'intelligence d'affaires en temps réel</p>
+                    </div>
+                </div>
+            </div>
+            <div class="analytics-controls">
+                <div class="control-group">
+                    <div class="timeframe-selector">
+                        <button class="timeframe-btn active" data-period="7j">7J</button>
+                        <button class="timeframe-btn" data-period="30j">30J</button>
+                        <button class="timeframe-btn" data-period="90j">90J</button>
+                        <button class="timeframe-btn" data-period="1a">1A</button>
+                        <button class="timeframe-btn" data-period="personnaliser">+</button>
+                    </div>
+                    <div class="refresh-indicator">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Dernière mise à jour : <span id="lastUpdateTime">à l'instant</span></span>
+                        <div class="pulse"></div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-analytics-action" onclick="PremiumAnalytics.exportReport()">
+                        <i class="fas fa-file-export"></i>
+                        <span>Exporter</span>
+                    </button>
+                    <button class="btn-analytics-action" onclick="PremiumAnalytics.generateInsights()">
+                        <i class="fas fa-bolt"></i>
+                        <span>Insights</span>
+                    </button>
+                    <button class="btn-analytics-action" onclick="PremiumAnalytics.toggleDarkMode()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats Bar -->
+        <div class="quick-stats-bar">
+            <div class="stats-indicator positive">
+                <div class="indicator-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="indicator-content">
+                    <div class="indicator-value">+15.8%</div>
+                    <div class="indicator-label">Croissance mensuelle</div>
+                </div>
+                <div class="indicator-trend">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+            </div>
+            <div class="stats-indicator warning">
+                <div class="indicator-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="indicator-content">
+                    <div class="indicator-value">3</div>
+                    <div class="indicator-label">Anomalies détectées</div>
+                </div>
+                <div class="indicator-trend">
+                    <i class="fas fa-exclamation"></i>
+                </div>
+            </div>
+            <div class="stats-indicator info">
+                <div class="indicator-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="indicator-content">
+                    <div class="indicator-value">98.7%</div>
+                    <div class="indicator-label">Intégrité des données</div>
+                </div>
+                <div class="indicator-trend">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            <div class="stats-indicator">
+                <div class="indicator-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="indicator-content">
+                    <div class="indicator-value">247ms</div>
+                    <div class="indicator-label">Latence moyenne</div>
+                </div>
+                <div class="indicator-trend">
+                    <i class="fas fa-bolt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Analytics Dashboard -->
+    <div class="analytics-dashboard">
+        
+        <!-- Row 1: Key Metrics & Performance -->
+        <div class="dashboard-row">
+            <!-- Performance Score -->
+            <div class="analytics-card performance-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>Score de Performance</h3>
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-action-btn" onclick="PremiumAnalytics.drillDown('performance')">
+                            <i class="fas fa-expand-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="performance-metrics">
+                        <div class="performance-score">
+                            <div class="score-circle">
+                                <svg width="120" height="120">
+                                    <circle cx="60" cy="60" r="54" stroke="#e0e0e0" stroke-width="8" fill="none"></circle>
+                                    <circle cx="60" cy="60" r="54" stroke="#4CAF50" stroke-width="8" fill="none" 
+                                            stroke-linecap="round" stroke-dasharray="339" stroke-dashoffset="68"></circle>
+                                </svg>
+                                <div class="score-value">
+                                    <span>8.4</span>
+                                    <small>/10</small>
+                                </div>
+                            </div>
+                            <div class="score-breakdown">
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label">Performance Système</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill" style="width: 92%"></div>
+                                    </div>
+                                    <span class="breakdown-value">9.2</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label">Satisfaction Utilisateur</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill" style="width: 85%"></div>
+                                    </div>
+                                    <span class="breakdown-value">8.5</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <span class="breakdown-label">Stabilité</span>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill" style="width: 88%"></div>
+                                    </div>
+                                    <span class="breakdown-value">8.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Activity -->
+            <div class="analytics-card activity-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Activité en Temps Réel</h3>
+                    </div>
+                    <div class="live-indicator">
+                        <span class="pulse"></span>
+                        <span>EN DIRECT</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="activity-stream">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Nouveau donneur inscrit</div>
+                                <div class="activity-meta">Mariama Ngone • Il y a 2 min</div>
+                            </div>
+                            <div class="activity-badge">A+</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Don complété à l'Hôpital Saint-Louis</div>
+                                <div class="activity-meta">Dacosta Paul • Il y a 5 min</div>
+                            </div>
+                            <div class="activity-badge">O-</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Nouvelle alerte: Stock critique AB-</div>
+                                <div class="activity-meta">Hôpital Abass Ndao • Il y a 8 min</div>
+                            </div>
+                            <div class="activity-badge urgent">URGENT</div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Rendez-vous programmé</div>
+                                <div class="activity-meta">Segolene Marie • Demain 14h</div>
+                            </div>
+                            <div class="activity-badge">B+</div>
+                        </div>
+                    </div>
+                    <div class="activity-stats">
+                        <div class="activity-stat">
+                            <span class="stat-value">24</span>
+                            <span class="stat-label">Dons aujourd'hui</span>
+                        </div>
+                        <div class="activity-stat">
+                            <span class="stat-value">142</span>
+                            <span class="stat-label">Utilisateurs actifs</span>
+                        </div>
+                        <div class="activity-stat">
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Alertes actives</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Advanced Charts -->
+        <div class="dashboard-row">
+            <!-- Growth Trends -->
+            <div class="analytics-card chart-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Tendances de Croissance</h3>
+                    </div>
+                    <div class="chart-controls">
+                        <select class="chart-select" id="growthMetric">
+                            <option value="users">Utilisateurs</option>
+                            <option value="donations">Dons</option>
+                            <option value="engagement">Engagement</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="growthTrendChart" height="280"></canvas>
+                    </div>
+                    <div class="chart-insights">
+                        <div class="insight positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Croissance moyenne: <strong>+2.4% par semaine</strong></span>
+                        </div>
+                        <div class="insight info">
+                            <i class="fas fa-calendar"></i>
+                            <span>Pic d'activité: <strong>Lundi 14h-16h</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geographical Heatmap -->
+            <div class="analytics-card map-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h3>Répartition Géographique</h3>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-dot high"></span>
+                            <span>Élevée</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot medium"></span>
+                            <span>Moyenne</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot low"></span>
+                            <span>Faible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="heatmap-container">
+                        <div class="heatmap-regions">
+                            <div class="region paris" data-value="85">
+                                <div class="region-name">Dakar</div>
+                                <div class="region-value">85%</div>
+                            </div>
+                            <div class="region lyon" data-value="65">
+                                <div class="region-name">Thies</div>
+                                <div class="region-value">65%</div>
+                            </div>
+                            <div class="region marseille" data-value="72">
+                                <div class="region-name">Mbour</div>
+                                <div class="region-value">72%</div>
+                            </div>
+                            <div class="region bordeaux" data-value="48">
+                                <div class="region-name">Matam</div>
+                                <div class="region-value">48%</div>
+                            </div>
+                            <div class="region lille" data-value="52">
+                                <div class="region-name">Fatick</div>
+                                <div class="region-value">52%</div>
+                            </div>
+                            <div class="region toulouse" data-value="41">
+                                <div class="region-name">Kaolack</div>
+                                <div class="region-value">41%</div>
+                            </div>
+                        </div>
+                        <div class="map-overlay"></div>
+                    </div>
+                    <div class="map-insights">
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Région leader</h4>
+                                <p>Dakar: +18% de croissance ce mois</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="insight-content">
+                                <h4>Attention requise</h4>
+                                <p>Toulouse: Engagement en baisse de 12%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Predictive Analytics -->
+        <div class="dashboard-row">
+            <!-- Predictive Models -->
+            <div class="analytics-card predictive-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <i class="fas fa-brain"></i>
+                        <h3>Modèles Prédictifs</h3>
+                    </div>
+                    <div class="model-selector">
+                        <select class="model-select">
+                            <option value="donation">Prédiction de dons</option>
+                            <option value="demand">Prédiction de demande</option>
+                            <option value="retention">Prédiction de rétention</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="predictive-content">
+                        <div class="prediction-chart">
+                            <canvas id="predictiveModelChart" height="220"></canvas>
+                        </div>
+                        <div class="prediction-details">
+                            <div class="prediction-metric">
+                                <div class="metric-header">
+                                    <span class="metric-label">Précision du modèle</span>
+                                    <span class="metric-value">94.2%</span>
+                                </div>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width: 94.2%"></div>
+                                </div>
+                            </div>
+                            <div class="prediction-insights">
+                                <h4>Insights Prédictifs</h4>
+                                <ul class="insight-list">
+                                    <li>
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                        <span>Pic de dons prévu: <strong>Jeudi prochain</strong></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                                        <span>Risque pénurie: <strong>Groupe O- dans 5 jours</strong></span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chart-line text-info"></i>
+                                        <span>Croissance attendue: <strong>+8.3% ce mois</strong></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Dashboard -->
+            <div class="analytics-card kpi-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <i class="fas fa-chart-pie"></i>
+                        <h3>Tableau de Bord KPI</h3>
+                    </div>
+                    <div class="kpi-period">
+                        <span>Mois en cours</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="kpi-grid">
+                        <div class="kpi-item primary">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="kpi-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+12.4%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-value">8,429</div>
+                            <div class="kpi-label">Utilisateurs actifs</div>
+                            <div class="kpi-target">
+                                <span>Objectif: 8,500</span>
+                                <div class="target-progress">
+                                    <div class="target-fill" style="width: 99.2%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kpi-item success">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="kpi-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+8.7%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-value">1,284</div>
+                            <div class="kpi-label">Dons ce mois</div>
+                            <div class="kpi-target">
+                                <span>Objectif: 1,200</span>
+                                <div class="target-progress">
+                                    <div class="target-fill" style="width: 107%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kpi-item warning">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="kpi-trend negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>-2.3s</span>
+                                </div>
+                            </div>
+                            <div class="kpi-value">247ms</div>
+                            <div class="kpi-label">Temps réponse moyen</div>
+                            <div class="kpi-target">
+                                <span>Objectif: 200ms</span>
+                                <div class="target-progress">
+                                    <div class="target-fill" style="width: 123.5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kpi-item info">
+                            <div class="kpi-header">
+                                <div class="kpi-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="kpi-trend positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+5.1%</span>
+                                </div>
+                            </div>
+                            <div class="kpi-value">92.8%</div>
+                            <div class="kpi-label">Taux de satisfaction</div>
+                            <div class="kpi-target">
+                                <span>Objectif: 90%</span>
+                                <div class="target-progress">
+                                    <div class="target-fill" style="width: 103.1%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 4: AI Insights -->
+        <div class="dashboard-row">
+            <div class="analytics-card ai-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <div class="ai-badge">
+                            <i class="fas fa-robot"></i>
+                            AI
+                        </div>
+                        <h3>Insights Intelligents</h3>
+                    </div>
+                    <button class="btn-ai-refresh" onclick="PremiumAnalytics.generateAIInsights()">
+                        <i class="fas fa-sync-alt"></i>
+                        Actualiser
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="ai-insights">
+                        <div class="insight-card opportunity">
+                            <div class="insight-header">
+                                <div class="insight-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h4>Opportunité Identifiée</h4>
+                                <span class="insight-confidence">Confiance: 92%</span>
+                            </div>
+                            <div class="insight-content">
+                                <p>Augmentation de 23% des recherches pour "don plasma" dans la région Centre-Val de Loire. Recommandation: Lancer une campagne ciblée.</p>
+                            </div>
+                            <div class="insight-actions">
+                                <button class="insight-action-btn primary">
+                                    <i class="fas fa-play-circle"></i>
+                                    Exécuter
+                                </button>
+                                <button class="insight-action-btn">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Analyser
+                                </button>
+                            </div>
+                        </div>
+                        <div class="insight-card anomaly">
+                            <div class="insight-header">
+                                <div class="insight-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <h4>Anomalie Détectée</h4>
+                                <span class="insight-confidence">Confiance: 88%</span>
+                            </div>
+                            <div class="insight-content">
+                                <p>Diminution inhabituelle de 42% des dons au CHU de Nantes les weekends. Cause potentielle: Horaires d'ouverture.</p>
+                            </div>
+                            <div class="insight-actions">
+                                <button class="insight-action-btn warning">
+                                    <i class="fas fa-search"></i>
+                                    Investiguer
+                                </button>
+                                <button class="insight-action-btn">
+                                    <i class="fas fa-bell"></i>
+                                    Alerter
+                                </button>
+                            </div>
+                        </div>
+                        <div class="insight-card optimization">
+                            <div class="insight-header">
+                                <div class="insight-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <h4>Optimisation Recommandée</h4>
+                                <span class="insight-confidence">Confiance: 95%</span>
+                            </div>
+                            <div class="insight-content">
+                                <p>Les utilisateurs passent 40% plus de temps sur la page de prise de rendez-vous. Optimisation UI/UX pourrait augmenter les conversions de 15-20%.</p>
+                            </div>
+                            <div class="insight-actions">
+                                <button class="insight-action-btn success">
+                                    <i class="fas fa-rocket"></i>
+                                    Optimiser
+                                </button>
+                                <button class="insight-action-btn">
+                                    <i class="fas fa-eye"></i>
+                                    Voir A/B Test
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fullscreen Analytics Modal -->
+<div class="analytics-modal" id="analyticsModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Analytics Avancées - Mode Plein Écran</h2>
+            <button class="modal-close" onclick="PremiumAnalytics.closeFullscreen()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="modalAnalyticsContent">
+            <!-- Dynamic content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+            <!-- Users Management Section -->
+            <section id="users" class="admin-section">
+                <div class="section-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Gestion des Utilisateurs</h1>
+                            <p>Gestion des donneurs, hôpitaux et administrateurs</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="Admin.showUserModal()">
+                            <i class="fas fa-plus me-2"></i>Nouvel Utilisateur
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Liste des Utilisateurs</h5>
+                            <div class="header-actions">
+                                <div class="input-group input-group-sm" style="width: 300px;">
+                                    <input type="text" class="form-control" placeholder="Rechercher un utilisateur..." id="userSearch">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm ms-2" onclick="Admin.exportUsers()">
+                                    <i class="fas fa-download me-2"></i>Exporter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" class="form-check-input" id="selectAllUsers">
+                                        </th>
+                                        <th>Utilisateur</th>
+                                        <th>Type</th>
+                                        <th>Groupe Sanguin</th>
+                                        <th>Dons</th>
+                                        <th>Statut</th>
+                                        <th>Inscription</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Users loaded dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <nav aria-label="User pagination">
+                            <ul class="pagination justify-content-center mt-4">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">Précédent</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Suivant</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hospitals Management Section -->
+            <section id="hospitals" class="admin-section">
+                <div class="section-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1>Gestion des Hôpitaux</h1>
+                            <p>Hôpitaux partenaires et centres de don</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="Admin.showHospitalModal()">
+                            <i class="fas fa-plus me-2"></i>Nouvel Hôpital
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Hôpitaux Partenaires</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="hospitals-grid" id="hospitalsGrid">
+                                    <!-- Hospitals loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts Management Section -->
+            <!-- Dans la section du menu, ajoutez ce lien -->
+<div class="menu-section">
+    <h6>Contenu & Activité</h6>
+    <a href="#donations" class="menu-item" onclick="Admin.switchSection('donations')">
+        <i class="fas fa-hand-holding-heart me-3"></i>
+        Dons
+        <span class="menu-badge" id="donationsCount">15,247</span>
+    </a>
+    <!-- Autres liens... -->
+</div>
+
+<!-- Dans le main content, ajoutez cette section -->
+<section id="donations" class="admin-section">
+    <div class="section-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1>Gestion des Dons</h1>
+                <p>Suivi et analyse de tous les dons de sang effectués</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="Admin.exportDonations('all')">
+                    <i class="fas fa-download me-2"></i>Exporter
+                </button>
+                <button class="btn btn-success ms-2" onclick="Admin.showDonationStats()">
+                    <i class="fas fa-chart-bar me-2"></i>Statistiques
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques Rapides -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="stats-card primary">
+                <div class="stats-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="totalDonations">15,247</div>
+                    <div class="stats-label">Dons Totaux</div>
+                    <div class="stats-trend positive">
+                        <i class="fas fa-arrow-up"></i> 12% ce mois
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="stats-card success">
+                <div class="stats-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="monthlyDonations">1,284</div>
+                    <div class="stats-label">Ce Mois</div>
+                    <div class="stats-trend positive">
+                        <i class="fas fa-arrow-up"></i> 8% vs dernier mois
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="stats-card warning">
+                <div class="stats-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="pendingDonations">47</div>
+                    <div class="stats-label">En Attente</div>
+                    <div class="stats-trend negative">
+                        <i class="fas fa-arrow-down"></i> 3% aujourd'hui
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="stats-card info">
+                <div class="stats-icon">
+                    <i class="fas fa-hospital"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="activeHospitals">89</div>
+                    <div class="stats-label">Hôpitaux Actifs</div>
+                    <div class="stats-trend positive">
+                        <i class="fas fa-arrow-up"></i> 5% cette semaine
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="stats-card danger">
+                <div class="stats-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="bloodCollected">7,623L</div>
+                    <div class="stats-label">Sang Collecté</div>
+                    <div class="stats-trend positive">
+                        <i class="fas fa-arrow-up"></i> 15% ce trimestre
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-4 col-sm-6">
+            <div class="stats-card dark">
+                <div class="stats-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-value" id="livesSaved">45,741</div>
+                    <div class="stats-label">Vies Sauvées</div>
+                    <div class="stats-trend positive">
+                        <i class="fas fa-arrow-up"></i> 18% cette année
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtres et Contrôles -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Période</label>
+                    <select class="form-select" id="donationPeriod" onchange="Admin.filterDonations()">
+                        <option value="all">Toute période</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month" selected>Ce mois</option>
+                        <option value="quarter">Ce trimestre</option>
+                        <option value="year">Cette année</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Statut</label>
+                    <select class="form-select" id="donationStatus" onchange="Admin.filterDonations()">
+                        <option value="all">Tous les statuts</option>
+                        <option value="completed">Complété</option>
+                        <option value="pending">En attente</option>
+                        <option value="cancelled">Annulé</option>
+                        <option value="rejected">Rejeté</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Groupe Sanguin</label>
+                    <select class="form-select" id="donationBloodType" onchange="Admin.filterDonations()">
+                        <option value="all">Tous les groupes</option>
+                        <option value="O-">O-</option>
+                        <option value="O+">O+</option>
+                        <option value="A-">A-</option>
+                        <option value="A+">A+</option>
+                        <option value="B-">B-</option>
+                        <option value="B+">B+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="AB+">AB+</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Hôpital</label>
+                    <select class="form-select" id="donationHospital" onchange="Admin.filterDonations()">
+                        <option value="all">Tous les hôpitaux</option>
+                        <option value="1">Hôpital Saint-Louis</option>
+                        <option value="2">Hôpital Européen Georges-Pompidou</option>
+                        <option value="3">Hôpital Necker</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Rechercher un donneur, hôpital..." id="donationSearch">
+                        <button class="btn btn-outline-primary" type="button" onclick="Admin.searchDonations()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button class="btn btn-outline-secondary" onclick="Admin.resetDonationFilters()">
+                            <i class="fas fa-refresh me-2"></i>Réinitialiser
+                        </button>
+                        <button class="btn btn-primary" onclick="Admin.applyDonationFilters()">
+                            <i class="fas fa-filter me-2"></i>Appliquer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques et Analytics -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Évolution des Dons</h5>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary active" data-period="month">Mois</button>
+                        <button class="btn btn-outline-secondary" data-period="quarter">Trimestre</button>
+                        <button class="btn btn-outline-secondary" data-period="year">Année</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="donationTrendChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Répartition par Groupe Sanguin</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="bloodTypeDistributionChart" height="250"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste des Dons -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">Dons Récentes</h5>
+            <div class="d-flex gap-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="showOnlyUrgent" onchange="Admin.toggleUrgentDonations()">
+                    <label class="form-check-label" for="showOnlyUrgent">Urgentes seulement</label>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" onclick="Admin.refreshDonations()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="donationsTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" class="form-check-input" id="selectAllDonations">
+                            </th>
+                            <th>Donneur</th>
+                            <th>Hôpital</th>
+                            <th>Groupe Sanguin</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th>Type</th>
+                            <th>Volume</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donationsTableBody">
+                        <!-- Les dons seront chargés dynamiquement ici -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <nav aria-label="Donation pagination">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Précédent</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Suivant</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Détails Don -->
+<div class="modal fade" id="donationDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Détails du Don</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="donationDetailContent">
+                    <!-- Contenu chargé dynamiquement -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" onclick="Admin.printDonationCertificate()">
+                    <i class="fas fa-print me-2"></i>Imprimer le certificat
+                </button>
+            </div>
+        </div>
+    </div>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="admin-section">
+                <div class="section-header">
+                    <h1>Analytics Avancés</h1>
+                    <p>Données détaillées et analyses du système</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Performance du Système</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <canvas id="responseTimeChart" height="200"></canvas>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <canvas id="userGrowthChart" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+
+            <!-- Add other sections similarly for donations, badges, reports, settings, logs, api -->
+            
+        </main>
+    </div>
+
+    <!-- User Modal -->
+    <div class="modal fade" id="userModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalTitle">Nouvel Utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Nom complet</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Type d'utilisateur</label>
+                                    <select class="form-select" name="role" required>
+                                        <option value="">Sélectionner...</option>
+                                        <option value="donor">Donneur</option>
+                                        <option value="hospital">Hôpital</option>
+                                        <option value="admin">Administrateur</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Statut</label>
+                                    <select class="form-select" name="status" required>
+                                        <option value="active">Actif</option>
+                                        <option value="inactive">Inactif</option>
+                                        <option value="suspended">Suspendu</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="Admin.saveUser()">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="admin.js"></script>
+    <script src="mock-data.js"></script>
+</body>
+</html>

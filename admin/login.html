@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Admin | BloodLink Pro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .bloodlink-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .bloodlink-logo i {
+            margin-right: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .login-subtitle {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .form-floating {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+        
+        .input-group-text {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+        }
+        
+        .security-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .security-info i {
+            color: #28a745;
+            margin-right: 5px;
+        }
+        
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 8px;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+        
+        .password-toggle:hover {
+            color: #495057;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link a:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card" data-aos="fade-up">
+            <div class="login-header">
+                <div class="bloodlink-logo">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>BloodLink</span>
+                </div>
+                <h1 class="login-title">Connexion Administrateur</h1>
+                <p class="login-subtitle">Accédez au panneau d'administration</p>
+            </div>
+            
+            <div id="loginAlert" class="alert d-none"></div>
+            
+            <form id="loginForm">
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                    <label for="email">
+                        <i class="fas fa-envelope me-2"></i>Adresse email
+                    </label>
+                </div>
+                
+                <div class="form-floating">
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" placeholder="Mot de passe" required>
+                        <button class="btn btn-outline-secondary password-toggle" type="button" id="togglePassword">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                    <label for="password" style="margin-left: 15px; margin-top: -10px;">
+            
+                    </label>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                        Se souvenir de moi
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-login" id="loginBtn">
+                    <span id="loginText">Se connecter</span>
+                    <span id="loginSpinner" class="d-none">
+                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                        Connexion en cours...
+                    </span>
+                </button>
+            </form>
+            
+            <div class="security-info">
+                <p class="mb-1">
+                    <i class="fas fa-shield-alt"></i>
+                    Connexion sécurisée avec chiffrement SSL
+                </p>
+                <p class="mb-0">
+                    <i class="fas fa-lock"></i>
+                    Vos informations sont protégées
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="back-link">
+        <a href="../index.html">
+            <i class="fas fa-arrow-left me-2"></i>Retour au site public
+        </a>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // Initialiser AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            
+            if (type === 'text') {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+        
+        // Login form submission
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginText = document.getElementById('loginText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const loginAlert = document.getElementById('loginAlert');
+        
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginText.classList.add('d-none');
+            loginSpinner.classList.remove('d-none');
+            hideAlert();
+            
+            try {
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Check credentials
+                if (email === 'abibe@gmail.com' && password === 'passer@1') {
+                    // Store session
+                    const sessionData = {
+                        email: email,
+                        loginTime: new Date().toISOString(),
+                        rememberMe: rememberMe
+                    };
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('adminSession', JSON.stringify(sessionData));
+                    } else {
+                        sessionStorage.setItem('adminSession', JSON.stringify(sessionData));
+                    }
+                    
+                    // Show success message
+                    showAlert('Connexion réussie! Redirection...', 'success');
+                    
+                    // Redirect to admin panel
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
+                } else {
+                    showAlert('Email ou mot de passe incorrect', 'danger');
+                }
+            } catch (error) {
+                showAlert('Une erreur est survenue. Veuillez réessayer.', 'danger');
+            } finally {
+                // Reset loading state
+                loginBtn.disabled = false;
+                loginText.classList.remove('d-none');
+                loginSpinner.classList.add('d-none');
+            }
+        });
+        
+        function showAlert(message, type) {
+            loginAlert.className = `alert alert-${type}`;
+            loginAlert.textContent = message;
+            loginAlert.classList.remove('d-none');
+        }
+        
+        function hideAlert() {
+            loginAlert.classList.add('d-none');
+        }
+        
+        // Check if already logged in
+        window.addEventListener('load', function() {
+            const sessionData = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
+            
+            if (sessionData) {
+                try {
+                    const session = JSON.parse(sessionData);
+                    const loginTime = new Date(session.loginTime);
+                    const now = new Date();
+                    const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                    
+                    // Auto-logout after 24 hours
+                    if (hoursDiff < 24) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        // Clear expired session
+                        localStorage.removeItem('adminSession');
+                        sessionStorage.removeItem('adminSession');
+                    }
+                } catch (error) {
+                    // Clear corrupted session
+                    localStorage.removeItem('adminSession');
+                    sessionStorage.removeItem('adminSession');
+                }
+            }
+        });
+        
+        // Auto-focus email field
+        document.getElementById('email').focus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil | BloodLink Pro - Espace Donneur</title>
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-blue-dark: #0d47a1;
+            --primary-blue-light: #4285f4;
+            --medical-blue: #1976d2;
+            --hospital-blue: #1565c0;
+            --accent-teal: #00bcd4;
+            --accent-green: #4caf50;
+            --accent-orange: #ff9800;
+            --accent-red: #f44336;
+            --accent-purple: #9c27b0;
+            --neutral-white: #ffffff;
+            --neutral-gray-50: #f8f9fa;
+            --neutral-gray-100: #f5f7fa;
+            --neutral-gray-200: #e9ecef;
+            --neutral-gray-300: #dee2e6;
+            --neutral-gray-600: #6c757d;
+            --neutral-gray-800: #343a40;
+            --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--hospital-blue) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-green) 100%);
+            --gradient-emergency: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+            --gradient-success: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            --gradient-silver: linear-gradient(135deg, #C0C0C0 0%, #A9A9A9 100%);
+            --shadow-sm: 0 2px 8px rgba(25, 118, 210, 0.08);
+            --shadow-md: 0 4px 16px rgba(25, 118, 210, 0.12);
+            --shadow-lg: 0 8px 32px rgba(25, 118, 210, 0.16);
+            --shadow-xl: 0 12px 48px rgba(25, 118, 210, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: var(--neutral-gray-800);
+            overflow-x: hidden;
+        }
+        
+        /* ====== HEADER DONNEUR ====== */
+        .donor-header {
+            background: var(--neutral-white);
+            border-bottom: 1px solid var(--neutral-gray-200);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0;
+            height: 70px;
+        }
+        
+        .header-container {
+            max-width: 100%;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Logo Donneur */
+        .donor-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center no-repeat;
+            opacity: 0.9;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        /* Navigation Donneur */
+        .donor-nav {
+            display: flex;
+            gap: 2px;
+            margin-left: 32px;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--neutral-gray-600);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            color: var(--primary-blue);
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-blue);
+            background: rgba(25, 118, 210, 0.1);
+        }
+        
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: var(--primary-blue);
+            border-radius: 1px;
+        }
+        
+        /* Zone Actions Droite */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Notifications */
+        .notification-wrapper {
+            position: relative;
+        }
+        
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-200);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .notification-btn:hover {
+            background: var(--neutral-gray-50);
+            color: var(--primary-blue);
+            border-color: var(--primary-blue-light);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--neutral-white);
+        }
+        
+        /* Profil Donneur */
+        .donor-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .donor-profile:hover {
+            background: rgba(25, 118, 210, 0.05);
+        }
+        
+        .donor-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--primary-blue-light);
+            padding: 2px;
+            background: var(--neutral-white);
+        }
+        
+        .donor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .donor-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .donor-name {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            font-size: 0.95rem;
+        }
+        
+        .donor-status {
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            font-weight: 500;
+        }
+        
+        /* ====== SIDEBAR DONNEUR ====== */
+        .donor-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            width: 280px;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--neutral-gray-200);
+            padding: 24px 0;
+            overflow-y: auto;
+            z-index: 999;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .sidebar-section {
+            padding: 0 20px;
+            margin-bottom: 28px;
+        }
+        
+        .sidebar-title {
+            font-size: 0.75rem;
+            color: var(--neutral-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--neutral-gray-600);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(25, 118, 210, 0.05);
+            color: var(--primary-blue);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-link.active {
+            background: rgba(25, 118, 210, 0.1);
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+        
+        .sidebar-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 60%;
+            background: var(--primary-blue);
+            border-radius: 0 3px 3px 0;
+        }
+        
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        /* ====== CONTENU PRINCIPAL - MON PROFIL ====== */
+        .profile-main {
+            margin-left: 280px;
+            margin-top: 70px;
+            padding: 32px;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Header de profil */
+        .profile-header-section {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid var(--primary-blue-light);
+            position: relative;
+            margin: 0 auto 24px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .edit-avatar-btn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-avatar-btn:hover {
+            background: var(--primary-blue-dark);
+            transform: scale(1.1);
+        }
+        
+        .profile-info-main {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .profile-info-main h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-blue-dark);
+            margin-bottom: 8px;
+        }
+        
+        .profile-title {
+            font-size: 1.1rem;
+            color: var(--neutral-gray-600);
+            margin-bottom: 16px;
+        }
+        
+        .badge-display {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .badge.donor-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+        }
+        
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+        }
+        
+        .stat-box {
+            background: var(--neutral-gray-50);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--neutral-gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-blue-light);
+        }
+        
+        .stat-box .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+        
+        .stat-box .stat-label {
+            font-size: 0.9rem;
+            color: var(--neutral-gray-600);
+        }
+        
+        /* Onglets de profil */
+        .profile-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--neutral-gray-100);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            border-radius: 8px;
+            font-weight: 500;
+            color: var(--neutral-gray-600);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(25, 118, 210, 0.05);
+            color: var(--primary-blue);
+        }
+        
+        .tab-btn.active {
+            background: var(--neutral-white);
+            color: var(--primary-blue);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Contenu des onglets */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .profile-info-content {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-gray-200);
+        }
+        
+        .profile-info-content h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            color: var(--primary-blue-dark);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .info-item {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+        }
+        
+        .info-item label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .info-item .info-value {
+            font-size: 1rem;
+            color: var(--neutral-gray-800);
+            font-weight: 500;
+        }
+        
+        /* Badge type sanguin */
+        .blood-type-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
+            color: white;
+            box-shadow: var(--shadow-sm);
+            margin-right: 8px;
+        }
+        
+        .blood-type-o-plus {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        }
+        
+        /* Contact d'urgence */
+        .emergency-contact-section {
+            background: linear-gradient(135deg, rgba(255, 152, 0, 0.05) 0%, rgba(255, 193, 7, 0.05) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 152, 0, 0.1);
+        }
+        
+        .emergency-contact-section h5 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ff9800;
+            margin-bottom: 16px;
+        }
+        
+        .emergency-contact {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .contact-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--neutral-gray-800);
+        }
+        
+        .contact-relation {
+            font-size: 0.9rem;
+            color: var(--neutral-gray-600);
+            margin: 4px 0;
+        }
+        
+        .contact-phone {
+            font-size: 0.95rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+        
+        /* Boutons d'action */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--neutral-gray-200);
+        }
+        
+        /* Tab Santé */
+        .health-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .metric-card {
+            background: var(--neutral-white);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--neutral-gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .metric-icon.heart {
+            background: var(--gradient-emergency);
+        }
+        
+        .metric-icon.pressure {
+            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+        }
+        
+        .metric-icon.weight {
+            background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+        }
+        
+        .metric-icon.temperature {
+            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+        }
+        
+        .metric-title {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue-dark);
+            margin-bottom: 8px;
+        }
+        
+        .metric-status {
+            font-size: 0.9rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .status-normal {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--accent-green);
+        }
+        
+        .status-warning {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--accent-orange);
+        }
+        
+        /* Historique médical */
+        .medical-history {
+            background: var(--neutral-white);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--neutral-gray-200);
+            margin-bottom: 32px;
+        }
+        
+        .history-list {
+            margin-top: 20px;
+        }
+        
+        .history-item {
+            padding: 16px;
+            border-left: 3px solid var(--primary-blue);
+            background: var(--neutral-gray-50);
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+        }
+        
+        .history-date {
+            font-weight: 600;
+            color: var(--neutral-gray-800);
+            margin-bottom: 4px;
+        }
+        
+        .history-desc {
+            color: var(--neutral-gray-600);
+            font-size: 0.95rem;
+        }
+        
+        /* Tab Préférences */
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        .preference-category {
+            background: var(--neutral-white);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--neutral-gray-200);
+        }
+        
+        .preference-category h5 {
+            margin-bottom: 20px;
+            color: var(--primary-blue-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .preference-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .preference-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .preference-text {
+            flex: 1;
+        }
+        
+        .preference-label {
+            font-weight: 500;
+            color: var(--neutral-gray-800);
+        }
+        
+        .preference-desc {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+            margin-top: 2px;
+        }
+        
+        /* Tab Sécurité */
+        .security-section {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        
+        .security-card {
+            background: var(--neutral-white);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--neutral-gray-200);
+        }
+        
+        .security-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .security-info {
+            flex: 1;
+        }
+        
+        .security-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .session-list {
+            margin-top: 20px;
+        }
+        
+        .session-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+        }
+        
+        .session-info {
+            flex: 1;
+        }
+        
+        .session-device {
+            font-weight: 500;
+            color: var(--neutral-gray-800);
+        }
+        
+        .session-details {
+            font-size: 0.85rem;
+            color: var(--neutral-gray-600);
+            margin-top: 4px;
+        }
+        
+        .session-current {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        /* Modal d'édition */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--neutral-white);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: slideUp 0.3s ease;
+        }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--neutral-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: var(--neutral-gray-800);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--neutral-gray-600);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: var(--neutral-gray-100);
+            color: var(--neutral-gray-800);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .donor-sidebar {
+                width: 240px;
+            }
+            
+            .profile-main {
+                margin-left: 240px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .donor-sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .donor-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .profile-main {
+                margin-left: 0;
+            }
+            
+            .header-container {
+                padding: 0 16px;
+            }
+            
+            .donor-nav {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .preferences-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .health-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-main {
+                padding: 24px 16px;
+            }
+            
+            .profile-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .emergency-contact {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .profile-header-section {
+                padding: 24px 16px;
+            }
+            
+            .profile-info-main h2 {
+                font-size: 1.8rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+        }
+        
+        /* Bouton Menu Mobile */
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-gray-200);
+            background: var(--neutral-white);
+            color: var(--neutral-gray-600);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-btn:hover {
+            background: var(--neutral-gray-50);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        
+        /* Overlay Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--neutral-gray-100);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue-light);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+        
+        /* Utilitaires */
+        .text-success {
+            color: var(--accent-green) !important;
+        }
+        
+        .text-warning {
+            color: var(--accent-orange) !important;
+        }
+        
+        .text-danger {
+            color: var(--accent-red) !important;
+        }
+        
+        .btn-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Donneur -->
+    <header class="donor-header">
+        <div class="header-container">
+            <!-- Logo et Navigation Mobile -->
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <a href="index.html" class="donor-logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        <h1>BloodLink</h1>
+                        <span>Espace Donneur</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Navigation Principale -->
+            <nav class="donor-nav">
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Tableau de bord
+                </a>
+                <a href="alerts.html" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    Alertes
+                </a>
+                <a href="history.html" class="nav-item">
+                    <i class="fas fa-history"></i>
+                    Historique
+                </a>
+                <a href="badges.html" class="nav-item">
+                    <i class="fas fa-trophy"></i>
+                    Récompenses
+                </a>
+                <a href="centers.html" class="nav-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Centres
+                </a>
+            </nav>
+            
+            <!-- Actions Droite -->
+            <div class="header-actions">
+                <!-- Notifications -->
+                <div class="notification-wrapper">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+                
+                <!-- Profil Donneur -->
+                <a href="profile.html" class="donor-profile">
+                    <div class="donor-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Abibe Diop">
+                    </div>
+                    <div class="donor-info">
+                        <div class="donor-name">Abibe Diop</div>
+                        <div class="donor-status">Donneur O+ • 12 dons</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Overlay Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar Donneur -->
+    <aside class="donor-sidebar" id="donorSidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Mon espace</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-pie"></i></div>
+                    Vue d'ensemble
+                </a>
+                <a href="profile.html" class="sidebar-link active">
+                    <div class="nav-icon"><i class="fas fa-user"></i></div>
+                    Mon profil
+                </a>
+                <a href="analytics.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
+                    Statistiques
+                </a>
+                <a href="recompences.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-trophy"></i></div>
+                    Mes récompenses
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Mes dons</div>
+            <nav class="sidebar-nav">
+                <a href="donate.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-heartbeat"></i></div>
+                    Donner maintenant
+                </a>
+                <a href="historique.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-history"></i></div>
+                    Historique des dons
+                </a>
+                <a href="appointments.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                    Mes rendez-vous
+                </a>
+                <a href="eligibility.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-check-circle"></i></div>
+                    Éligibilité
+                </a>
+            </nav>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Paramètres</div>
+            <nav class="sidebar-nav">
+                <a href="#settings" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-cogs"></i></div>
+                    Paramètres
+                </a>
+                <a href="#help" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-question-circle"></i></div>
+                    Aide & Support
+                </a>
+                <a href="index.html" class="sidebar-link">
+                    <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+                    Déconnexion
+                </a>
+            </nav>
+        </div>
+    </aside>
+    
+    <!-- Contenu Principal - Mon Profil -->
+    <main class="profile-main">
+        <!-- En-tête Profil -->
+        <div class="profile-header-section fade-in">
+            <div class="profile-avatar-large">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Abibe Diop">
+                <button class="edit-avatar-btn" onclick="openEditModal('avatar')">
+                    <i class="fas fa-camera"></i>
+                </button>
+            </div>
+            
+            <div class="profile-info-main">
+                <h2>Abibe Diop</h2>
+                <p class="profile-title">Donneur O+ • Niveau Or • Actif depuis 2019</p>
+                <div class="badge-display">
+                    <span class="badge donor-badge" style="background: var(--gradient-gold);">
+                        <i class="fas fa-crown"></i> Top Donneur
+                    </span>
+                    <span class="badge donor-badge" style="background: var(--gradient-primary);">
+                        <i class="fas fa-heart"></i> 36 vies sauvées
+                    </span>
+                    <span class="badge donor-badge" style="background: var(--gradient-emergency);">
+                        <i class="fas fa-bolt"></i> Répondeur d'Urgence
+                    </span>
+                </div>
+            </div>
+            
+            <div class="profile-stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Dons totaux</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Années de don</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Taux de réponse</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">75%</div>
+                    <div class="stat-label">Taux d'éligibilité</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglets de Navigation -->
+        <div class="profile-tabs">
+            <button class="tab-btn active" onclick="switchTab('informations')">Informations</button>
+            <button class="tab-btn" onclick="switchTab('sante')">Santé</button>
+            <button class="tab-btn" onclick="switchTab('preferences')">Préférences</button>
+            <button class="tab-btn" onclick="switchTab('securite')">Sécurité</button>
+        </div>
+        
+        <!-- Onglet: Informations -->
+        <div id="tab-informations" class="tab-content active">
+            <div class="profile-info-content fade-in">
+                <h4>Informations personnelles</h4>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Nom complet</label>
+                        <div class="info-value">Abibe Diop</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Date de naissance</label>
+                        <div class="info-value">15 Mars 1990 (33 ans)</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Type sanguin</label>
+                        <div class="info-value">
+                            <span class="blood-type-badge blood-type-o-plus">O+</span>
+                            Donneur universel
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <label>Téléphone</label>
+                        <div class="info-value">+33 6 12 34 56 78</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Email</label>
+                        <div class="info-value">abibe.diop@email.com</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Adresse</label>
+                        <div class="info-value">12 Rue de la Santé, 75015 Paris</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Donneur depuis</label>
+                        <div class="info-value">15 Juin 2019 (4 ans 8 mois)</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Dernier don</label>
+                        <div class="info-value">15 Février 2024</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Prochain don possible</label>
+                        <div class="info-value">15 Mars 2024 (dans 15 jours)</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Statut du donneur</label>
+                        <div class="info-value">
+                            <span class="text-success">Actif et éligible</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <label>Niveau du donneur</label>
+                        <div class="info-value">
+                            <span style="color: #FFD700; font-weight: 600;">Or</span>
+                            (Top 15% des donneurs)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="emergency-contact-section">
+                    <h5><i class="fas fa-phone-alt"></i> Contact d'urgence</h5>
+                    <div class="emergency-contact">
+                        <div class="contact-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="contact-info">
+                            <div class="contact-name">Mamadou Diop</div>
+                            <div class="contact-relation">Frère</div>
+                            <div class="contact-phone">+33 6 98 76 54 32</div>
+                        </div>
+                        <button class="btn btn-outline-warning btn-sm" onclick="openEditModal('emergency')">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="openEditModal('personal')">
+                        <i class="fas fa-edit"></i>
+                        Modifier mes informations
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="downloadProfile()">
+                        <i class="fas fa-download"></i>
+                        Télécharger mon dossier
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="printProfile()">
+                        <i class="fas fa-print"></i>
+                        Imprimer le profil
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet: Santé -->
+        <div id="tab-sante" class="tab-content">
+            <div class="profile-info-content fade-in">
+                <h4><i class="fas fa-heartbeat"></i> Mes données de santé</h4>
+                
+                <div class="health-metrics">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon heart">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="metric-title">Fréquence cardiaque</div>
+                        </div>
+                        <div class="metric-value">72 bpm</div>
+                        <span class="metric-status status-normal">
+                            <i class="fas fa-check-circle"></i> Normal
+                        </span>
+                        <div class="mt-3">
+                            <small class="text-muted">Dernière mesure: 15/02/2024</small>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon pressure">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="metric-title">Tension artérielle</div>
+                        </div>
+                        <div class="metric-value">120/80</div>
+                        <span class="metric-status status-normal">
+                            <i class="fas fa-check-circle"></i> Optimal
+                        </span>
+                        <div class="mt-3">
+                            <small class="text-muted">Dernière mesure: 15/02/2024</small>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon weight">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <div class="metric-title">Poids</div>
+                        </div>
+                        <div class="metric-value">72 kg</div>
+                        <span class="metric-status status-normal">
+                            <i class="fas fa-check-circle"></i> Stable
+                        </span>
+                        <div class="mt-3">
+                            <small class="text-muted">IMC: 22.5 (Normal)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon temperature">
+                                <i class="fas fa-thermometer-half"></i>
+                            </div>
+                            <div class="metric-title">Température</div>
+                        </div>
+                        <div class="metric-value">36.8°C</div>
+                        <span class="metric-status status-normal">
+                            <i class="fas fa-check-circle"></i> Normal
+                        </span>
+                        <div class="mt-3">
+                            <small class="text-muted">Dernière mesure: Aujourd'hui</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medical-history">
+                    <h5><i class="fas fa-history"></i> Historique médical récent</h5>
+                    <div class="history-list">
+                        <div class="history-item">
+                            <div class="history-date">15 Février 2024</div>
+                            <div class="history-desc">Don de sang complet - Tout va bien, pas d'effets secondaires</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-date">10 Janvier 2024</div>
+                            <div class="history-desc">Vaccination contre la grippe - Aucune réaction</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-date">15 Décembre 2023</div>
+                            <div class="history-desc">Bilan sanguin annuel - Tous les paramètres dans les normes</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Données mises à jour automatiquement</strong>
+                        <p class="mb-0">Vos données de santé sont synchronisées avec les informations collectées lors de vos dons.</p>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="updateHealthData()">
+                        <i class="fas fa-sync"></i>
+                        Mettre à jour mes données
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="viewHealthReport()">
+                        <i class="fas fa-file-medical"></i>
+                        Voir le rapport complet
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet: Préférences -->
+        <div id="tab-preferences" class="tab-content">
+            <div class="profile-info-content fade-in">
+                <h4><i class="fas fa-sliders-h"></i> Mes préférences</h4>
+                
+                <div class="preferences-grid">
+                    <div class="preference-category">
+                        <h5><i class="fas fa-bell"></i> Notifications</h5>
+                        <div class="preference-list">
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Alertes d'urgence</div>
+                                    <div class="preference-desc">Notifications pour les urgences critiques</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Rappels de don</div>
+                                    <div class="preference-desc">Rappels pour votre prochain don possible</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Notifications par SMS</div>
+                                    <div class="preference-desc">Pour les urgences importantes</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preference-category">
+                        <h5><i class="fas fa-map-marker-alt"></i> Localisation</h5>
+                        <div class="preference-list">
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Partage de position</div>
+                                    <div class="preference-desc">Pour les centres les plus proches</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Rayon de recherche</div>
+                                    <div class="preference-desc">10 km autour de votre position</div>
+                                </div>
+                                <select class="form-select form-select-sm" style="width: 100px;">
+                                    <option>5 km</option>
+                                    <option selected>10 km</option>
+                                    <option>20 km</option>
+                                    <option>50 km</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preference-category">
+                        <h5><i class="fas fa-heart"></i> Dons</h5>
+                        <div class="preference-list">
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Type de don préféré</div>
+                                    <div class="preference-desc">Sang complet</div>
+                                </div>
+                                <select class="form-select form-select-sm" style="width: 140px;">
+                                    <option selected>Sang complet</option>
+                                    <option>Plasma</option>
+                                    <option>Plaquettes</option>
+                                </select>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Centre préféré</div>
+                                    <div class="preference-desc">Hôpital Saint-Louis</div>
+                                </div>
+                                <select class="form-select form-select-sm" style="width: 160px;">
+                                    <option selected>Hôpital Saint-Louis</option>
+                                    <option>Clinique Val d'Or</option>
+                                    <option>Centre Ville</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preference-category">
+                        <h5><i class="fas fa-eye"></i> Confidentialité</h5>
+                        <div class="preference-list">
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Profil public</div>
+                                    <div class="preference-desc">Visible par les autres donneurs</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                            <div class="preference-item">
+                                <div class="preference-text">
+                                    <div class="preference-label">Statistiques partagées</div>
+                                    <div class="preference-desc">Partager mes statistiques anonymisées</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="savePreferences()">
+                        <i class="fas fa-save"></i>
+                        Enregistrer les préférences
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="resetPreferences()">
+                        <i class="fas fa-undo"></i>
+                        Réinitialiser
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet: Sécurité -->
+        <div id="tab-securite" class="tab-content">
+            <div class="profile-info-content fade-in">
+                <h4><i class="fas fa-shield-alt"></i> Sécurité et connexion</h4>
+                
+                <div class="security-section">
+                    <div class="security-card">
+                        <div class="security-header">
+                            <div class="security-info">
+                                <h5>Mot de passe</h5>
+                                <p class="text-muted mb-0">Dernière modification: 15 Janvier 2024</p>
+                            </div>
+                            <div class="security-actions">
+                                <button class="btn btn-outline-primary" onclick="changePassword()">
+                                    <i class="fas fa-key"></i>
+                                    Modifier
+                                </button>
+                            </div>
+                        </div>
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Mot de passe fort</strong>
+                            <p class="mb-0">Votre mot de passe est sécurisé et répond aux exigences.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="security-card">
+                        <div class="security-header">
+                            <div class="security-info">
+                                <h5>Authentification à deux facteurs</h5>
+                                <p class="text-muted mb-0">Ajoutez une couche de sécurité supplémentaire</p>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" checked>
+                            </div>
+                        </div>
+                        <p class="text-success">
+                            <i class="fas fa-check-circle"></i>
+                            Activée • Méthode: Application d'authentification
+                        </p>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-cog"></i>
+                            Configurer
+                        </button>
+                    </div>
+                    
+                    <div class="security-card">
+                        <div class="security-header">
+                            <div class="security-info">
+                                <h5>Sessions actives</h5>
+                                <p class="text-muted mb-0">Appareils connectés à votre compte</p>
+                            </div>
+                            <button class="btn btn-outline-danger btn-sm" onclick="logoutAllDevices()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Tout déconnecter
+                            </button>
+                        </div>
+                        
+                        <div class="session-list">
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="session-device">
+                                        <i class="fas fa-laptop me-2"></i>
+                                        Chrome sur MacBook Pro
+                                    </div>
+                                    <div class="session-details">
+                                        Paris • Connecté depuis 2 heures
+                                    </div>
+                                </div>
+                                <span class="session-current">Session actuelle</span>
+                            </div>
+                            
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="session-device">
+                                        <i class="fas fa-mobile-alt me-2"></i>
+                                        Safari sur iPhone
+                                    </div>
+                                    <div class="session-details">
+                                        Paris • Connecté depuis 1 jour
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-danger btn-sm">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="security-card">
+                        <div class="security-header">
+                            <div class="security-info">
+                                <h5>Journal d'activité</h5>
+                                <p class="text-muted mb-0">Historique des connexions et modifications</p>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm" onclick="viewActivityLog()">
+                                <i class="fas fa-history"></i>
+                                Voir tout
+                            </button>
+                        </div>
+                        
+                        <div class="history-list">
+                            <div class="history-item">
+                                <div class="history-date">Aujourd'hui, 14:30</div>
+                                <div class="history-desc">Connexion depuis Chrome sur MacBook Pro</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-date">Hier, 18:45</div>
+                                <div class="history-desc">Mise à jour des préférences de notification</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-date">15 Février 2024, 10:20</div>
+                                <div class="history-desc">Don enregistré à l'Hôpital Saint-Louis</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="exportSecurityData()">
+                        <i class="fas fa-download"></i>
+                        Exporter les données de sécurité
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="requestAccountDeletion()">
+                        <i class="fas fa-trash-alt"></i>
+                        Demander la suppression du compte
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal d'édition -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modifier les informations</h3>
+                <button class="modal-close" onclick="closeEditModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <!-- Le contenu du formulaire sera injecté ici dynamiquement -->
+                </form>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid var(--neutral-gray-200); text-align: right;">
+                <button class="btn btn-secondary" onclick="closeEditModal()">
+                    Annuler
+                </button>
+                <button class="btn btn-primary" onclick="saveEdit()">
+                    <i class="fas fa-save"></i>
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser AOS
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 100
+            });
+            
+            // Gestion du menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const donorSidebar = document.getElementById('donorSidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    donorSidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+            }
+            
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    donorSidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+            
+            // Initialiser les tooltips
+            initTooltips();
+            
+            // Animation des cartes
+            animateCards();
+            
+            // Charger les données du profil
+            loadProfileData();
+        });
+        
+        // Initialiser les tooltips Bootstrap
+        function initTooltips() {
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(el => {
+                new bootstrap.Tooltip(el);
+            });
+        }
+        
+        // Animation des cartes
+        function animateCards() {
+            const cards = document.querySelectorAll('.fade-in');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+        
+        // Charger les données du profil
+        function loadProfileData() {
+            // Simulation de chargement de données
+            setTimeout(() => {
+                console.log('Données du profil chargées');
+            }, 500);
+        }
+        
+        // Changer d'onglet
+        function switchTab(tabName) {
+            // Désactiver tous les onglets
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activer l'onglet sélectionné
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            // Animation
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            activeTab.style.animation = 'none';
+            setTimeout(() => {
+                activeTab.style.animation = 'fadeIn 0.5s ease';
+            }, 10);
+        }
+        
+        // Ouvrir le modal d'édition
+        function openEditModal(type) {
+            const modal = document.getElementById('editModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const editForm = document.getElementById('editForm');
+            
+            // Afficher le modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Déterminer le contenu en fonction du type
+            switch(type) {
+                case 'personal':
+                    modalTitle.textContent = 'Modifier mes informations personnelles';
+                    editForm.innerHTML = getPersonalForm();
+                    break;
+                    
+                case 'emergency':
+                    modalTitle.textContent = 'Modifier le contact d\'urgence';
+                    editForm.innerHTML = getEmergencyForm();
+                    break;
+                    
+                case 'avatar':
+                    modalTitle.textContent = 'Changer ma photo de profil';
+                    editForm.innerHTML = getAvatarForm();
+                    break;
+                    
+                case 'password':
+                    modalTitle.textContent = 'Changer mon mot de passe';
+                    editForm.innerHTML = getPasswordForm();
+                    break;
+            }
+        }
+        
+        // Fermer le modal d'édition
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Sauvegarder les modifications
+        function saveEdit() {
+            // Simulation de sauvegarde
+            showNotification('Modifications enregistrées avec succès !', 'success');
+            closeEditModal();
+            
+            // Simuler un rechargement des données
+            setTimeout(() => {
+                showNotification('Profil mis à jour', 'info');
+            }, 1000);
+        }
+        
+        // Afficher une notification
+        function showNotification(message, type = 'info') {
+            // Créer l'élément de notification
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1100;
+                animation: slideInRight 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                max-width: 400px;
+            `;
+            
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Supprimer après 5 secondes
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+            
+            // Ajouter les animations CSS si nécessaire
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideInRight {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOutRight {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Formulaire d'informations personnelles
+        function getPersonalForm() {
+            return `
+                <div class="mb-3">
+                    <label class="form-label">Nom complet</label>
+                    <input type="text" class="form-control" value="Abibe Diop">
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Date de naissance</label>
+                        <input type="date" class="form-control" value="1990-03-15">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Type sanguin</label>
+                        <select class="form-select">
+                            <option value="O+" selected>O+</option>
+                            <option value="O-">O-</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Téléphone</label>
+                    <input type="tel" class="form-control" value="+33 6 12 34 56 78">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" value="abibe.diop@email.com">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Adresse</label>
+                    <textarea class="form-control" rows="2">12 Rue de la Santé, 75015 Paris</textarea>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <small>Ces informations sont utilisées pour vous contacter et vous localiser pour les dons.</small>
+                </div>
+            `;
+        }
+        
+        // Formulaire de contact d'urgence
+        function getEmergencyForm() {
+            return `
+                <div class="mb-3">
+                    <label class="form-label">Nom du contact</label>
+                    <input type="text" class="form-control" value="Mamadou Diop">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Relation</label>
+                    <select class="form-select">
+                        <option value="frère" selected>Frère</option>
+                        <option value="sœur">Sœur</option>
+                        <option value="parent">Parent</option>
+                        <option value="conjoint">Conjoint</option>
+                        <option value="ami">Ami</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Téléphone</label>
+                    <input type="tel" class="form-control" value="+33 6 98 76 54 32">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Email (optionnel)</label>
+                    <input type="email" class="form-control" placeholder="email@exemple.com">
+                </div>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <small>Ce contact sera utilisé uniquement en cas d'urgence médicale.</small>
+                </div>
+            `;
+        }
+        
+        // Formulaire d'avatar
+        function getAvatarForm() {
+            return `
+                <div class="text-center mb-4">
+                    <div class="profile-avatar-large" style="margin: 0 auto;">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Abibe Diop">
+                    </div>
+                    <p class="text-muted mt-2">Photo de profil actuelle</p>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Choisir une nouvelle photo</label>
+                    <input type="file" class="form-control" accept="image/*">
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <small>Taille recommandée: 200x200 pixels. Formats acceptés: JPG, PNG, GIF.</small>
+                </div>
+                
+                <div class="avatar-presets">
+                    <p class="form-label">Ou choisir un avatar prédéfini:</p>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button type="button" class="btn btn-outline-secondary" onclick="selectAvatar(1)">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Abibe" width="40" height="40">
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="selectAvatar(2)">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Donor" width="40" height="40">
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="selectAvatar(3)">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hero" width="40" height="40">
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Formulaire de mot de passe
+        function getPasswordForm() {
+            return `
+                <div class="mb-3">
+                    <label class="form-label">Mot de passe actuel</label>
+                    <input type="password" class="form-control" placeholder="Entrez votre mot de passe actuel">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Nouveau mot de passe</label>
+                    <input type="password" class="form-control" placeholder="Entrez le nouveau mot de passe">
+                    <div class="form-text">Minimum 8 caractères avec majuscules, minuscules et chiffres.</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Confirmer le nouveau mot de passe</label>
+                    <input type="password" class="form-control" placeholder="Confirmez le nouveau mot de passe">
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <small>Pour votre sécurité, nous vous conseillons d'utiliser un mot de passe unique.</small>
+                </div>
+            `;
+        }
+        
+        // Sélectionner un avatar prédéfini
+        function selectAvatar(number) {
+            showNotification(`Avatar ${number} sélectionné`, 'info');
+        }
+        
+        // Télécharger le profil
+        function downloadProfile() {
+            showNotification('Téléchargement du profil en cours...', 'info');
+            
+            // Simulation de téléchargement
+            setTimeout(() => {
+                showNotification('Profil téléchargé avec succès !', 'success');
+                
+                // Créer un lien de téléchargement simulé
+                const link = document.createElement('a');
+                link.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify({
+                    nom: 'Abibe Diop',
+                    typeSanguin: 'O+',
+                    dons: 12,
+                    viesSauvees: 36,
+                    dernierDon: '2024-02-15',
+                    date: new Date().toISOString()
+                }, null, 2));
+                link.download = 'profil-bloodlink.json';
+                link.click();
+            }, 1500);
+        }
+        
+        // Imprimer le profil
+        function printProfile() {
+            showNotification('Préparation de l\'impression...', 'info');
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+        
+        // Mettre à jour les données de santé
+        function updateHealthData() {
+            showNotification('Mise à jour des données de santé...', 'info');
+            
+            // Simulation de mise à jour
+            setTimeout(() => {
+                showNotification('Données de santé mises à jour avec succès !', 'success');
+            }, 2000);
+        }
+        
+        // Voir le rapport de santé
+        function viewHealthReport() {
+            showNotification('Génération du rapport de santé...', 'info');
+            
+            // Simulation d'ouverture de rapport
+            setTimeout(() => {
+                const modal = document.getElementById('editModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const editForm = document.getElementById('editForm');
+                
+                modalTitle.textContent = 'Rapport de santé complet';
+                editForm.innerHTML = `
+                    <div class="text-center mb-4">
+                        <i class="fas fa-file-medical fa-4x text-primary"></i>
+                        <h4 class="mt-3">Rapport de santé</h4>
+                        <p class="text-muted">Généré le ${new Date().toLocaleDateString()}</p>
+                    </div>
+                    
+                    <div class="health-report">
+                        <h5>Résumé médical</h5>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Type sanguin</span>
+                                <strong>O+</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Dernier don</span>
+                                <strong>15 Février 2024</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Prochain don possible</span>
+                                <strong>15 Mars 2024</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Statut d'éligibilité</span>
+                                <strong class="text-success">Éligible</strong>
+                            </li>
+                        </ul>
+                        
+                        <h5>Paramètres vitaux</h5>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Tension artérielle</span>
+                                <strong>120/80 mmHg</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Fréquence cardiaque</span>
+                                <strong>72 bpm</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Température</span>
+                                <strong>36.8°C</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Poids</span>
+                                <strong>72 kg</strong>
+                            </li>
+                        </ul>
+                        
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Tous les paramètres sont dans les normes.</strong>
+                            <p class="mb-0">Vous êtes en excellente santé pour continuer vos dons.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-primary" onclick="printHealthReport()">
+                            <i class="fas fa-print"></i>
+                            Imprimer le rapport
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="downloadHealthReport()">
+                            <i class="fas fa-download"></i>
+                            Télécharger en PDF
+                        </button>
+                    </div>
+                `;
+                
+                // Modifier le footer du modal
+                document.querySelector('.modal-footer').innerHTML = `
+                    <button class="btn btn-secondary" onclick="closeEditModal()">
+                        Fermer
+                    </button>
+                `;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 1000);
+        }
+        
+        // Imprimer le rapport de santé
+        function printHealthReport() {
+            window.print();
+            showNotification('Impression lancée', 'info');
+        }
+        
+        // Télécharger le rapport de santé
+        function downloadHealthReport() {
+            showNotification('Téléchargement du rapport en PDF...', 'info');
+            
+            // Simulation de téléchargement
+            setTimeout(() => {
+                showNotification('Rapport téléchargé avec succès !', 'success');
+            }, 1500);
+        }
+        
+        // Sauvegarder les préférences
+        function savePreferences() {
+            showNotification('Préférences enregistrées avec succès !', 'success');
+        }
+        
+        // Réinitialiser les préférences
+        function resetPreferences() {
+            if (confirm('Êtes-vous sûr de vouloir réinitialiser toutes vos préférences ?')) {
+                showNotification('Préférences réinitialisées', 'info');
+                
+                // Simulation de réinitialisation
+                setTimeout(() => {
+                    showNotification('Veuillez recharger la page pour voir les changements', 'warning');
+                }, 1000);
+            }
+        }
+        
+        // Changer le mot de passe
+        function changePassword() {
+            openEditModal('password');
+        }
+        
+        // Déconnecter tous les appareils
+        function logoutAllDevices() {
+            if (confirm('Êtes-vous sûr de vouloir déconnecter tous vos appareils ? Vous serez déconnecté sur tous les appareils sauf celui-ci.')) {
+                showNotification('Déconnexion en cours...', 'info');
+                
+                // Simulation de déconnexion
+                setTimeout(() => {
+                    showNotification('Tous les appareils ont été déconnectés', 'success');
+                }, 2000);
+            }
+        }
+        
+        // Voir le journal d'activité
+        function viewActivityLog() {
+            showNotification('Ouverture du journal d\'activité...', 'info');
+            
+            // Simulation d'ouverture
+            setTimeout(() => {
+                const modal = document.getElementById('editModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const editForm = document.getElementById('editForm');
+                
+                modalTitle.textContent = 'Journal d\'activité complet';
+                editForm.innerHTML = `
+                    <div class="activity-log">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5>Historique des connexions</h5>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="exportActivityLog()">
+                                <i class="fas fa-download"></i>
+                                Exporter
+                            </button>
+                        </div>
+                        
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Connexion réussie</h6>
+                                    <small>Aujourd'hui, 14:30</small>
+                                </div>
+                                <p class="mb-1">Chrome sur MacBook Pro • Paris</p>
+                                <small class="text-muted">Adresse IP: 192.168.1.1</small>
+                            </div>
+                            
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Modification du profil</h6>
+                                    <small>Hier, 18:45</small>
+                                </div>
+                                <p class="mb-1">Mise à jour des préférences de notification</p>
+                            </div>
+                            
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Don enregistré</h6>
+                                    <small>15 Février 2024, 10:20</small>
+                                </div>
+                                <p class="mb-1">Hôpital Saint-Louis • Sang complet O+</p>
+                            </div>
+                            
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Connexion depuis mobile</h6>
+                                    <small>14 Février 2024, 09:15</small>
+                                </div>
+                                <p class="mb-1">Safari sur iPhone • Paris</p>
+                                <small class="text-muted">Adresse IP: 192.168.1.2</small>
+                            </div>
+                            
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Tentative de connexion échouée</h6>
+                                    <small>10 Février 2024, 03:45</small>
+                                </div>
+                                <p class="mb-1">Adresse IP inconnue • Bloquée</p>
+                                <small class="text-danger"><i class="fas fa-shield-alt"></i> Sécurité renforcée activée</small>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle"></i>
+                            <small>Ce journal conserve les 30 derniers jours d'activité.</small>
+                        </div>
+                    </div>
+                `;
+                
+                // Modifier le footer du modal
+                document.querySelector('.modal-footer').innerHTML = `
+                    <button class="btn btn-secondary" onclick="closeEditModal()">
+                        Fermer
+                    </button>
+                `;
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 1000);
+        }
+        
+        // Exporter le journal d'activité
+        function exportActivityLog() {
+            showNotification('Export du journal d\'activité...', 'info');
+            
+            // Simulation d'export
+            setTimeout(() => {
+                showNotification('Journal exporté avec succès !', 'success');
+            }, 1500);
+        }
+        
+        // Exporter les données de sécurité
+        function exportSecurityData() {
+            showNotification('Export des données de sécurité...', 'info');
+            
+            // Simulation d'export
+            setTimeout(() => {
+                showNotification('Données exportées avec succès !', 'success');
+            }, 1500);
+        }
+        
+        // Demander la suppression du compte
+        function requestAccountDeletion() {
+            if (confirm('Êtes-vous sûr de vouloir demander la suppression de votre compte ? Cette action est irréversible et toutes vos données seront supprimées.')) {
+                showNotification('Demande de suppression envoyée...', 'warning');
+                
+                // Simulation d'envoi
+                setTimeout(() => {
+                    showNotification('Un email de confirmation vous a été envoyé.', 'info');
+                }, 2000);
+            }
+        }
+        
+        // Empêcher la fermeture du modal en cliquant à l'intérieur
+        document.getElementById('editModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditModal();
+            }
+        });
+        
+        // Gérer la touche Échap pour fermer le modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('editModal')?.classList.contains('active')) {
+                closeEditModal();
+            }
+        });
+        
+        // Ajouter des styles d'impression
+        const style = document.createElement('style');
+        style.textContent = `
+            @media print {
+                .donor-header,
+                .donor-sidebar,
+                .profile-tabs,
+                .action-buttons,
+                .notification,
+                .modal-overlay,
+                .mobile-menu-btn {
+                    display: none !important;
+                }
+                
+                .profile-main {
+                    margin: 0 !important;
+                    padding: 20px !important;
+                }
+                
+                body {
+                    background: white !important;
+                }
+                
+                .profile-header-section,
+                .profile-info-content {
+                    box-shadow: none !important;
+                    border: 1px solid #ddd !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

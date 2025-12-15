@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | BloodLink</title>
+    <meta name="description" content="Connectez-vous à BloodLink Pro pour accéder à votre tableau de bord">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --primary-dark: #c0392b;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            margin: 0;
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        /* En-tête */
+        .auth-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .auth-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-logo i {
+            font-size: 1.8rem;
+        }
+        
+        .auth-logo span {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .auth-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        
+        .auth-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Statistiques compactes */
+        .stats-compact {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-compact {
+            text-align: center;
+            padding: 0.5rem 0.8rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            min-width: 80px;
+        }
+        
+        .stat-compact h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .stat-compact p {
+            font-size: 0.7rem;
+            opacity: 0.9;
+            margin: 0.2rem 0 0;
+        }
+        
+        /* Section formulaire */
+        .auth-body {
+            padding: 2.5rem 1.5rem 1.5rem;
+        }
+        
+        .auth-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .auth-sub {
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Démo */
+        .demo-compact {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-bottom: 1.2rem;
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.85rem;
+        }
+        
+        .demo-compact h6 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .demo-credentials {
+            background: white;
+            padding: 0.6rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            border: 1px solid #dee2e6;
+            margin-top: 0.3rem;
+        }
+        
+        /* Formulaire */
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            height: auto;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.15);
+        }
+        
+        .form-floating label {
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            z-index: 10;
+            padding: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Options */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            font-size: 0.85rem;
+        }
+        
+        .form-check {
+            margin-bottom: 0;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .forgot-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Boutons */
+        .btn-auth {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: white;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 0.8rem;
+        }
+        
+        .btn-auth:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.2);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--primary-color);
+            transition: all 0.2s ease;
+            width: 100%;
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.2rem 0;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .divider span {
+            padding: 0 0.8rem;
+        }
+        
+        /* Footer */
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .back-link {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Alertes */
+        #authAlerts {
+            margin-bottom: 1rem;
+        }
+        
+        .alert-custom {
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-size: 0.85rem;
+            border: none;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-container {
+                max-width: 100%;
+            }
+            
+            .auth-header {
+                padding: 1.5rem 1rem 1rem;
+            }
+            
+            .auth-body {
+                padding: 2rem 1rem 1rem;
+            }
+            
+            .stats-compact {
+                gap: 0.5rem;
+            }
+            
+            .stat-compact {
+                min-width: 70px;
+                padding: 0.4rem 0.5rem;
+            }
+            
+            .stat-compact h4 {
+                font-size: 0.9rem;
+            }
+            
+            .stat-compact p {
+                font-size: 0.65rem;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .forgot-link {
+                align-self: flex-end;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            body {
+                padding: 0.5rem;
+                align-items: flex-start;
+            }
+            
+            .auth-container {
+                margin: 1rem auto;
+            }
+            
+            .auth-header {
+                padding: 1.2rem 1rem 0.8rem;
+            }
+            
+            .auth-body {
+                padding: 1.8rem 1rem 1rem;
+            }
+        }
+        
+        /* Animation pour le header */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .auth-header {
+            animation: fadeInDown 0.5s ease;
+        }
+        
+        /* Animation pour le formulaire */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .auth-body {
+            animation: fadeInUp 0.5s ease 0.2s both;
+        }
+        
+        /* Animation pour les stats */
+        .stat-compact {
+            animation: fadeInUp 0.5s ease;
+            animation-fill-mode: both;
+        }
+        
+        .stat-compact:nth-child(1) { animation-delay: 0.1s; }
+        .stat-compact:nth-child(2) { animation-delay: 0.2s; }
+        .stat-compact:nth-child(3) { animation-delay: 0.3s; }
+        
+        /* Amélioration du focus */
+        .form-control:focus,
+        .btn-auth:focus,
+        .btn-outline:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+        
+        /* Cursor pointer pour les éléments cliquables */
+        .btn-auth,
+        .btn-outline,
+        .password-toggle,
+        .forgot-link,
+        .back-link {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card" data-aos="fade-up" data-aos-duration="400">
+            <!-- En-tête avec logo et statistiques -->
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>BloodLink</span>
+                </div>
+                
+                <h1>Sauvez des vies</h1>
+                <p class="auth-subtitle">Rejoignez notre communauté</p>
+                
+                <div class="stats-compact">
+                    <div class="stat-compact">
+                        <h4>15,247</h4>
+                        <p>Donneurs</p>
+                    </div>
+                    <div class="stat-compact">
+                        <h4>156</h4>
+                        <p>Hôpitaux</p>
+                    </div>
+                    <div class="stat-compact">
+                        <h4>45,741</h4>
+                        <p>Vies sauvées</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Corps avec formulaire -->
+            <div class="auth-body">
+                <h2 class="auth-title">Connexion</h2>
+                <p class="auth-sub">Accédez à votre tableau de bord</p>
+                
+                <!-- Informations de démonstration -->
+                <div class="demo-compact">
+                    <h6><i class="fas fa-info-circle"></i> Compte de démonstration</h6>
+                    <div class="demo-credentials">
+                        Email: email@demo.com<br>
+                        Mot de passe: demo123
+                    </div>
+                </div>
+                
+                <!-- Alertes -->
+                <div id="authAlerts"></div>
+                
+                <!-- Formulaire de connexion -->
+                <form id="loginForm" onsubmit="Auth.handleLogin(event)">
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                        <label for="email"><i class="fas fa-envelope me-1"></i> Email</label>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i id="passwordToggleIcon"></i>
+                            </button>
+                        </div>
+                        <label for="password"><i class="fas fa-lock me-1"></i></label>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Se souvenir de moi
+                            </label>
+                        </div>
+                        <a href="#" class="forgot-link">Mot de passe oublié?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-auth">
+                        <i class="fas fa-sign-in-alt me-1"></i>
+                        Se connecter
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>OU</span>
+                </div>
+                
+                <button class="btn btn-outline" onclick="window.location.href='register.html'">
+                    <i class="fas fa-user-plus me-1"></i>
+                    Créer un compte
+                </button>
+                
+                <div class="auth-footer">
+                    <a href="index.html" class="back-link">
+                        <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Initialiser AOS
+        AOS.init({
+            duration: 400,
+            once: true
+        });
+        
+        // Fonction pour afficher/masquer le mot de passe
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Créer l'utilisateur de démonstration au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDemoUser();
+        });
+        
+        function initializeDemoUser() {
+            // Cette fonction dépend de l'implémentation de Auth.js
+            // Assurez-vous que Auth.getAllUsers() et Auth.saveAllUsers() existent
+            if (typeof Auth !== 'undefined' && Auth.getAllUsers) {
+                const users = Auth.getAllUsers();
+                const demoUser = users.find(user => user.email === 'email@demo.com');
+                
+                if (!demoUser) {
+                    const demoUserData = {
+                        id: 1,
+                        name: 'Utilisateur Démo',
+                        email: 'email@demo.com',
+                        role: 'donor',
+                        bloodType: 'O+',
+                        password: 'demo123'
+                    };
+                    
+                    users.push(demoUserData);
+                    Auth.saveAllUsers(users);
+                    
+                    // Afficher un message de confirmation
+                    showAlert('Utilisateur de démonstration créé avec succès!', 'success');
+                }
+            }
+        }
+        
+        // Fonction pour afficher des alertes
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'error' ? 'danger' : 'success'} alert-custom alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'} me-1"></i>
+                ${message}
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" style="padding: 0.25rem;"></button>
+            `;
+            
+            const alertsContainer = document.getElementById('authAlerts');
+            alertsContainer.insertBefore(alertDiv, alertsContainer.firstChild);
+            
+            // Auto-dismiss après 4 secondes
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 4000);
+        }
+        
+        // Surcharge de la fonction showToast si elle existe
+        if (typeof Auth !== 'undefined' && Auth.showToast) {
+            const originalShowToast = Auth.showToast;
+            Auth.showToast = function(message, type) {
+                showAlert(message, type);
+            };
+        }
+        
+        // Gestion du formulaire si Auth.handleLogin n'existe pas
+        if (typeof Auth === 'undefined') {
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                if (email === 'email@demo.com' && password === 'demo123') {
+                    showAlert('Connexion réussie! Redirection...', 'success');
+                    // Simulation de redirection
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showAlert('Email ou mot de passe incorrect', 'error');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

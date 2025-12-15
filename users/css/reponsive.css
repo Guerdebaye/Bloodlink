@@ -1,0 +1,869 @@
+/* Responsive Design Basique */
+@media (max-width: 1200px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-section {
+        text-align: center;
+        padding: 100px 0 60px;
+    }
+    
+    .floating-card {
+        position: relative;
+        left: 0;
+        transform: none;
+        margin-top: 40px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .hero-actions .btn {
+        width: 100%;
+    }
+    
+    .section-padding {
+        padding: 60px 0;
+    }
+    
+    .feature-card {
+        margin-bottom: 20px;
+    }
+    
+    .map-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .device-frame {
+        width: 250px;
+        height: 500px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* Responsive Design Complet pour BloodLink */
+
+/* ===== GRANDS ÉCRANS (1200px+) ===== */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .hero-description {
+        font-size: 1.4rem;
+    }
+}
+
+/* ===== LAPTOPS GRANDS (992px - 1199px) ===== */
+@media (max-width: 1199px) {
+    .hero-title {
+        font-size: 3.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1.2rem;
+    }
+    
+    .hero-stats {
+        gap: 1.5rem;
+    }
+    
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== TABLETTES (768px - 991px) ===== */
+@media (max-width: 991px) {
+    /* Navigation */
+    .navbar {
+        padding: 0.75rem 0;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .navbar-nav {
+        text-align: center;
+        padding: 1rem 0;
+    }
+    
+    .navbar-nav .nav-link {
+        margin: 0.25rem 0;
+        padding: 0.75rem;
+    }
+    
+    .navbar-actions {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .navbar-actions .btn {
+        margin: 0.25rem;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        text-align: center;
+        padding: 160px 0 80px;
+        min-height: auto;
+    }
+    
+    .hero-content {
+        margin-bottom: 3rem;
+    }
+    
+    .hero-badge {
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+        margin: 0 auto 2rem;
+        max-width: 500px;
+    }
+    
+    .hero-actions {
+        justify-content: center;
+        margin-bottom: 2rem;
+        gap: 0.75rem;
+    }
+    
+    .hero-actions .btn {
+        min-width: 140px;
+    }
+    
+    .hero-stats {
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .floating-card {
+        position: relative;
+        left: 0;
+        transform: none;
+        margin-top: 2rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Sections */
+    .section-padding {
+        padding: 80px 0;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    /* Features */
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    
+    .feature-card {
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    /* Map Section */
+    .map-section {
+        padding: 80px 0;
+    }
+    
+    .map-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .map-container {
+        height: 400px;
+        border-radius: var(--border-radius-lg);
+    }
+    
+    /* Demo Section */
+    .device-frame {
+        width: 300px;
+        height: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Contact */
+    .contact-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+        text-align: center;
+    }
+}
+
+/* ===== TABLETTES PETITES (576px - 767px) ===== */
+@media (max-width: 767px) {
+    /* Hero Section */
+    .hero-section {
+        padding: 120px 0 60px;
+    }
+    
+    .hero-title {
+        font-size: 2.4rem;
+        line-height: 1.2;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .hero-actions .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    /* Sections */
+    .section-padding {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    /* Features */
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .stat-card {
+        text-align: center;
+    }
+    
+    /* Map Section */
+    .map-section {
+        padding: 60px 0;
+    }
+    
+    .map-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .map-container {
+        height: 350px;
+    }
+    
+    /* Demo Section */
+    .demo-section {
+        padding: 60px 0;
+    }
+    
+    .device-frame {
+        width: 280px;
+        height: 550px;
+    }
+    
+    .device-content {
+        padding: 1rem;
+    }
+    
+    /* Contact */
+    .contact-section {
+        padding: 60px 0;
+    }
+    
+    .contact-form {
+        padding: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
+    .footer-brand {
+        text-align: center;
+    }
+    
+    .footer-links {
+        text-align: center;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+    }
+    
+    /* Modals */
+    .modal-dialog {
+        margin: 1rem;
+    }
+    
+    .modal-content {
+        border-radius: var(--border-radius-lg);
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    /* Alertes */
+    .alerte-item {
+        padding: 1rem;
+    }
+    
+    .alerte-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .alerte-actions {
+        margin-top: 1rem;
+    }
+    
+    .alerte-actions .btn {
+        width: 100%;
+    }
+}
+
+/* ===== MOBILES (≤575px) ===== */
+@media (max-width: 575px) {
+    /* Typography */
+    body {
+        font-size: 0.9rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+    }
+    
+    /* Navigation */
+    .navbar {
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    .navbar-brand i {
+        font-size: 1.2rem;
+    }
+    
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.95rem;
+        padding: 0.5rem;
+    }
+    
+    .hero-badge .badge {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-description {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-actions {
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-actions .btn {
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .hero-stats {
+        gap: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 1.6rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    /* Floating Card */
+    .floating-card {
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .floating-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .floating-card p {
+        font-size: 0.9rem;
+    }
+    
+    /* Sections */
+    .section-padding {
+        padding: 50px 0;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .section-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    /* Features */
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .feature-card p {
+        font-size: 0.9rem;
+    }
+    
+    /* Stats */
+    .stats-section {
+        padding: 50px 0;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.8rem;
+    }
+    
+    .stat-card p {
+        font-size: 0.9rem;
+    }
+    
+    /* Map */
+    .map-container {
+        height: 300px;
+    }
+    
+    .map-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .map-controls .btn {
+        width: 100%;
+    }
+    
+    /* Demo */
+    .device-frame {
+        width: 250px;
+        height: 500px;
+    }
+    
+    .device-header {
+        padding: 0.75rem;
+    }
+    
+    .device-header h4 {
+        font-size: 0.9rem;
+    }
+    
+    .device-content {
+        padding: 0.75rem;
+    }
+    
+    .alerte-item {
+        padding: 0.75rem;
+    }
+    
+    .alerte-item h6 {
+        font-size: 0.9rem;
+    }
+    
+    .alerte-item p {
+        font-size: 0.85rem;
+    }
+    
+    /* Contact */
+    .contact-form {
+        padding: 1rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    .form-control {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 2rem 0 1rem;
+    }
+    
+    .footer-brand h3 {
+        font-size: 1.2rem;
+    }
+    
+    .footer-links h4 {
+        font-size: 1rem;
+    }
+    
+    .footer-links a {
+        font-size: 0.85rem;
+    }
+    
+    .footer-bottom {
+        font-size: 0.8rem;
+    }
+    
+    /* Loading Screen */
+    .loading-content {
+        padding: 1rem;
+    }
+    
+    .bloodlink-logo {
+        font-size: 2rem;
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 2px;
+    }
+    
+    .loading-screen p {
+        font-size: 0.9rem;
+    }
+    
+    /* Quick Action Button */
+    .quick-action-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .quick-action-btn i {
+        font-size: 1.2rem;
+    }
+}
+
+/* ===== TRÈS PETITS ÉCRANS (≤400px) ===== */
+@media (max-width: 400px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.6rem;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .device-frame {
+        width: 220px;
+        height: 450px;
+    }
+    
+    .map-container {
+        height: 250px;
+    }
+    
+    .hero-actions .btn {
+        font-size: 0.85rem;
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .navbar-actions .btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .modal-content {
+        margin: 0.5rem;
+        border-radius: var(--border-radius);
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+}
+
+/* ===== ORIENTATION PAYSAGE SUR MOBILES ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        padding: 60px 0 40px;
+        min-height: auto;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-actions {
+        margin-bottom: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .hero-stats {
+        margin-top: 1rem;
+        gap: 1rem;
+    }
+    
+    .floating-card {
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+    
+    .section-padding {
+        padding: 40px 0;
+    }
+    
+    .navbar {
+        padding: 0.5rem 0;
+    }
+}
+
+/* ===== IMPRESSION ===== */
+@media print {
+    .navbar,
+    .hero-section,
+    .floating-card,
+    .quick-action-btn,
+    .modal,
+    .demo-section {
+        display: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+        color: #000;
+        background: #fff;
+    }
+    
+    .section-padding {
+        padding: 20px 0;
+    }
+    
+    .section-title {
+        font-size: 18pt;
+        margin-bottom: 10pt;
+    }
+    
+    .feature-card,
+    .stat-card,
+    .alerte-item {
+        break-inside: avoid;
+        border: 1px solid #ddd;
+        margin-bottom: 10pt;
+        padding: 10pt;
+    }
+    
+    .map-container {
+        height: 300px;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ===== ACCESSIBILITÉ ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .hero-particles {
+        display: none;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-bs-theme="light"]) .loading-screen {
+        background: var(--darker);
+        color: white;
+    }
+}
+
+/* ===== HIGH DPI/RETINA ===== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .brand-logo i,
+    .feature-icon,
+    .stat-icon {
+        transform: scale(1.1);
+    }
+}
+
+/* Correction pour l'écran de chargement */
+.loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Assurer que le contenu est visible */
+body.loaded .loading-screen {
+    display: none !important;
+}
+
+/* Fallback pour les animations */
+.no-js .loading-screen {
+    display: none;
+}
+
+/* Styles de secours pour la carte */
+#liveMap {
+    min-height: 400px;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+#liveMap:empty::before {
+    content: "Carte en cours de chargement...";
+}
+
+/* Correction pour les graphiques */
+canvas {
+    max-width: 100%;
+    height: auto;
+}

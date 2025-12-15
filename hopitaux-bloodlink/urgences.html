@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Urgences - BloodLink Hôpitaux</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hospital.css">
+    <link rel="stylesheet" href="css/emergencies.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="hospital-platform">
+    <!-- Header Hospitalier -->
+    <header class="hospital-header">
+        <div class="header-container">
+            <div class="hospital-brand">
+                <div class="brand-logo">🏥</div>
+                <div class="brand-info">
+                    <h1>BloodLink Urgences</h1>
+                    <span class="hospital-name" id="currentHospital">Hôpital Abasse Ndao</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="quick-actions">
+                    <button class="btn btn-emergency" onclick="declareQuickEmergency()">
+                        🚨 Nouvelle Urgence
+                    </button>
+                    <button class="btn btn-primary" onclick="openEmergencyAnalytics()">
+                        📊 Analytics Urgences
+                    </button>
+                </div>
+                
+                <div class="user-menu">
+                    <div class="notification-bell" id="notificationBell">
+                        <span class="notification-count">3</span>
+                        🔔
+                    </div>
+                    <div class="hospital-profile">
+                        <span class="profile-name">Dr. Cissé</span>
+                        <span class="profile-role">Responsable Hématologie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Principale -->
+    <nav class="hospital-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Tableau de Bord
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="urgences.html" class="nav-link">
+                        <span class="nav-icon">🚨</span>
+                        Urgences
+                        <span class="nav-badge critical" id="urgentBadge">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html" class="nav-link">
+                        <span class="nav-icon">🩸</span>
+                        Stocks Sanguins
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reservations.html" class="nav-link">
+                        <span class="nav-icon">📦</span>
+                        Réservations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="demandes.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Demandes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profil.html" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        Profil Hôpital
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-footer">
+                <div class="hospital-status">
+                    <span class="status-indicator online"></span>
+                    Connecté au réseau BloodLink
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal Urgences -->
+    <main class="hospital-main">
+        <div class="main-container">
+            <!-- En-tête Urgences -->
+            <section class="page-header">
+                <div class="header-content">
+                    <h1>Gestion des Urgences Sanguines</h1>
+                    <p>Surveillance et gestion en temps réel des besoins urgents en sang</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-badge critical">
+                        <span class="stat-number" id="activeEmergenciesCount">3</span>
+                        <span class="stat-label">Urgences Actives</span>
+                    </div>
+                    <div class="stat-badge warning">
+                        <span class="stat-number" id="pendingResponses">24</span>
+                        <span class="stat-label">Réponses en Attente</span>
+                    </div>
+                    <div class="stat-badge success">
+                        <span class="stat-number" id="avgResponseTime">18</span>
+                        <span class="stat-label">min moyenne</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Carte des Urgences en Temps Réel -->
+            <section class="emergency-map-section">
+                <div class="section-header">
+                    <h2>Carte des Urgences en Temps Réel</h2>
+                    <div class="map-controls">
+                        <button class="btn btn-outline" onclick="refreshEmergencyMap()">
+                            🔄 Actualiser
+                        </button>
+                        <button class="btn btn-outline" onclick="toggleHeatMap()">
+                            🔥 Carte de Chaleur
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="emergency-map-container">
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot critical"></span>
+                            <span>Urgence Critique</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot high"></span>
+                            <span>Urgence Élevée</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot medium"></span>
+                            <span>Urgence Moyenne</span>
+                        </div>
+                    </div>
+                    
+                    <div class="live-map" id="emergencyMap">
+                        <!-- Points d'urgence générés dynamiquement -->
+                        <div class="map-point critical" style="top: 30%; left: 40%;" data-emergency="1">
+                            <div class="pulse-dot"></div>
+                            <div class="map-tooltip">
+                                <strong>Urgence O- Critique</strong>
+                                <span>Hôpital Grand Mbour - 5 unités</span>
+                                <span>8/12 réponses</span>
+                            </div>
+                        </div>
+                        <div class="map-point high" style="top: 50%; left: 60%;" data-emergency="2">
+                            <div class="pulse-dot"></div>
+                            <div class="map-tooltip">
+                                <strong>Besoin A+ Élevé</strong>
+                                <span>Clinique Machallah Saint-Louis - 3 unités</span>
+                                <span>5/8 réponses</span>
+                            </div>
+                        </div>
+                        <div class="map-point medium" style="top: 70%; left: 35%;" data-emergency="3">
+                            <div class="pulse-dot"></div>
+                            <div class="map-tooltip">
+                                <strong>Besoin B+ Moyen</strong>
+                                <span>Hôpital Dalal Diam - 2 unités</span>
+                                <span>3/6 réponses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panneau de Contrôle des Urgences -->
+            <section class="emergency-control-panel">
+                <div class="control-grid">
+                    <!-- Déclaration Rapide d'Urgence -->
+                    <div class="control-card">
+                        <h3>🚨 Déclaration Rapide</h3>
+                        <div class="quick-emergency-buttons">
+                            <button class="blood-type-btn O-negative" onclick="declareQuickBloodType('O-')">
+                                O-<br>Critique
+                            </button>
+                            <button class="blood-type-btn O-positive" onclick="declareQuickBloodType('O+')">
+                                O+<br>Urgent
+                            </button>
+                            <button class="blood-type-btn A-negative" onclick="declareQuickBloodType('A-')">
+                                A-<br>Élevé
+                            </button>
+                            <button class="blood-type-btn A-positive" onclick="declareQuickBloodType('A+')">
+                                A+<br>Moyen
+                            </button>
+                        </div>
+                        <button class="btn btn-emergency full-width" onclick="openAdvancedEmergencyForm()">
+                            📋 Formulaire Avancé
+                        </button>
+                    </div>
+
+                    <!-- Statistiques en Temps Réel -->
+                    <div class="control-card">
+                        <h3>📊 Statistiques Live</h3>
+                        <div class="live-stats">
+                            <div class="live-stat">
+                                <span class="stat-label">Donneurs Actifs</span>
+                                <span class="stat-value" id="activeDonors">156</span>
+                            </div>
+                            <div class="live-stat">
+                                <span class="stat-label">Taux de Réponse</span>
+                                <span class="stat-value" id="responseRate">78%</span>
+                            </div>
+                            <div class="live-stat">
+                                <span class="stat-label">Urgences Résolues</span>
+                                <span class="stat-value" id="resolvedEmergencies">12</span>
+                            </div>
+                            <div class="live-stat">
+                                <span class="stat-label">Vies Sauvées</span>
+                                <span class="stat-value" id="livesSaved">47</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alertes Automatiques -->
+                    <div class="control-card">
+                        <h3>⚠️ Alertes Automatiques</h3>
+                        <div class="alerts-list">
+                            <div class="alert-item critical">
+                                <div class="alert-icon">🩸</div>
+                                <div class="alert-content">
+                                    <strong>Stock O- Critique</strong>
+                                    <span>Seuil bas détecté - 2 unités</span>
+                                </div>
+                                <button class="btn btn-sm" onclick="declareEmergencyFromAlert('O-')">
+                                    Urgence
+                                </button>
+                            </div>
+                            <div class="alert-item warning">
+                                <div class="alert-icon">📈</div>
+                                <div class="alert-content">
+                                    <strong>Pic de Demandes A+</strong>
+                                    <span>3 demandes dans l'heure</span>
+                                </div>
+                                <button class="btn btn-sm btn-outline" onclick="viewDemandTrends()">
+                                    Voir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Liste des Urgences Actives -->
+            <section class="emergencies-list-section">
+                <div class="section-header">
+                    <h2>Urgences Actives</h2>
+                    <div class="filter-controls">
+                        <select id="emergencyFilter" onchange="filterEmergencies()">
+                            <option value="all">Toutes les urgences</option>
+                            <option value="critical">Critiques seulement</option>
+                            <option value="high">Élevées seulement</option>
+                            <option value="medium">Moyennes seulement</option>
+                        </select>
+                        <select id="bloodTypeFilter" onchange="filterEmergencies()">
+                            <option value="all">Tous les groupes</option>
+                            <option value="O-">O-</option>
+                            <option value="O+">O+</option>
+                            <option value="A-">A-</option>
+                            <option value="A+">A+</option>
+                            <option value="B-">B-</option>
+                            <option value="B+">B+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="AB+">AB+</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="emergencies-container" id="emergenciesContainer">
+                    <!-- Urgences générées dynamiquement -->
+                </div>
+            </section>
+
+            <!-- Historique des Urgences -->
+            <section class="emergency-history-section">
+                <div class="section-header">
+                    <h2>Historique des 24h</h2>
+                    <button class="btn btn-outline" onclick="exportEmergencyHistory()">
+                        📄 Exporter Historique
+                    </button>
+                </div>
+
+                <div class="history-timeline">
+                    <div class="timeline-item resolved">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h4>Urgence O- Résolue</h4>
+                                <span class="timeline-time">Il y a 2h</span>
+                            </div>
+                            <p>5 unités O- nécessaires pour chirurgie cardiaque</p>
+                            <div class="timeline-stats">
+                                <span class="stat">⏱️ 25 min de réponse moyenne</span>
+                                <span class="stat">👥 14/16 donneurs répondants</span>
+                                <span class="stat">✅ 100% objectif atteint</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item active">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <h4>Urgence A+ en Cours</h4>
+                                <span class="timeline-time">Il y a 45 min</span>
+                            </div>
+                            <p>3 unités A+ pour transfusion urgente</p>
+                            <div class="timeline-stats">
+                                <span class="stat">⏱️ 18 min écoulées</span>
+                                <span class="stat">👥 5/8 donneurs répondants</span>
+                                <span class="stat">🎯 62% objectif atteint</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal Formulaire Urgence Avancé -->
+    <div class="modal-overlay" id="advancedEmergencyModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>🚨 Déclaration d'Urgence Avancée</h3>
+                <button class="modal-close" onclick="closeAdvancedEmergencyModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="advancedEmergencyForm" onsubmit="submitAdvancedEmergency(event)">
+                    <div class="form-columns">
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label>Groupe Sanguin Requis *</label>
+                                <select id="advancedBloodType" required>
+                                    <option value="">Sélectionnez un groupe</option>
+                                    <option value="O-">O- (Donneur universel)</option>
+                                    <option value="O+">O+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="A+">A+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="AB+">AB+ (Receveur universel)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Quantité Requise *</label>
+                                <div class="quantity-selector-advanced">
+                                    <div class="quantity-presets">
+                                        <button type="button" data-quantity="2">2 unités</button>
+                                        <button type="button" data-quantity="4">4 unités</button>
+                                        <button type="button" data-quantity="6">6 unités</button>
+                                        <button type="button" data-quantity="8">8 unités</button>
+                                    </div>
+                                    <input type="number" id="advancedQuantity" min="1" max="20" value="2" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Niveau d'Urgence *</label>
+                                <div class="urgency-levels-advanced">
+                                    <label class="urgency-option-advanced">
+                                        <input type="radio" name="advancedUrgency" value="medium">
+                                        <div class="urgency-visual medium">
+                                            <span class="urgency-label">Moyenne</span>
+                                            <span class="urgency-desc">Réponse sous 1h</span>
+                                        </div>
+                                    </label>
+                                    <label class="urgency-option-advanced">
+                                        <input type="radio" name="advancedUrgency" value="high" checked>
+                                        <div class="urgency-visual high">
+                                            <span class="urgency-label">Élevée</span>
+                                            <span class="urgency-desc">Réponse sous 30min</span>
+                                        </div>
+                                    </label>
+                                    <label class="urgency-option-advanced">
+                                        <input type="radio" name="advancedUrgency" value="critical">
+                                        <div class="urgency-visual critical">
+                                            <span class="urgency-label">Critique</span>
+                                            <span class="urgency-desc">Réponse immédiate</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label>Service Demandeur *</label>
+                                <select id="emergencyService" required>
+                                    <option value="">Sélectionnez un service</option>
+                                    <option value="urgences">Service des Urgences</option>
+                                    <option value="chirurgie">Chirurgie</option>
+                                    <option value="cardiologie">Cardiologie</option>
+                                    <option value="maternite">Maternité</option>
+                                    <option value="pediatrie">Pédiatrie</option>
+                                    <option value="oncologie">Oncologie</option>
+                                    <option value="traumatologie">Traumatologie</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Type d'Intervention</label>
+                                <select id="interventionType">
+                                    <option value="">Type d'intervention</option>
+                                    <option value="accident">Accident</option>
+                                    <option value="chirurgie">Chirurgie programmée</option>
+                                    <option value="chirurgie-urgente">Chirurgie urgente</option>
+                                    <option value="transfusion">Transfusion</option>
+                                    <option value="hemorragie">Hémorragie</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Délai Maximum</label>
+                                <select id="maxDelay">
+                                    <option value="30">30 minutes</option>
+                                    <option value="60" selected>1 heure</option>
+                                    <option value="120">2 heures</option>
+                                    <option value="240">4 heures</option>
+                                    <option value="480">8 heures</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Notes Additionnelles</label>
+                                <textarea id="emergencyNotes" placeholder="Informations supplémentaires pour les donneurs..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeAdvancedEmergencyModal()">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-emergency">
+                            🚨 Déclarer l'Urgence
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panneau Analytics Urgences -->
+    <div class="analytics-panel" id="analyticsPanel">
+        <div class="analytics-header">
+            <h3>📊 Analytics Urgences</h3>
+            <button class="analytics-close" onclick="closeAnalyticsPanel()">×</button>
+        </div>
+        <div class="analytics-content">
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h4>Performance des Réponses</h4>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-value">78%</span>
+                            <span class="metric-label">Taux de Réponse</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">18min</span>
+                            <span class="metric-label">Temps Moyen</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">94%</span>
+                            <span class="metric-label">Objectifs Atteints</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h4>Répartition par Groupe</h4>
+                    <div class="blood-type-distribution">
+                        <div class="distribution-item">
+                            <span class="blood-type">O-</span>
+                            <div class="distribution-bar">
+                                <div class="distribution-fill" style="width: 35%"></div>
+                            </div>
+                            <span class="distribution-value">35%</span>
+                        </div>
+                        <div class="distribution-item">
+                            <span class="blood-type">O+</span>
+                            <div class="distribution-bar">
+                                <div class="distribution-fill" style="width: 25%"></div>
+                            </div>
+                            <span class="distribution-value">25%</span>
+                        </div>
+                        <div class="distribution-item">
+                            <span class="blood-type">A+</span>
+                            <div class="distribution-bar">
+                                <div class="distribution-fill" style="width: 20%"></div>
+                            </div>
+                            <span class="distribution-value">20%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/hospital-core.js"></script>
+    <script src="js/emergency-system.js"></script>
+    <script src="js/emergencies-page.js"></script>
+</body>
+
+</html>

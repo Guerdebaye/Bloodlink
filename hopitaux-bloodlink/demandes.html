@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloodLink Hôpitaux - Demandes</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hospital.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="hospital-platform">
+    <!-- Header Hospitalier -->
+    <header class="hospital-header">
+        <div class="header-container">
+            <div class="hospital-brand">
+                <div class="brand-logo">🏥</div>
+                <div class="brand-info">
+                    <h1>BloodLink Hôpitaux</h1>
+                    <span class="hospital-name" id="currentHospital">Hôpital Abass Ndao</span>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="quick-actions">
+                    <button class="btn btn-emergency" onclick="declareQuickEmergency()">
+                        🚨 Urgence Sanguine
+                    </button>
+                    <button class="btn btn-primary" onclick="openStockManagement()">
+                        🩸 Gérer le Stock
+                    </button>
+                </div>
+                
+                <div class="user-menu">
+                    <div class="notification-bell" id="notificationBell">
+                        <span class="notification-count">3</span>
+                        🔔
+                    </div>
+                    <div class="hospital-profile">
+                        <span class="profile-name">Dr. Cissé</span>
+                        <span class="profile-role">Responsable Hématologie</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Principale -->
+    <nav class="hospital-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="nav-icon">📊</span>
+                        Tableau de Bord
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="urgences.html" class="nav-link">
+                        <span class="nav-icon">🚨</span>
+                        Urgences
+                        <span class="nav-badge" id="urgentBadge">2</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="stocks.html" class="nav-link">
+                        <span class="nav-icon">🩸</span>
+                        Stocks Sanguins
+                        <span class="nav-badge critical">CRITIQUE</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reservations.html" class="nav-link">
+                        <span class="nav-icon">📦</span>
+                        Réservations
+                        <span class="nav-badge" id="reservationBadge">5</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="demandes.html" class="nav-link">
+                        <span class="nav-icon">📋</span>
+                        Demandes
+                        <span class="nav-badge" id="demandBadge">8</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="profil.html" class="nav-link">
+                        <span class="nav-icon">⚙️</span>
+                        Profil Hôpital
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-footer">
+                <div class="hospital-status">
+                    <span class="status-indicator online"></span>
+                    Connecté au réseau BloodLink
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <main class="hospital-main">
+        <div class="main-container">
+            <!-- En-tête de Page -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1>Gestion des Demandes</h1>
+                    <p>Suivez et gérez toutes les demandes de produits sanguins internes</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="demandesPage.openNewDemandModal()">
+                        📋 Nouvelle Demande
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistiques Rapides -->
+            <section class="demand-stats">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon pending">⏳</div>
+                        <div class="stat-content">
+                            <h3>En Attente</h3>
+                            <div class="stat-value" id="pendingDemandsCount">8</div>
+                            <div class="stat-trend negative">+3 aujourd'hui</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon approved">✅</div>
+                        <div class="stat-content">
+                            <h3>Approuvées</h3>
+                            <div class="stat-value" id="approvedDemandsCount">15</div>
+                            <div class="stat-trend positive">+5 cette semaine</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon rejected">❌</div>
+                        <div class="stat-content">
+                            <h3>Rejetées</h3>
+                            <div class="stat-value" id="rejectedDemandsCount">2</div>
+                            <div class="stat-trend">-1 ce mois</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon completed">📦</div>
+                        <div class="stat-content">
+                            <h3>Traitées</h3>
+                            <div class="stat-value" id="completedDemandsCount">42</div>
+                            <div class="stat-trend positive">+12 ce mois</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filtres et Recherche -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="search-box">
+                        <input type="text" id="demandSearch" placeholder="Rechercher une demande...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="statusFilter">
+                            <option value="all">Tous les statuts</option>
+                            <option value="pending">En attente</option>
+                            <option value="approved">Approuvée</option>
+                            <option value="rejected">Rejetée</option>
+                            <option value="completed">Terminée</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="departmentFilter">
+                            <option value="all">Tous services</option>
+                            <option value="urgence">Urgences</option>
+                            <option value="chirurgie">Chirurgie</option>
+                            <option value="cardiologie">Cardiologie</option>
+                            <option value="maternite">Maternité</option>
+                            <option value="oncologie">Oncologie</option>
+                            <option value="pediatrie">Pédiatrie</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="priorityFilter">
+                            <option value="all">Toutes priorités</option>
+                            <option value="low">Basse</option>
+                            <option value="medium">Moyenne</option>
+                            <option value="high">Haute</option>
+                            <option value="critical">Critique</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-outline" onclick="demandesPage.applyFilters()">
+                        Appliquer
+                    </button>
+                </div>
+            </section>
+
+            <!-- Liste des Demandes -->
+            <section class="demands-list">
+                <div class="section-header">
+                    <h2>Demandes Récentes</h2>
+                    <div class="view-options">
+                        <button class="btn btn-sm" onclick="demandesPage.exportDemands()">
+                            📄 Exporter
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="demands-container" id="demandsContainer">
+                    <!-- Les demandes seront chargées dynamiquement ici -->
+                </div>
+            </section>
+
+            <!-- Demandes Prioritaires -->
+            <section class="priority-demands">
+                <div class="section-header">
+                    <h2>Demandes Prioritaires</h2>
+                    <span class="section-badge critical">⚠️ Attention</span>
+                </div>
+                
+                <div class="priority-list" id="priorityDemands">
+                    <!-- Les demandes prioritaires seront chargées ici -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal Nouvelle Demande -->
+    <div class="modal-overlay" id="demandModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📋 Nouvelle Demande</h3>
+                <button class="modal-close" onclick="demandesPage.closeDemandModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="demandForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Produit Sanguin Requis *</label>
+                            <select id="demandBloodType" required>
+                                <option value="">Sélectionnez un produit</option>
+                                <option value="O-">O- (Donneur universel)</option>
+                                <option value="O+">O+</option>
+                                <option value="A-">A-</option>
+                                <option value="A+">A+</option>
+                                <option value="B-">B-</option>
+                                <option value="B+">B+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="AB+">AB+ (Receveur universel)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Quantité *</label>
+                            <input type="number" id="demandQuantity" min="1" max="20" value="2" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Service Demandeur *</label>
+                            <select id="demandDepartment" required>
+                                <option value="">Sélectionnez un service</option>
+                                <option value="urgence">Urgences</option>
+                                <option value="chirurgie">Chirurgie</option>
+                                <option value="cardiologie">Cardiologie</option>
+                                <option value="maternite">Maternité</option>
+                                <option value="oncologie">Oncologie</option>
+                                <option value="pediatrie">Pédiatrie</option>
+                                <option value="autres">Autre service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Priorité *</label>
+                            <select id="demandPriority" required>
+                                <option value="low">Basse</option>
+                                <option value="medium" selected>Moyenne</option>
+                                <option value="high">Haute</option>
+                                <option value="critical">Critique</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nom du Patient</label>
+                        <input type="text" id="demandPatient" placeholder="Nom du patient (optionnel)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Motif de la Demande *</label>
+                        <textarea id="demandReason" placeholder="Décrivez le motif de la demande (intervention, transfusion, etc.)" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Date de besoin</label>
+                        <input type="date" id="demandDate" min="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Médecin Prescripteur *</label>
+                        <input type="text" id="demandDoctor" placeholder="Nom du médecin prescripteur" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="demandesPage.closeDemandModal()">
+                            Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            📋 Soumettre la demande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Détails Demande -->
+    <div class="modal-overlay" id="demandDetailModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>📋 Détails de la Demande</h3>
+                <button class="modal-close" onclick="demandesPage.closeDemandDetail()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="demandDetailContent">
+                    <!-- Contenu chargé dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Validation Demande -->
+    <div class="modal-overlay" id="validationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✅ Validation de Demande</h3>
+                <button class="modal-close" onclick="demandesPage.closeValidationModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="validationContent">
+                    <!-- Contenu chargé dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/hospital-core.js"></script>
+    <script src="js/demandes-page.js"></script>
+</body>
+
+</html>
